@@ -24,6 +24,7 @@ const FormPage = () => {
             id="accountTypeSelection"
             name="accountType"
             className="border-2 border-black"
+            defaultValue="Student"
           >
             <option value="">--Please select an option--</option>
             <option value="admin">Admin</option>
@@ -60,6 +61,7 @@ const FormPage = () => {
             min="0"
             max="200"
             className="border-2 border-black"
+            defaultValue="18" // Independ of a number or string will always return a string
           />
         </div>
         <div>
@@ -74,12 +76,12 @@ const FormPage = () => {
         </div>
         <div>
           <label htmlFor="colorInput">Favorite Color:</label>
-          <input id="colorInput" name="color" type="color" />
+          <input id="colorInput" name="color" type="color" defaultValue="#f60000" />
         </div>
         <fieldset>
           <legend>Visibility:</legend>
           <label>
-            <input name="visibility" type="radio" value="public" />
+            <input name="visibility" type="radio" value="public" defaultChecked />
             Public
           </label>
           <label>
@@ -89,13 +91,13 @@ const FormPage = () => {
         </fieldset>
         <div>
           <label>
-            <input name="waiver" type="checkbox" className="border-2 border-black" />
+            <input name="waiver" type="checkbox" className="border-2 border-black" defaultChecked />
             Waiver Signed
           </label>
         </div>
         <div>
           <label htmlFor="startDateInput">Start Date:</label>
-          <input id="startDateInput" name="startDate" type="date" />
+          <input id="startDateInput" name="startDate" type="date" defaultValue="2004-05-06" />
         </div>
         <div>
           <button type="submit" className="bg-black text-white p-2 inline-flex">
