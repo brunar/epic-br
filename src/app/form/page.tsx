@@ -1,9 +1,37 @@
+"Client";
+
 const FormPage = () => {
+  //   function logFormData(formData: FormData) {
+  //     console.log(Object.fromEntries(formData));
+  //   }
   return (
     <>
       {/* attribute action in the form
-    action="api/onbording" */}
+    action="api/onbording" 
+    method="POST"
+
+    // ***********
+    action={logFormData}
+
+    */}
       <form className="flex flex-col gap-4">
+
+      <input name="orgId" type="hidden" value="123" />
+
+        <div>
+          <label htmlFor="accountTypeSelection">Account Type:</label>
+          <select
+            id="accountTypeSelection"
+            name="accountType"
+            className="border-2 border-black"
+          >
+            <option value="">--Please select an option--</option>
+            <option value="admin">Admin</option>
+            <option value="teacher">Teacher</option>
+            <option value="parent">Parent</option>
+            <option value="student">Student</option>
+          </select>
+        </div>
         <div>
           {/* hmlFor and id - make it show on screen reader*/}
           <label htmlFor="usernameInput">Username:</label>
@@ -47,6 +75,23 @@ const FormPage = () => {
         <div>
           <label htmlFor="colorInput">Favorite Color:</label>
           <input id="colorInput" name="color" type="color" />
+        </div>
+        <fieldset>
+          <legend>Visibility:</legend>
+          <label>
+            <input name="visibility" type="radio" value="public" />
+            Public
+          </label>
+          <label>
+            <input name="visibility" type="radio" value="private" />
+            Private
+          </label>
+        </fieldset>
+        <div>
+          <label>
+            <input name="waiver" type="checkbox" className="border-2 border-black" />
+            Waiver Signed
+          </label>
         </div>
         <div>
           <label htmlFor="startDateInput">Start Date:</label>
