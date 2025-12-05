@@ -24,4 +24,23 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+
+  input {
+    border: 1px solid #ababab;
+    border-radius: 5px;
+    padding: 2px 5px;
+  }
+
+  button {
+    color: #ffffff;
+    background-color: #353535;
+    padding: 2px 5px;
+    border-radius: 5px;
+  }
+
+  button:disabled {
+    color: grey;
+    background-color: #ececec;
+    cursor: not-allowed;
+  }
 }
