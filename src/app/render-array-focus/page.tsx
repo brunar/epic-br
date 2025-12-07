@@ -31,7 +31,7 @@ const PageRenderArray = () => {
   }
 
   return (
-    <div className="m-auto max-w-5xl border border-amber-400 p-8">
+    <>
       <main>
         <p className=" m-auto max-w-lg text-xl my-4 text-gray-500 text-center">
           The key prop affects your inputs and components, including behaviors
@@ -105,7 +105,7 @@ const PageRenderArray = () => {
           <label htmlFor="autoshuffle">Auto-shuffle inputs</label>
         </div>
       </aside>
-    </div>
+    </>
   );
 };
 
