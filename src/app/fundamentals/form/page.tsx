@@ -1,6 +1,7 @@
-"Client";
+"use client";
+import { ErrorBoundary } from "react-error-boundary";
 
-const FormPage = () => {
+const OnlineForm = () => {
   //   function logFormData(formData: FormData) {
   //     console.log(Object.fromEntries(formData));
   //   }
@@ -15,8 +16,7 @@ const FormPage = () => {
 
     */}
       <form className="flex flex-col gap-4">
-
-      <input name="orgId" type="hidden" value="123" />
+        <input name="orgId" type="hidden" value="123" />
 
         <div>
           <label htmlFor="accountTypeSelection">Account Type:</label>
@@ -76,12 +76,22 @@ const FormPage = () => {
         </div>
         <div>
           <label htmlFor="colorInput">Favorite Color:</label>
-          <input id="colorInput" name="color" type="color" defaultValue="#f60000" />
+          <input
+            id="colorInput"
+            name="color"
+            type="color"
+            defaultValue="#f60000"
+          />
         </div>
         <fieldset>
           <legend>Visibility:</legend>
           <label>
-            <input name="visibility" type="radio" value="public" defaultChecked />
+            <input
+              name="visibility"
+              type="radio"
+              value="public"
+              defaultChecked
+            />
             Public
           </label>
           <label>
@@ -91,13 +101,23 @@ const FormPage = () => {
         </fieldset>
         <div>
           <label>
-            <input name="waiver" type="checkbox" className="border-2 border-black" defaultChecked />
+            <input
+              name="waiver"
+              type="checkbox"
+              className="border-2 border-black"
+              defaultChecked
+            />
             Waiver Signed
           </label>
         </div>
         <div>
           <label htmlFor="startDateInput">Start Date:</label>
-          <input id="startDateInput" name="startDate" type="date" defaultValue="2004-05-06" />
+          <input
+            id="startDateInput"
+            name="startDate"
+            type="date"
+            defaultValue="2004-05-06"
+          />
         </div>
         <div>
           <button type="submit" className="bg-black text-white p-2 inline-flex">
@@ -109,4 +129,22 @@ const FormPage = () => {
   );
 };
 
+const FormPage = () => {
+  //   function logFormData(formData: FormData) {
+  //     console.log(Object.fromEntries(formData));
+  //   }
+
+  function ErrorFallback(props: FallbackProps) {
+    <div role="alert">
+      <p>Something went wrong:</p>
+      <pre>{props.error.message}</pre>
+    </div>;
+  }
+
+  return (
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
+      <OnlineForm />
+    </ErrorBoundary>
+  );
+};
 export default FormPage;

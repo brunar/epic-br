@@ -1,22 +1,41 @@
 import Link from "next/link";
 
-const MenuLinks = [
-  { href: "/greeting", label: "greeting" },
-  { href: "/style", label: "style" },
-  { href: "/style2", label: "style2" },
-  { href: "/calculator", label: "calculator" },
-  { href: "/render-array", label: "render-array" },
-  { href: "/render-array-focus", label: "render-array-focus" },
+const MenuFundamentals = [
+  { href: "/fundamentals/greeting", label: "greeting" },
+  { href: "/fundamentals/form", label: "form" },
+  { href: "/fundamentals/style", label: "style" },
+  { href: "/fundamentals/style2", label: "style2" },
+  { href: "/fundamentals/calculator", label: "calculator" },
+  { href: "/fundamentals/render-array", label: "render-array" },
+  { href: "/fundamentals/render-array-focus", label: "renderarray-focus" },
+  { href: "/fundamentals/key-reset", label: "key-reset" },
+];
+
+const MenuHooks = [
+  { href: "/hooks/managing-ui-state", label: "managing-ui-state" },
 ];
 
 export function MenuAside() {
   return (
     <nav className="col-span-1 border rounded-2xl p-8">
       <ul>
-        {MenuLinks.map((item) => (
+        <li className="text-gray-400">Fundamentals</li>
+        {MenuFundamentals.map((item) => (
           <li key={item.label}>
             <Link
-              className="hover:text-blue-600 font-bold text-sm"
+              className="text-blue-500 hover:text-blue-800 font-bold text-sm"
+              href={item.href}
+            >
+              {item.label}
+            </Link>
+          </li>
+        ))}
+
+        <li className="pt-8 text-gray-400">Hooks</li>
+        {MenuHooks.map((item) => (
+          <li key={item.label}>
+            <Link
+              className="text-blue-500 hover:text-blue-800 font-bold text-sm"
               href={item.href}
             >
               {item.label}
