@@ -28,11 +28,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased grid grid-cols-4 m-auto max-w-7xl`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased grid grid-cols-4 gap-2 m-auto max-w-7xl`}
       >
         <Header />
         <MenuAside />
-        <main className="col-span-3 p-8 border border-amber-400">
+        <main className="col-span-3 p-8 border rounded-2xl border-amber-400">
           {children}
         </main>
       </body>

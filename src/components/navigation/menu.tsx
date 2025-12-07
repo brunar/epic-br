@@ -11,7 +11,7 @@ const MenuLinks = [
 
 export function MenuAside() {
   return (
-    <nav className="col-span-1 border p-8">
+    <nav className="col-span-1 border rounded-2xl p-8">
       <ul>
         {MenuLinks.map((item) => (
           <li key={item.label}>

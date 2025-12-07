@@ -1,7 +1,11 @@
+import Link from "next/link";
+
 export function Header() {
   return (
-    <div className="border p-8 col-span-4">
-      <h1>Epic React V2 - dev Epic Bruna AND git repo my Code </h1>
+    <div className="border rounded-2xl p-3 col-span-4">
+      <h1 className="text-center text-3xl">
+        <Link href="/">Epic React V2</Link>
+      </h1>
     </div>
   );
 }
