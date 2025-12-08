@@ -4,19 +4,27 @@ import { generateGradient, getMatchingPosts } from "@/shared/blog-posts";
 import { useState } from "react";
 
 export default function UseStatePage() {
-  // 🐨 call useState here and initialize the query with an empty string
-  const [query, setQuery] = useState("");
-
   //const [isBoolean, setIsBoolean] = useState(true);
   //const [isObj, setIsObj] = useState({});
   //const [isArray, setIsArray] = useState([]);
 
+  // 🐨 call useState here and initialize the query with an empty string
+  const [query, setQuery] = useState("");
+  const words = query.split(" ");
+
+  const dogChecked = words.includes("dog");
+  const catChecked = words.includes("cat");
+  const caterpillarChecked = words.includes("caterpillar");
+
   function handleCheck(tag: string, checked: boolean) {
-    if (checked) {
-      setQuery(query + " " + tag);
-    } else {
-      setQuery(query.replace(tag, "").trim());
-    }
+    const newWords = checked ? [...words, tag] : words.filter((w) => w !== tag);
+    setQuery(newWords.filter(Boolean).join(" ").trim());
+
+    // if (checked) {
+    //   setQuery(query + " " + tag);
+    // } else {
+    //   setQuery(query.replace(tag, "").trim());
+    // }
   }
 
   return (
@@ -33,10 +41,11 @@ export default function UseStatePage() {
             onChange={(e) => setQuery(e.currentTarget.value)}
           />
         </div>
-        <div>
+        <div className="flex gap-8 my-4">
           <label>
             <input
               type="checkbox"
+              checked={dogChecked}
               onChange={(e) => handleCheck("dog", e.currentTarget.checked)}
             />{" "}
             🐶 dog
@@ -44,6 +53,7 @@ export default function UseStatePage() {
           <label>
             <input
               type="checkbox"
+              checked={catChecked}
               onChange={(e) => handleCheck("cat", e.currentTarget.checked)}
             />{" "}
             🐱 cat
@@ -51,6 +61,7 @@ export default function UseStatePage() {
           <label>
             <input
               type="checkbox"
+              checked={caterpillarChecked}
               onChange={(e) =>
                 handleCheck("caterpillar", e.currentTarget.checked)
               }
