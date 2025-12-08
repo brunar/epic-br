@@ -33,16 +33,17 @@ const PageRenderArray = () => {
   return (
     <>
       <main>
-        <p className=" m-auto max-w-lg text-xl my-4 text-gray-500 text-center">
+        <p className="text-xl text-gray-500">
           The key prop affects your inputs and components, including behaviors
-          like focus. Try focusing different elements, selecting some text, and
-          editing it to see how the key prop changes their behavior.
+          like focus. <br />
+          Try focusing different elements, selecting some text, and editing it
+          to see how the key prop changes their behavior.
         </p>
         <div>
           <h1 className="text-2xl font-bold my-4">Without a key</h1>
           <ul style={{ display: "flex", gap: "10px" }}>
             {items.map((item, index) => (
-              <li key={"none"}>
+              <li key={`none${index}`}>
                 <label htmlFor={`no-key-${item.id}-input`}>
                   No key #{index + 1}
                 </label>
