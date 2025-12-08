@@ -2,14 +2,20 @@
 //import { createRoot } from "react-dom/client";
 import { generateGradient, getMatchingPosts } from "@/shared/blog-posts";
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 export default function UseStatePage() {
   //const [isBoolean, setIsBoolean] = useState(true);
   //const [isObj, setIsObj] = useState({});
   //const [isArray, setIsArray] = useState([]);
 
+  //const params = new URLSearchParams(window.location.search); // Not for next.js
+  const searchParams = useSearchParams();
+
   // 🐨 call useState here and initialize the query with an empty string
-  const [query, setQuery] = useState("");
+  //const [query, setQuery] = useState(params.get("query") ?? ""); // Not for next.js
+  const [query, setQuery] = useState(searchParams.get("query") ?? ""); // ?? "" this means it can fallback if is a empty string
+
   const words = query.split(" ");
 
   const dogChecked = words.includes("dog");

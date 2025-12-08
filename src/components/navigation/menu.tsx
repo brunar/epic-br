@@ -16,6 +16,7 @@ const MenuHooks = [
   { href: "/hooks/use-state", label: "use-state" },
   { href: "/hooks/controlled-input", label: "controlled-input" },
   { href: "/hooks/derive-state", label: "derive-state" },
+  { href: "/hooks/initialize-state", label: "initialize-state" },
 ];
 
 export function MenuAside() {
