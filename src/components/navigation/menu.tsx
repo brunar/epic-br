@@ -13,6 +13,7 @@ const MenuFundamentals = [
 
 const MenuHooks = [
   { href: "/hooks/managing-ui-state", label: "managing-ui-state" },
+  { href: "/hooks/use-state", label: "use-state" },
 ];
 
 export function MenuAside() {
