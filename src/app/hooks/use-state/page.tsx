@@ -11,6 +11,14 @@ export default function UseStatePage() {
   //const [isObj, setIsObj] = useState({});
   //const [isArray, setIsArray] = useState([]);
 
+  function handleCheck(tag: string, checked: boolean) {
+    if (checked) {
+      setQuery(query + " " + tag);
+    } else {
+      setQuery(query.replace(tag, "").trim());
+    }
+  }
+
   return (
     <>
       <form>
@@ -20,19 +28,34 @@ export default function UseStatePage() {
             id="searchInput"
             name="query"
             type="search"
-            onChange={(e) => setQuery(e.currentTarget.value)}
+            value={query} // add value if you checked cat, dog or catepillar (checkbox) it show on input
             // 🐨 add an onChange handler here that calls setQuery with the event.currentTarget.value
+            onChange={(e) => setQuery(e.currentTarget.value)}
           />
         </div>
         <div>
           <label>
-            <input type="checkbox" /> 🐶 dog
+            <input
+              type="checkbox"
+              onChange={(e) => handleCheck("dog", e.currentTarget.checked)}
+            />{" "}
+            🐶 dog
           </label>
           <label>
-            <input type="checkbox" /> 🐱 cat
+            <input
+              type="checkbox"
+              onChange={(e) => handleCheck("cat", e.currentTarget.checked)}
+            />{" "}
+            🐱 cat
           </label>
           <label>
-            <input type="checkbox" /> 🐛 caterpillar
+            <input
+              type="checkbox"
+              onChange={(e) =>
+                handleCheck("caterpillar", e.currentTarget.checked)
+              }
+            />{" "}
+            🐛 caterpillar
           </label>
         </div>
         <button type="submit">Submit</button>
