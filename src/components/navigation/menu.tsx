@@ -1,22 +1,22 @@
-import Link from "next/link";
+import Link from 'next/link';
 
 const MenuFundamentals = [
-  { href: "/fundamentals/greeting", label: "greeting" },
-  { href: "/fundamentals/form", label: "form" },
-  { href: "/fundamentals/style", label: "style" },
-  { href: "/fundamentals/style2", label: "style2" },
-  { href: "/fundamentals/calculator", label: "calculator" },
-  { href: "/fundamentals/render-array", label: "render-array" },
-  { href: "/fundamentals/render-array-focus", label: "renderarray-focus" },
-  { href: "/fundamentals/key-reset", label: "key-reset" },
+  { href: '/fundamentals/greeting', label: 'greeting' },
+  { href: '/fundamentals/form', label: 'form' },
+  { href: '/fundamentals/style', label: 'style' },
+  { href: '/fundamentals/style2', label: 'style2' },
+  { href: '/fundamentals/calculator', label: 'calculator' },
+  { href: '/fundamentals/render-array', label: 'render-array' },
+  { href: '/fundamentals/render-array-focus', label: 'renderarray-focus' },
+  { href: '/fundamentals/key-reset', label: 'key-reset' },
 ];
 
 const MenuHooks = [
-  { href: "/hooks/managing-ui-state", label: "managing-ui-state" },
-  { href: "/hooks/use-state", label: "use-state" },
-  { href: "/hooks/controlled-input", label: "controlled-input" },
-  { href: "/hooks/derive-state", label: "derive-state" },
-  { href: "/hooks/initialize-state", label: "initialize-state" },
+  { href: '/hooks/managing-ui-state', label: 'managing-ui-state' },
+  { href: '/hooks/use-state', label: 'use-state' },
+  { href: '/hooks/controlled-input', label: 'controlled-input' },
+  { href: '/hooks/derive-state', label: 'derive-state' },
+  { href: '/hooks/initialize-state', label: 'initialize-state' },
 ];
 
 export function MenuAside() {

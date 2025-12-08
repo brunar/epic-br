@@ -1,12 +1,12 @@
-"use client";
-import { useEffect, useState } from "react";
+'use client';
+import { useEffect, useState } from 'react';
 
 const PageRenderArray = () => {
   const [items, setItems] = useState([
-    { id: "apple", value: "🍎 apple" },
-    { id: "orange", value: "🍊 orange" },
-    { id: "grape", value: "🍇 grape" },
-    { id: "pear", value: "🍐 pear" },
+    { id: 'apple', value: '🍎 apple' },
+    { id: 'orange', value: '🍊 orange' },
+    { id: 'grape', value: '🍇 grape' },
+    { id: 'pear', value: '🍐 pear' },
   ]);
 
   const [autoShuffle, setAutoShuffle] = useState(true);
@@ -41,7 +41,7 @@ const PageRenderArray = () => {
         </p>
         <div>
           <h1 className="text-2xl font-bold my-4">Without a key</h1>
-          <ul style={{ display: "flex", gap: "10px" }}>
+          <ul style={{ display: 'flex', gap: '10px' }}>
             {items.map((item, index) => (
               <li key={`none${index}`}>
                 <label htmlFor={`no-key-${item.id}-input`}>
@@ -59,7 +59,7 @@ const PageRenderArray = () => {
         </div>
         <div>
           <h1 className="text-2xl font-bold my-4">With array index as key</h1>
-          <ul style={{ display: "flex", gap: "10px" }}>
+          <ul style={{ display: 'flex', gap: '10px' }}>
             {items.map((item, index) => (
               <li key={index}>
                 <label htmlFor={`index-key-${item.id}-input`}>
@@ -77,7 +77,7 @@ const PageRenderArray = () => {
         </div>
         <div>
           <h1 className="text-2xl font-bold my-4">With a proper key</h1>
-          <ul style={{ display: "flex", gap: "10px" }}>
+          <ul style={{ display: 'flex', gap: '10px' }}>
             {items.map((item, index) => (
               <li key={item.id}>
                 <label htmlFor={`proper-key-${item.id}-input`}>
@@ -95,8 +95,8 @@ const PageRenderArray = () => {
           </ul>
         </div>
       </main>
-      <aside style={{ marginTop: "40px" }}>
-        <div style={{ alignItems: "center", display: "flex", gap: "8px" }}>
+      <aside style={{ marginTop: '40px' }}>
+        <div style={{ alignItems: 'center', display: 'flex', gap: '8px' }}>
           <input
             id="autoshuffle"
             type="checkbox"

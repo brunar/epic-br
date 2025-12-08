@@ -1,8 +1,8 @@
-"use client";
-import { useState } from "react";
+'use client';
+import { useState } from 'react';
 
 export default function ControlledInput() {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
 
   return (
     <>
@@ -21,7 +21,7 @@ export default function ControlledInput() {
         <input
           value={value}
           onChange={(e) =>
-            setValue(e.currentTarget.value.replace(/koala/gi, "🐨"))
+            setValue(e.currentTarget.value.replace(/koala/gi, '🐨'))
           }
         />
         <p>You typed: {value}</p>

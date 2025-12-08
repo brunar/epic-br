@@ -1,11 +1,11 @@
 const PageCalculator = () => {
   const operations = {
-    "+": (left: number, right: number): number => left + right,
-    "-": (left: number, right: number): number => left - right,
-    "*": (left: number, right: number): number => left * right,
-    "/": (left: number, right: number): number => left / right,
-    "**": (left: number, right: number): number => left ** right,
-    "%": (left: number, right: number): number => left % right,
+    '+': (left: number, right: number): number => left + right,
+    '-': (left: number, right: number): number => left - right,
+    '*': (left: number, right: number): number => left * right,
+    '/': (left: number, right: number): number => left / right,
+    '**': (left: number, right: number): number => left ** right,
+    '%': (left: number, right: number): number => left % right,
   };
 
   // This means (?) optional props
@@ -18,7 +18,7 @@ const PageCalculator = () => {
   // Props with default values
   function Calculator({
     left = 0,
-    operator = "+",
+    operator = '+',
     right = 0,
   }: CalculatorProps) {
     const result = operations[operator](left, right);
@@ -42,7 +42,7 @@ const PageCalculator = () => {
       <Calculator operator="/" right={2} />
 
       <br />
-      
+
       <Calculator left={1} operator="+" right={2} />
       <Calculator left={1} operator="-" right={2} />
       <Calculator left={1} operator="*" right={2} />

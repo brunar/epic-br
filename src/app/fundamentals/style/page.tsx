@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
 const PageStyle = () => {
   const myStyles = {
     marginTop: 20,
-    backgroundColor: "orange",
+    backgroundColor: 'orange',
     width: 100,
     height: 100,
   };
@@ -13,9 +13,9 @@ const PageStyle = () => {
       <h3>Const styles applied</h3>
       <div style={myStyles} />
       <br />
-      
+
       <h3>Inline styles applied</h3>
-      <div style={{ backgroundColor: "green", width: 100, height: 100 }} />
+      <div style={{ backgroundColor: 'green', width: 100, height: 100 }} />
       <br />
 
       <h3>Class-based styles applied</h3>

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 interface ButtonProps {
   label: string;
@@ -28,9 +28,9 @@ const PageGreeting = () => {
   };
 
   const buttonProps = {
-    label: "Click Me",
-    onClick: () => alert("Button clicked!"),
-    className: "custom-button",
+    label: 'Click Me',
+    onClick: () => alert('Button clicked!'),
+    className: 'custom-button',
   };
 
   return (
@@ -39,8 +39,10 @@ const PageGreeting = () => {
       <Message classCustom="bruna">Message Text</Message>
       <br />
       {/* Spread props to Button component */}
-      Spread Props matter the ordering.<br />
-      Example className in the button<br />
+      Spread Props matter the ordering.
+      <br />
+      Example className in the button
+      <br />
       <Button {...buttonProps} className="override" />
     </>
   );

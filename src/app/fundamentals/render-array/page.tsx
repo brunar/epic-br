@@ -1,11 +1,11 @@
-"use client";
-import { useState } from "react";
+'use client';
+import { useState } from 'react';
 
 const allItems = [
-  { id: "apple", value: "🍎 apple" },
-  { id: "orange", value: "🍊 orange" },
-  { id: "grape", value: "🍇 grape" },
-  { id: "pear", value: "🍐 pear" },
+  { id: 'apple', value: '🍎 apple' },
+  { id: 'orange', value: '🍊 orange' },
+  { id: 'grape', value: '🍇 grape' },
+  { id: 'pear', value: '🍐 pear' },
 ];
 
 const PageRenderArray = () => {
@@ -52,8 +52,8 @@ const PageRenderArray = () => {
       <ul>
         {items.map((item) => (
           <li key={item.id} className="mb-4">
-            <button onClick={() => removeItem(item.id)}>remove</button>{" "}
-            <label htmlFor={`${item.id}-input`}>{item.value}</label>{" "}
+            <button onClick={() => removeItem(item.id)}>remove</button>{' '}
+            <label htmlFor={`${item.id}-input`}>{item.value}</label>{' '}
             <input id={`${item.id}-input`} defaultValue={item.value} />
           </li>
         ))}

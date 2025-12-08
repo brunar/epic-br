@@ -1,5 +1,5 @@
-"use client";
-import { ErrorBoundary } from "react-error-boundary";
+'use client';
+import { ErrorBoundary } from 'react-error-boundary';
 
 const OnlineForm = () => {
   //   function logFormData(formData: FormData) {

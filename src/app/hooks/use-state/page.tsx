@@ -1,8 +1,8 @@
-"use client";
+'use client';
 //import { createRoot } from "react-dom/client";
-import { generateGradient, getMatchingPosts } from "@/shared/blog-posts";
-import { useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { generateGradient, getMatchingPosts } from '@/shared/blog-posts';
+import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 
 export default function UseStatePage() {
   //const [isBoolean, setIsBoolean] = useState(true);
@@ -14,17 +14,17 @@ export default function UseStatePage() {
 
   // 🐨 call useState here and initialize the query with an empty string
   //const [query, setQuery] = useState(params.get("query") ?? ""); // Not for next.js
-  const [query, setQuery] = useState(searchParams.get("query") ?? ""); // ?? "" this means it can fallback if is a empty string
+  const [query, setQuery] = useState(searchParams.get('query') ?? ''); // ?? "" this means it can fallback if is a empty string
 
-  const words = query.split(" ");
+  const words = query.split(' ');
 
-  const dogChecked = words.includes("dog");
-  const catChecked = words.includes("cat");
-  const caterpillarChecked = words.includes("caterpillar");
+  const dogChecked = words.includes('dog');
+  const catChecked = words.includes('cat');
+  const caterpillarChecked = words.includes('caterpillar');
 
   function handleCheck(tag: string, checked: boolean) {
     const newWords = checked ? [...words, tag] : words.filter((w) => w !== tag);
-    setQuery(newWords.filter(Boolean).join(" ").trim());
+    setQuery(newWords.filter(Boolean).join(' ').trim());
 
     // if (checked) {
     //   setQuery(query + " " + tag);
@@ -52,16 +52,16 @@ export default function UseStatePage() {
             <input
               type="checkbox"
               checked={dogChecked}
-              onChange={(e) => handleCheck("dog", e.currentTarget.checked)}
-            />{" "}
+              onChange={(e) => handleCheck('dog', e.currentTarget.checked)}
+            />{' '}
             🐶 dog
           </label>
           <label>
             <input
               type="checkbox"
               checked={catChecked}
-              onChange={(e) => handleCheck("cat", e.currentTarget.checked)}
-            />{" "}
+              onChange={(e) => handleCheck('cat', e.currentTarget.checked)}
+            />{' '}
             🐱 cat
           </label>
           <label>
@@ -69,9 +69,9 @@ export default function UseStatePage() {
               type="checkbox"
               checked={caterpillarChecked}
               onChange={(e) =>
-                handleCheck("caterpillar", e.currentTarget.checked)
+                handleCheck('caterpillar', e.currentTarget.checked)
               }
-            />{" "}
+            />{' '}
             🐛 caterpillar
           </label>
         </div>

@@ -1,5 +1,5 @@
-"use client";
-import { useState } from "react";
+'use client';
+import { useState } from 'react';
 
 export default function DeriveState() {
   const [count, setCount] = useState(0);
@@ -19,7 +19,7 @@ export default function DeriveState() {
       <div>
         <h2>Derive State</h2>
         <p>{count}</p>
-        <p>{isEven ? "Even" : "Odd"}</p>
+        <p>{isEven ? 'Even' : 'Odd'}</p>
         <button onClick={handleClick}>Increment</button>
       </div>
     </>
