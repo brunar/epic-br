@@ -27,6 +27,14 @@ export default function UseStatePage() {
   const catChecked = words.includes('cat');
   const caterpillarChecked = words.includes('caterpillar');
 
+  // Popstate means button back and forward in the browser
+  // When I'm using useSearchParams from next js or params navigation from router react I don't need this useEffect
+  // useEffect(() => {
+  //   window.addEventListener('popstate', () =>
+  //     setQuery(getInitialQuery(searchParams))
+  //   );
+  // }, []);
+
   function handleCheck(tag: string, checked: boolean) {
     const newWords = checked ? [...words, tag] : words.filter((w) => w !== tag);
     setQuery(newWords.filter(Boolean).join(' ').trim());
