@@ -18,6 +18,7 @@ const MenuHooks = [
   { href: '/hooks/derive-state', label: 'derive-state' },
   { href: '/hooks/initialize-state', label: 'initialize-state' },
   { href: '/hooks/init-callback', label: 'init-callback' },
+  { href: '/hooks/side-effects', label: 'side-effects' },
 ];
 
 export function MenuAside() {
