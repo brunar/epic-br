@@ -4,6 +4,11 @@ import { generateGradient, getMatchingPosts } from '@/shared/blog-posts';
 import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 
+function getInitialQuery(searchParams: ReturnType<typeof useSearchParams>) {
+  console.log('getInitialQuery runs ONCE');
+  return searchParams.get('query') ?? ''; // ?? "" this means it can fallback if is a empty string
+}
+
 export default function UseStatePage() {
   //const [isBoolean, setIsBoolean] = useState(true);
   //const [isObj, setIsObj] = useState({});
@@ -14,7 +19,7 @@ export default function UseStatePage() {
 
   // 🐨 call useState here and initialize the query with an empty string
   //const [query, setQuery] = useState(params.get("query") ?? ""); // Not for next.js
-  const [query, setQuery] = useState(searchParams.get('query') ?? ''); // ?? "" this means it can fallback if is a empty string
+  const [query, setQuery] = useState(() => getInitialQuery(searchParams)); // ?? "" this means it can fallback if is a empty string
 
   const words = query.split(' ');
 
