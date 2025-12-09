@@ -19,6 +19,7 @@ const MenuHooks = [
   { href: '/hooks/initialize-state', label: 'initialize-state' },
   { href: '/hooks/init-callback', label: 'init-callback' },
   { href: '/hooks/side-effects', label: 'side-effects' },
+  { href: '/hooks/effect-cleanup', label: 'effect-cleanup' },
 ];
 
 export function MenuAside() {
