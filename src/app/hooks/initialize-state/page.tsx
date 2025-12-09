@@ -7,7 +7,7 @@ export default function InitializeState() {
   return (
     <>
       <div>
-        <h2>Initialize State </h2>
+        <h2>Initialize State</h2>
         <i className="text-gray-400">(Only text explanation)</i>
 
         <p>Url search parameters</p>
