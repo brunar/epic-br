@@ -107,32 +107,57 @@ function Form({
 // Child Component 2
 function MatchingPosts({ query }: { query: string }) {
   const matchingPosts = getMatchingPosts(query);
+  const [favorites, setFavorites] = useState<Array<string>>([]);
 
   return (
     <ul className="post-list">
       {matchingPosts
-        .sort((a, b) => a.title.localeCompare(b.title))
+        .sort((a, b) => {
+          const aFav = favorites.includes(a.id);
+          const bFav = favorites.includes(b.id);
+          return aFav === bFav ? 0 : aFav ? -1 : 1;
+        })
         .map((post) => (
-          <Card key={post.id} post={post} />
+          <Card
+            key={post.id}
+            post={post}
+            isFavorited={favorites.includes(post.id)}
+            onFaroviteClick={(favorite) =>
+              setFavorites((prevFavorites) => {
+                if (favorite) {
+                  return [...prevFavorites, post.id];
+                } else {
+                  return prevFavorites.filter((id) => id !== post.id);
+                }
+              })
+            }
+          />
         ))}
     </ul>
   );
 }
 
 // Child Component 3
-function Card({ post }: { post: BlogPost }) {
-  const [isFavorited, setIsFavorited] = useState(false);
+function Card({
+  post,
+  isFavorited,
+  onFaroviteClick,
+}: {
+  post: BlogPost;
+  isFavorited: boolean;
+  onFaroviteClick: (isFavorited: boolean) => void;
+}) {
   return (
     <li>
       {isFavorited ? (
         <button
           aria-label="Remove favorite"
-          onClick={() => setIsFavorited(false)}
+          onClick={() => onFaroviteClick(false)}
         >
           ❤️
         </button>
       ) : (
-        <button aria-label="Add favorite" onClick={() => setIsFavorited(true)}>
+        <button aria-label="Add favorite" onClick={() => onFaroviteClick(true)}>
           🤍
         </button>
       )}
