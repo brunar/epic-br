@@ -20,6 +20,8 @@ const MenuHooks = [
   { href: '/hooks/init-callback', label: 'init-callback' },
   { href: '/hooks/side-effects', label: 'side-effects' },
   { href: '/hooks/effect-cleanup', label: 'effect-cleanup' },
+  { href: '/hooks/lifting-state', label: 'lifting-state' },
+  { href: '/hooks/lift-state-project', label: 'lift-state-project' },
 ];
 
 export function MenuAside() {
