@@ -22,6 +22,7 @@ const MenuHooks = [
   { href: '/hooks/effect-cleanup', label: 'effect-cleanup' },
   { href: '/hooks/lifting-state', label: 'lifting-state' },
   { href: '/hooks/lift-state-project', label: 'lift-state-project' },
+  { href: '/hooks/dom-side-effects', label: 'dom-side-effects' },
 ];
 
 export function MenuAside() {
