@@ -24,6 +24,7 @@ const MenuHooks = [
   { href: '/hooks/lift-state-project', label: 'lift-state-project' },
   { href: '/hooks/dom-side-effects', label: 'dom-side-effects' },
   { href: '/hooks/refs', label: 'refs' },
+  { href: '/hooks/dependencies', label: 'dependencies' },
 ];
 
 export function MenuAside() {
