@@ -1,0 +1,21 @@
+#Primitive Dependencies
+
+So, even though the properties are all the same, because we're getting a re-render here, we're creating a new object, and it ends up resetting.
+
+This is a really important thing for you to understand as you're working with the use effect dependency arrays, and when we get into use memo, and use callback, and all the dependency arrays that those involve as well. You need to understand the referential equality of these objects.
+
+```tsx
+const options1 = { galre: true, max: 25, 'max-glare': 0.5, speed: 400 };
+const options2 = { galre: true, max: 25, 'max-glare': 0.5, speed: 400 };
+
+// Object.is() means options1 === options2
+// Even they looks like the same, they are not, two variables pointing to the same thing, they are two objects with same properties
+// Example
+Object.is(options1, options2); // False!!
+Object.is(options1, options1); // True
+
+//Example
+const options1 = { galre: true, max: 25, 'max-glare': 0.5, speed: 400 };
+const options2 = options1;
+Object.is(options1, options2); // True
+```

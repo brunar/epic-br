@@ -21,17 +21,17 @@ function Tilt({
 }) {
   const tiltRef = useRef<HTMLVanillaTiltElement>(null);
 
-  const vanillaTiltOptions = {
-    max,
-    speed,
-    glare,
-    'max-glare': maxGlare,
-  };
-
   useEffect(() => {
     const { current: tiltNode } = tiltRef;
 
     if (!tiltNode) return;
+
+    const vanillaTiltOptions = {
+      max,
+      speed,
+      glare,
+      'max-glare': maxGlare,
+    };
 
     VanillaTilt.init(tiltNode, vanillaTiltOptions);
 
@@ -40,7 +40,7 @@ function Tilt({
       console.log('cleanup');
       tiltNode.vanillaTilt?.destroy();
     };
-  }, [vanillaTiltOptions]);
+  }, [max, speed, glare, maxGlare]);
 
   return (
     <div ref={tiltRef} className="tilt-root mt-4">
@@ -60,6 +60,14 @@ export default function TiltApp() {
   });
   return (
     <div>
+      <h2>Dependencies and Primitive Dependencies</h2>
+      <i className="text-gray-400 block">
+        (See readme.mdx and committes for Primitive Dependencies)
+      </i>
+      <p>
+        Adding it as a primitive dependency: if you click on the corner of the
+        white square (button), it increments without resetting the position.
+      </p>
 
       <button className="my-4" onClick={() => setShowTilt((s) => !s)}>
         Toggle Visibility
