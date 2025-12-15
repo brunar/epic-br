@@ -25,6 +25,7 @@ const MenuHooks = [
   { href: '/hooks/dom-side-effects', label: 'dom-side-effects' },
   { href: '/hooks/refs', label: 'refs' },
   { href: '/hooks/dependencies', label: 'dependencies' },
+  { href: '/hooks/unique-ids', label: 'unique-ids' },
 ];
 
 export function MenuAside() {
