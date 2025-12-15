@@ -1,4 +1,3 @@
-'use client';
 import React, { useId } from 'react';
 
 function Field({
@@ -18,6 +17,9 @@ function Field({
         {label}:
       </label>
       <input {...inputProps} id={id} />
+      <p className="text-sm text-green-600">
+        Printed Id: <b>{id}</b>
+      </p>
     </div>
   );
 }
