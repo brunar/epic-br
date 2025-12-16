@@ -27,6 +27,7 @@ const MenuHooks = [
   { href: '/hooks/dependencies', label: 'dependencies' },
   { href: '/hooks/unique-ids', label: 'unique-ids' },
   { href: '/hooks/use-id', label: 'use-id' },
+  { href: '/hooks/tic-tac-toe', label: 'tic-tac-toe' },
 ];
 
 export function MenuAside() {
