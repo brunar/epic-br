@@ -28,6 +28,7 @@ const MenuHooks = [
   { href: '/hooks/unique-ids', label: 'unique-ids' },
   { href: '/hooks/use-id', label: 'use-id' },
   { href: '/hooks/tic-tac-toe', label: 'tic-tac-toe' },
+  { href: '/hooks/tic-tac-toe-history', label: 'tic-tac-toe-history' },
 ];
 
 export function MenuAside() {
