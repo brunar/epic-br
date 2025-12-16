@@ -15,8 +15,18 @@ function Board() {
   // 🐨 squares is the state for this component. Add useState for squares
   // 🦺 you can use the Squares type for the useState generic
   const [squares, setSquares] = useState<Squares>(() => {
+    if (typeof window === 'undefined') {
+      return defaultState;
+    }
+
     const squares = localStorage.getItem(key);
-    return squares ? JSON.parse(squares) : defaultState;
+    // return squares ? JSON.parse(squares) : defaultState;
+    if (!squares) return defaultState;
+    try {
+      return JSON.parse(squares);
+    } catch {
+      return defaultState;
+    }
   });
 
   useEffect(() => {
