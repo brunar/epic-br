@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   calculateNextValue,
   calculateStatus,
@@ -9,10 +9,19 @@ import {
 
 const defaultState = Array(9).fill(null);
 
+const key = 'squares';
+
 function Board() {
   // 🐨 squares is the state for this component. Add useState for squares
   // 🦺 you can use the Squares type for the useState generic
-  const [squares, setSquares] = useState<Squares>(defaultState);
+  const [squares, setSquares] = useState<Squares>(() => {
+    const squares = localStorage.getItem(key);
+    return squares ? JSON.parse(squares) : defaultState;
+  });
+
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(squares));
+  }, [squares]);
 
   // 🐨 We'll need the following bits of derived state:
   // - nextValue ('X' or 'O')
