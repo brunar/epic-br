@@ -1,63 +1,145 @@
+'use client';
+
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useEffect, useId, useState } from 'react';
 
-const MenuFundamentals = [
-  { href: '/fundamentals/greeting', label: 'greeting' },
-  { href: '/fundamentals/form', label: 'form' },
-  { href: '/fundamentals/style', label: 'style' },
-  { href: '/fundamentals/style2', label: 'style2' },
-  { href: '/fundamentals/calculator', label: 'calculator' },
-  { href: '/fundamentals/render-array', label: 'render-array' },
-  { href: '/fundamentals/render-array-focus', label: 'renderarray-focus' },
-  { href: '/fundamentals/key-reset', label: 'key-reset' },
-];
+type LinkItem = { href: string; label: string };
+type Section = { id: string; title: string; items: readonly LinkItem[] };
 
-const MenuHooks = [
-  { href: '/hooks/managing-ui-state', label: 'managing-ui-state' },
-  { href: '/hooks/use-state', label: 'use-state' },
-  { href: '/hooks/controlled-input', label: 'controlled-input' },
-  { href: '/hooks/derive-state', label: 'derive-state' },
-  { href: '/hooks/initialize-state', label: 'initialize-state' },
-  { href: '/hooks/init-callback', label: 'init-callback' },
-  { href: '/hooks/side-effects', label: 'side-effects' },
-  { href: '/hooks/effect-cleanup', label: 'effect-cleanup' },
-  { href: '/hooks/lifting-state', label: 'lifting-state' },
-  { href: '/hooks/lift-state-project', label: 'lift-state-project' },
-  { href: '/hooks/dom-side-effects', label: 'dom-side-effects' },
-  { href: '/hooks/refs', label: 'refs' },
-  { href: '/hooks/dependencies', label: 'dependencies' },
-  { href: '/hooks/unique-ids', label: 'unique-ids' },
-  { href: '/hooks/use-id', label: 'use-id' },
-  { href: '/hooks/tic-tac-toe', label: 'tic-tac-toe' },
-  { href: '/hooks/tic-tac-toe-history', label: 'tic-tac-toe-history' },
-];
+const SECTIONS = [
+  {
+    id: 'fundamentals',
+    title: 'Fundamentals',
+    items: [
+      { href: '/fundamentals/greeting', label: 'greeting' },
+      { href: '/fundamentals/form', label: 'form' },
+      { href: '/fundamentals/style', label: 'style' },
+      { href: '/fundamentals/style2', label: 'style2' },
+      { href: '/fundamentals/calculator', label: 'calculator' },
+      { href: '/fundamentals/render-array', label: 'render-array' },
+      { href: '/fundamentals/render-array-focus', label: 'renderarray-focus' },
+      { href: '/fundamentals/key-reset', label: 'key-reset' },
+    ],
+  },
+  {
+    id: 'hooks',
+    title: 'Hooks',
+    items: [
+      { href: '/hooks/managing-ui-state', label: 'managing-ui-state' },
+      { href: '/hooks/use-state', label: 'use-state' },
+      { href: '/hooks/controlled-input', label: 'controlled-input' },
+      { href: '/hooks/derive-state', label: 'derive-state' },
+      { href: '/hooks/initialize-state', label: 'initialize-state' },
+      { href: '/hooks/init-callback', label: 'init-callback' },
+      { href: '/hooks/side-effects', label: 'side-effects' },
+      { href: '/hooks/effect-cleanup', label: 'effect-cleanup' },
+      { href: '/hooks/lifting-state', label: 'lifting-state' },
+      { href: '/hooks/lift-state-project', label: 'lift-state-project' },
+      { href: '/hooks/dom-side-effects', label: 'dom-side-effects' },
+      { href: '/hooks/refs', label: 'refs' },
+      { href: '/hooks/dependencies', label: 'dependencies' },
+      { href: '/hooks/unique-ids', label: 'unique-ids' },
+      { href: '/hooks/use-id', label: 'use-id' },
+      { href: '/hooks/tic-tac-toe', label: 'tic-tac-toe' },
+      { href: '/hooks/tic-tac-toe-history', label: 'tic-tac-toe-history' },
+    ],
+  },
+  {
+    id: 'advanced-apis',
+    title: 'Advanced React APIs',
+    items: [
+      {
+        href: '/advanced-apis/advance-state-management',
+        label: 'advance-state-management',
+      },
+    ],
+  },
+] as const satisfies readonly Section[];
+
+type MenuId = (typeof SECTIONS)[number]['id'];
+
+function findSectionForPath(pathname: string): MenuId | null {
+  const match = SECTIONS.find((section) =>
+    section.items.some(
+      (item) => pathname === item.href || pathname.startsWith(item.href + '/')
+    )
+  );
+  return (match?.id ?? null) as MenuId | null;
+}
 
 export function MenuAside() {
-  return (
-    <nav className="col-span-1 border rounded-2xl p-8">
-      <ul>
-        <li className="text-gray-400">Fundamentals</li>
-        {MenuFundamentals.map((item) => (
-          <li key={item.label}>
-            <Link
-              className="text-blue-500 hover:text-blue-800 font-bold text-sm"
-              href={item.href}
-            >
-              {item.label}
-            </Link>
-          </li>
-        ))}
+  const pathname = usePathname();
+  const baseId = useId();
 
-        <li className="pt-8 text-gray-400">Hooks</li>
-        {MenuHooks.map((item) => (
-          <li key={item.label}>
-            <Link
-              className="text-blue-500 hover:text-blue-800 font-bold text-sm"
-              href={item.href}
-            >
-              {item.label}
-            </Link>
-          </li>
-        ))}
+  const [openMenu, setOpenMenu] = useState<MenuId | null>(() => {
+    // initial open based on current path (good for first render)
+    return findSectionForPath(pathname) ?? 'fundamentals';
+  });
+
+  // keep the correct section open when route changes
+  useEffect(() => {
+    const next = findSectionForPath(pathname);
+    if (next) setOpenMenu(next);
+  }, [pathname]);
+
+  const toggleMenu = (id: MenuId) => {
+    setOpenMenu((prev) => (prev === id ? null : id));
+  };
+
+  return (
+    <nav className="col-span-1 border rounded-2xl p-4" aria-label="Sidebar">
+      <ul>
+        {SECTIONS.map((section) => {
+          const isOpen = openMenu === section.id;
+          const panelId = `${baseId}-${section.id}-panel`;
+
+          return (
+            <li key={section.id}>
+              <button
+                type="button"
+                className="w-full text-left text-gray-400 hover:text-blue-600 text-sm flex items-center justify-start gap-2 py-1 bg-transparent"
+                aria-expanded={isOpen}
+                aria-controls={panelId}
+                onClick={() => toggleMenu(section.id)}
+              >
+                <span>{section.title}</span>
+                <span
+                  aria-hidden
+                  className={`transition-transform duration-200 text-[11px] ${
+                    isOpen ? 'rotate-90' : 'rotate-0'
+                  }`}
+                >
+                  ➔
+                </span>
+              </button>
+
+              <ul id={panelId} className="mt-2 pl-2 mb-4" hidden={!isOpen}>
+                {section.items.map((item) => {
+                  const active =
+                    pathname === item.href ||
+                    pathname.startsWith(item.href + '/');
+
+                  return (
+                    <li key={item.href}>
+                      <Link
+                        href={item.href}
+                        className={[
+                          'text-sm block px-2 py-1 font-semibold rounded-md',
+                          active
+                            ? 'text-white bg-gray-400'
+                            : 'text-blue-600 hover:bg-gray-200',
+                        ].join(' ')}
+                      >
+                        {item.label}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </li>
+          );
+        })}
       </ul>
     </nav>
   );

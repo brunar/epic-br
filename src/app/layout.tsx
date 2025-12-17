@@ -32,7 +32,7 @@ export default function RootLayout({
       >
         <Header />
         <MenuAside />
-        <main className="col-span-3 p-8 border rounded-2xl border-amber-400">
+        <main className="col-span-3 p-8 border rounded-2xl border-gray-200">
           {children}
         </main>
       </body>
