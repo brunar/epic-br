@@ -50,8 +50,8 @@ const SECTIONS = [
     title: 'Advanced React APIs',
     items: [
       {
-        href: '/advanced-apis/advance-state-management',
-        label: 'advance-state-management',
+        href: '/advanced-apis/advanced-state-management',
+        label: 'advanced-state-management',
       },
     ],
   },
