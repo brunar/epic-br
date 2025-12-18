@@ -1,5 +1,9 @@
 'use client';
-import { useState } from 'react';
+import { useReducer, useState } from 'react';
+
+function countReducer(state: number, newState: number) {
+  return newState;
+}
 
 type CounterProps = {
   initialCount?: number;
@@ -7,7 +11,7 @@ type CounterProps = {
 };
 
 function Counter({ initialCount = 0, step = 1 }: CounterProps) {
-  const [count, setCount] = useState(initialCount);
+  const [count, setCount] = useReducer(countReducer, initialCount);
 
   const increment = () => setCount(count + step);
   const decrement = () => setCount(count - step);
