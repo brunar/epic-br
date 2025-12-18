@@ -53,6 +53,10 @@ const SECTIONS = [
         href: '/advanced-apis/advanced-state-management',
         label: 'advanced-state-management',
       },
+      {
+        href: '/advanced-apis/new-state',
+        label: 'new-state',
+      },
     ],
   },
 ] as const satisfies readonly Section[];
