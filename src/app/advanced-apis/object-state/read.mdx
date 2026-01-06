@@ -1,0 +1,24 @@
+#Object State - useReducer
+
+```tsx
+function countReducer(count: number, change: number) {
+  return count + change;
+}
+
+const [state, setState] = useReducer(countReducer, {
+  count: initialCount;
+})
+const {count} = state;
+const increment = ()=> setState({count: count + step});
+const decrement = ()=> setState({count: count - step});
+
+///////////////////////////////////
+
+const [state, setState] = useReducer(countReducer, {
+  count: initialCount;
+  someOtherState: "Hello"
+})
+const {count} = state;
+const increment = ()=> setState({count: count + step});
+const decrement = ()=> setState({count: count - step});
+```
