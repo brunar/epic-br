@@ -1,0 +1,59 @@
+#Action Function - useReducer
+
+```tsx
+type State = { count: number };
+type Action = Partial<State> | ((state: State) => Partial<State>);
+
+function countReducer(state: State, action: Action) {
+  return {
+    ...state,
+    ...(typeof action === 'function' ? action(state) : action),
+  }; // *** Best way *** to add the spread operator
+}
+
+function Counter({ initialCount = 0, step = 1 }: CounterProps) {
+  const [state, setState] = useReducer(countReducer, {
+    count: initialCount,
+  });
+
+  const { count } = state;
+
+  const increment = () =>
+    setState((currentState) => ({ count: currentState.count + step }));
+
+  const decrement = () =>
+    setState((currentState) => ({ count: currentState.count - step }));
+
+  return (
+    <>
+      {Count}
+
+      <button onClick={decrement}>←</button>
+      <button onClick={increment}>→</button>
+    </>
+  );
+}
+
+// Usage:
+<Counter step={step} />;
+
+/////////////////////////////////////////////
+
+// Also if you call setState a couple of times, then you avoid not having access to the latest version of the state
+// It will always compute next state from all functions, meaning as currentState call back
+
+const increment = () =>
+  setState((currentState) => ({ count: currentState.count + step }));
+
+const increment = () =>
+  setState((currentState) => ({ count: currentState.count + step }));
+
+const increment = () =>
+  setState((currentState) => ({ count: currentState.count + step }));
+
+const increment = () =>
+  setState((currentState) => ({ count: currentState.count + step }));
+
+const decrement = () =>
+  setState((currentState) => ({ count: currentState.count - step }));
+```
