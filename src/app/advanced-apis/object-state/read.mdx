@@ -1,24 +1,61 @@
 #Object State - useReducer
 
 ```tsx
-function countReducer(count: number, change: number) {
-  return count + change;
+// IMPORTANT
+// Add spread operator in the function to merge the second object
+// In the action(dispatch) function countReducer
+
+function countReducer(state: State, action: Action) {
+  return { ...state, ...action }; // *** Best way *** to add the spread operator
 }
 
-const [state, setState] = useReducer(countReducer, {
-  count: initialCount;
-})
-const {count} = state;
-const increment = ()=> setState({count: count + step});
-const decrement = ()=> setState({count: count - step});
+type CounterProps = {
+  initialCount?: number;
+  step: number;
+};
+
+function Counter({ initialCount = 0, step = 1 }: CounterProps) {
+
+  const [state, setState] = useReducer(countReducer, {
+    count: initialCount;
+    someOtherState: "Hello" // second object example
+  })
+
+  const { count } = state;
+
+  const increment = () => setState({ count: count + step });
+  const decrement = () => setState({ count: count - step });
+
+  return (
+    <>
+      {Count}
+
+      <button onClick={decrement}>←</button>
+      <button onClick={increment}>→</button>
+    </>
+  );
+}
+
+// Usage:
+<Counter step={step} />;
+
 
 ///////////////////////////////////
 
-const [state, setState] = useReducer(countReducer, {
-  count: initialCount;
-  someOtherState: "Hello"
-})
-const {count} = state;
-const increment = ()=> setState({count: count + step});
-const decrement = ()=> setState({count: count - step});
+
+// Another way to add the spread operator would be in the function example:
+
+// someOtherState: state.someOtherState
+const decrement = () => setState({ count: count - step, someOtherState: state.someOtherState });
+
+// ...state
+const decrement = () => setState({ ...state, count: count - step });
+
+
+// Otherwise if you click increment or decrement it would loose the second Object
+  {
+    count: initialCount;
+    someOtherState: "Hello" //Second object
+  }
+
 ```

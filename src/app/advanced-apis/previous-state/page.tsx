@@ -1,8 +1,8 @@
 'use client';
 import { useReducer, useState } from 'react';
 
-function countReducer(state: unknown, newState: number) {
-  return newState;
+function countReducer(count: number, change: number) {
+  return count + change;
 }
 
 type CounterProps = {
@@ -11,10 +11,10 @@ type CounterProps = {
 };
 
 function Counter({ initialCount = 0, step = 1 }: CounterProps) {
-  const [count, setCount] = useReducer(countReducer, initialCount);
+  const [count, changeCount] = useReducer(countReducer, initialCount);
 
-  const increment = () => setCount(count + step);
-  const decrement = () => setCount(count - step);
+  const increment = () => changeCount(step);
+  const decrement = () => changeCount(-step);
 
   return (
     <div className="mt-4">
@@ -29,12 +29,12 @@ function Counter({ initialCount = 0, step = 1 }: CounterProps) {
   );
 }
 
-export default function NewState() {
+export default function PreviousState() {
   const [step, setStep] = useState(1);
 
   return (
     <div>
-      <h2>New State</h2>
+      <h2>Previous State</h2>
       <i className="text-gray-400 block mb-8">(See readme.mdx)</i>
       <p>
         <b>Counter:</b>

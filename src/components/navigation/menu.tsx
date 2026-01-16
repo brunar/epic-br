@@ -58,6 +58,10 @@ const SECTIONS = [
         label: 'new-state',
       },
       {
+        href: '/advanced-apis/previous-state',
+        label: 'previous-state',
+      },
+      {
         href: '/advanced-apis/object-state',
         label: 'object-state',
       },

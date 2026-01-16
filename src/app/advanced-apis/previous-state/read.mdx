@@ -1,0 +1,31 @@
+#Previous State - useReducer
+
+```tsx
+function countReducer(count: number, change: number) {
+  return count + change;
+}
+
+type CounterProps = {
+  initialCount?: number;
+  step: number;
+};
+
+function Counter({ initialCount = 0, step = 1 }: CounterProps) {
+  const [count, changeCount] = useReducer(countReducer, initialCount);
+
+  const increment = () => changeCount(step);
+  const decrement = () => changeCount(-step);
+
+  return (
+    <>
+      {Count}
+
+      <button onClick={decrement}>←</button>
+      <button onClick={increment}>→</button>
+    </>
+  );
+}
+
+// Usage:
+<Counter step={step} />;
+```

@@ -5,7 +5,7 @@ type State = { count: number };
 type Action = State;
 
 function countReducer(state: State, action: Action) {
-  return { ...state, ...action }; // *** Best way *** for spread operator
+  return { ...state, ...action }; // *** Best way *** to add the spread operator
 }
 
 type CounterProps = {
@@ -55,6 +55,7 @@ export default function NewState() {
   return (
     <div>
       <h2>Object State</h2>
+      <i className="text-gray-400 block mb-8">(See readme.mdx)</i>
       <p>
         <b>Counter:</b>
       </p>
