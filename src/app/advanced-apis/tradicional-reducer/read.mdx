@@ -1,0 +1,57 @@
+#Tradicional Reducer
+
+```tsx
+type State = { count: number };
+type Action =
+  | { type: 'increment'; step: number }
+  | { type: 'decrement'; step: number };
+
+function countReducer(state: State, action: Action) {
+  const { type, step } = action;
+
+  switch (type) {
+    case 'increment': {
+      return {
+        ...state,
+        count: state.count + step, // Logic comes here
+      };
+      break;
+    }
+    case 'decrement': {
+      return {
+        ...state,
+        count: state.count - step, // Logic comes here
+      };
+      break;
+    }
+    // In this case no need default case because typescript is defining type increment or decrement only
+    // default: {
+    //   break;
+    // }
+  }
+}
+
+function Counter({ initialCount = 0, step = 1 }: CounterProps) {
+  const [state, dispatch] = useReducer(countReducer, {
+    count: initialCount,
+  });
+
+  const { count } = state;
+
+  // So no logic going here just passing an action, the logic is above
+  const increment = () => dispatch({ type: 'increment', step });
+  const decrement = () => dispatch({ type: 'decrement', step });
+
+  return (
+    <>
+      {Count}
+
+      <button onClick={decrement}>←</button>
+      <button onClick={increment}>→</button>
+    </>
+  );
+}
+
+// Usage:
+<Counter step={step} />;
+```

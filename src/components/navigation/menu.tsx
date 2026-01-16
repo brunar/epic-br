@@ -69,6 +69,10 @@ const SECTIONS = [
         href: '/advanced-apis/action-function',
         label: 'action-function',
       },
+      {
+        href: '/advanced-apis/tradicional-reducer',
+        label: 'tradicional-reducer',
+      },
     ],
   },
 ] as const satisfies readonly Section[];
