@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer } from 'react';
 import {
   calculateNextValue,
   calculateStatus,
@@ -55,20 +55,66 @@ const defaultState: GameState = {
 
 const localStorageKey = 'tic-tac-toe';
 
-export default function TicTacToe() {
-  const [state, setState] = useState<GameState>(() => {
-    let localStorageValue;
-    try {
-      localStorageValue = JSON.parse(
-        window.localStorage.getItem(localStorageKey) ?? 'null'
-      );
-    } catch {
-      // something is wrong in localStorage, so don't use it
+type GameAction =
+  | { type: 'SELECT_SQUARE'; index: number }
+  | { type: 'SELECT_STEP'; step: number }
+  | { type: 'RESTART' };
+
+function gameStateReducer(state: GameState, action: GameAction) {
+  switch (action.type) {
+    case 'SELECT_SQUARE': {
+      const { index } = action;
+      const currentSquares = state.history[state.currentStep];
+      const winner = calculateWinner(currentSquares);
+
+      if (winner || currentSquares[index]) return state; // if has a winner or already a value in that square return same state, so this means It won't re-render because the state didn't change
+
+      const { currentStep, history } = state;
+      const newHistory = history.slice(0, currentStep + 1);
+      const nextValue = calculateNextValue(currentSquares);
+      const squares = history[currentStep].with(index, nextValue);
+
+      return {
+        currentStep: newHistory.length,
+        history: [...newHistory, squares],
+      };
+      break;
     }
-    return isValidGameState(localStorageValue)
-      ? localStorageValue
-      : defaultState;
-  });
+
+    case 'SELECT_STEP': {
+      const { step } = action;
+      return {
+        ...state,
+        currentStep: step,
+      };
+      break;
+    }
+
+    case 'RESTART': {
+      return defaultState;
+      break;
+    }
+  }
+}
+
+function getInitialGameState() {
+  let localStorageValue;
+  try {
+    localStorageValue = JSON.parse(
+      window.localStorage.getItem(localStorageKey) ?? 'null'
+    );
+  } catch {
+    // something is wrong in localStorage, so don't use it
+  }
+  return isValidGameState(localStorageValue) ? localStorageValue : defaultState;
+}
+
+export default function TicTacToe() {
+  const [state, dispatch] = useReducer(
+    gameStateReducer,
+    null,
+    getInitialGameState
+  );
 
   const currentSquares = state.history[state.currentStep];
 
@@ -81,22 +127,10 @@ export default function TicTacToe() {
   }, [state]);
 
   function selectSquare(index: number) {
-    if (winner || currentSquares[index]) return; // if has a winner or already a value in that square return null
-
-    setState((previousState) => {
-      const { currentStep, history } = previousState;
-      const newHistory = history.slice(0, currentStep + 1);
-      const squares = history[currentStep].with(index, nextValue);
-
-      return {
-        currentStep: newHistory.length,
-        history: [...newHistory, squares],
-      };
-    });
+    dispatch({ type: 'SELECT_SQUARE', index });
   }
-
   function restart() {
-    setState(defaultState);
+    dispatch({ type: 'RESTART' });
   }
 
   const moves = state.history.map((_stepSquares, step) => {
@@ -107,12 +141,7 @@ export default function TicTacToe() {
       <li key={step} className="my-2">
         <button
           disabled={isCurrentStep}
-          onClick={() =>
-            setState((previousState) => ({
-              ...previousState,
-              currentStep: step,
-            }))
-          }
+          onClick={() => dispatch({ type: 'SELECT_STEP', step })}
         >
           {desc} {isCurrentStep ? '(current)' : ''}
         </button>
