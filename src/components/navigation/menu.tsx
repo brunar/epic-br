@@ -77,6 +77,10 @@ const SECTIONS = [
         href: '/advanced-apis/tic-tac-toe-history',
         label: 'tic-tac-toe-history',
       },
+      {
+        href: '/advanced-apis/optimize-state',
+        label: 'optimize-state-updates',
+      },
     ],
   },
 ] as const satisfies readonly Section[];

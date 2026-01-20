@@ -1,0 +1,23 @@
+#Optimize State Updates
+
+```tsx
+const [count, setCount] = useState(0);
+
+//
+setCount(0); // **** Won't trigger a re-render if the state is still 0
+
+// For Object
+const [state, setState] = useState({ count: 0 });
+
+//
+setState({ count: 0 }); // Will trigger a re-render - means a different object
+
+setState((previousState) => {
+  count: previousState.count;
+}); // Will trigger a re-render
+
+// Optimized ****
+setState((previousState) => previousState); // **** Won't trigger a re-render - means return a previous state
+
+setState(state); // **** Won't trigger a re-render
+```
