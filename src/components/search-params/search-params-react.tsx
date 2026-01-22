@@ -22,7 +22,17 @@ export function SearchParamsNotNextJSVersion() {
     function updateSearchParams() {
       console.log('popstate hapenning, updating maybe');
       // Not optimized
-      setSearchParamsState(new URLSearchParams(window.location.search));
+      //setSearchParamsState(new URLSearchParams(window.location.search));
+
+      //Here it's optimized
+      setSearchParamsState((prevParams) => {
+        const newParams = new URLSearchParams(window.location.search);
+
+        if (prevParams.toString() === newParams.toString()) {
+          return prevParams;
+        }
+        return newParams;
+      });
     }
     window.addEventListener('popstate', updateSearchParams);
     return () => window.removeEventListener('popstate', updateSearchParams);
@@ -35,7 +45,17 @@ export function SearchParamsNotNextJSVersion() {
     const searchParams = setGlobalSearchParamsNotNextJS(...args);
 
     // Not optimized **** uncomment this line and commented the optimized ****
-    setSearchParamsState(searchParams);
+    //setSearchParamsState(searchParams);
+
+    //Here it's optimized
+    setSearchParamsState((prevParams) => {
+      const newParams = searchParams;
+
+      if (prevParams.toString() === newParams.toString()) {
+        return prevParams;
+      }
+      return searchParams;
+    });
 
     return searchParams;
   }
