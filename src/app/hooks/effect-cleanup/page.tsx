@@ -1,11 +1,10 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { setGlobalSearchParams } from '@/shared/utils';
 
 function SideEffects() {
   useEffect(() => {
     const hugeData = new Array(1_000_000).fill(
-      new Array(1_000_000).fill('🐶🐱🐛')
+      new Array(1_000_000).fill('🐶🐱🐛'),
     );
 
     const handler = () => {

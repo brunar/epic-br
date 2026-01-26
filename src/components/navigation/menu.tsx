@@ -81,6 +81,10 @@ const SECTIONS = [
         href: '/advanced-apis/optimize-state',
         label: 'optimize-state-updates',
       },
+      {
+        href: '/advanced-apis/intro-custom-hooks',
+        label: 'intro-custom-hooks',
+      },
     ],
   },
 ] as const satisfies readonly Section[];
@@ -90,8 +94,8 @@ type MenuId = (typeof SECTIONS)[number]['id'];
 function findSectionForPath(pathname: string): MenuId | null {
   const match = SECTIONS.find((section) =>
     section.items.some(
-      (item) => pathname === item.href || pathname.startsWith(item.href + '/')
-    )
+      (item) => pathname === item.href || pathname.startsWith(item.href + '/'),
+    ),
   );
   return (match?.id ?? null) as MenuId | null;
 }
