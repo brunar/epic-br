@@ -54,7 +54,7 @@ export function SearchParamsNotNextJSVersion() {
       if (prevParams.toString() === newParams.toString()) {
         return prevParams;
       }
-      return searchParams;
+      return newParams;
     });
 
     return searchParams;
