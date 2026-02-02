@@ -15,3 +15,32 @@ useEffect(() => {
 // See it in the commit
 https://github.com/brunar/epic-br/commit/c1a2e649e7c1fa80d6a4e02b6985b3c82bd4fb54
 ```
+
+```tsx
+// useCallback is a special hook that will memoize the function that was given.
+// It stores the function that you give it in the first render, the first time we run.
+// Stores it in a special place, and so long as the dependency array never changes.
+// And it is going to give you back the same one that you gave the first time.
+// So memory is being allocated every time this renders for this function.
+// Always give you the previous one if the dependency array doesn't change. []
+
+function useCount() {
+  const [count, setCount] = useState(0);
+  const increment = useCallback(() => setCount((c) => c + 1), []);
+  return { count, increment };
+}
+
+// This means the [increment] will be the same every single time
+
+function Counter() {
+  const { count, increment } = useCount();
+
+  useEffect(() => {
+    const id = setInterval(increment, 1000);
+
+    return () => clearInterval(id);
+  }, [increment]);
+
+  return <div>{count}</div>;
+}
+```
