@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   type BlogPost,
   generateGradient,
@@ -38,27 +38,28 @@ function useSearchParams() {
     return () => window.removeEventListener('popstate', updateSearchParams);
   }, []);
 
-  function setSearchParams(
-    ...args: Parameters<typeof setGlobalSearchParamsNotNextJS>
-  ) {
-    console.log('setting search params');
-    const searchParams = setGlobalSearchParamsNotNextJS(...args);
+  const setSearchParams = useCallback(
+    (...args: Parameters<typeof setGlobalSearchParamsNotNextJS>) => {
+      console.log('setting search params');
+      const searchParams = setGlobalSearchParamsNotNextJS(...args);
 
-    // Not optimized **** uncomment this line and commented the optimized ****
-    //setSearchParamsState(searchParams);
+      // Not optimized **** uncomment this line and commented the optimized ****
+      //setSearchParamsState(searchParams);
 
-    //Here it's optimized
-    setSearchParamsState((prevParams) => {
-      const newParams = searchParams;
+      //Here it's optimized
+      setSearchParamsState((prevParams) => {
+        const newParams = searchParams;
 
-      if (prevParams.toString() === newParams.toString()) {
-        return prevParams;
-      }
-      return newParams;
-    });
+        if (prevParams.toString() === newParams.toString()) {
+          return prevParams;
+        }
+        return newParams;
+      });
 
-    return searchParams;
-  }
+      return searchParams;
+    },
+    [],
+  );
 
   return [searchParams, setSearchParams] as const;
 }

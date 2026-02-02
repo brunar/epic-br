@@ -1,0 +1,17 @@
+#useCallback
+
+```tsx
+const [searchParams, setSearchParams] = useSearchParams();
+
+// The issue with this dependecy is setSearchParams will be differnt every sigle time it re-render
+
+useEffect(() => {
+  if (someCondition) {
+    setSearchParams({ foo: 'bar' });
+  }
+}, [setSearchParams, someCondition]);
+
+// Because of this we add a useCallback at setSearchParams inside the hook useSearchParams
+// See it in the commit
+https://github.com/brunar/epic-br/commit/fe1ccf534184a844a52351651ae2945597f653cd
+```
