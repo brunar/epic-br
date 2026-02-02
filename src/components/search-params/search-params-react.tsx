@@ -10,7 +10,7 @@ import { setGlobalSearchParamsNotNextJS } from '@/shared/utils';
 
 const getQueryParam = (params: URLSearchParams) => params.get('query') ?? '';
 
-export function SearchParamsNotNextJSVersion() {
+function useSearchParams() {
   const [searchParams, setSearchParamsState] = useState(() => {
     if (typeof window === 'undefined') {
       return new URLSearchParams();
@@ -59,6 +59,12 @@ export function SearchParamsNotNextJSVersion() {
 
     return searchParams;
   }
+
+  return [searchParams, setSearchParams] as const;
+}
+
+export function SearchParamsNotNextJSVersion() {
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const query = getQueryParam(searchParams);
   console.log('rerendering component for new query', query);
