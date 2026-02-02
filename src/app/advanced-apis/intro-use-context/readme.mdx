@@ -1,0 +1,89 @@
+#Intro useContext
+
+```tsx
+function useCount() {
+  const [count, setCount] = useState(0);
+  const increment = () => setCount((c) => c + 1);
+  return { count, increment };
+}
+```
+
+```tsx
+function DisplayCount() {
+  const { count } = useCount();
+
+  return <div>{count}</div>;
+}
+
+function IncrementCount() {
+  const { increment } = useCount();
+
+  return <button onClick={increment}>Increment</button>;
+}
+
+// The issue is that the useState is being called and run twice in the same component
+// Also they would be two different instance of states
+
+function App() {
+  return (
+    <div>
+      <DisplayCount />
+      <IncrementCount />
+    </div>
+  );
+}
+```
+
+```tsx
+// One way to share the states would be with create context or use context
+// It used to share state between components without prop drilling.
+// More like for Libraries or Ui, not too much for server components.
+
+import { createContext, use, useState } from 'react';
+
+type CounterContextType = {
+  count: number;
+  increment: () => void;
+};
+
+const CountContext = createContext<CounterContextType | null>(null);
+
+function CounterProvider({ children }: { children: React.ReactNode }) {
+  const [count, setCount] = useState(0);
+  const increment = () => setCount((c) => c + 1);
+  const value = { count, increment };
+
+  return (
+    <CountContext.Provider value={value}>{children}</CountContext.Provider>
+  );
+}
+
+function useCount() {
+  const context = use(CountContext);
+  if (!context) {
+    throw new Error('useCount must be used within a CounterProvider');
+  }
+  return context;
+}
+
+function CounterDisplay() {
+  const { count } = useCount();
+
+  return <div>{count}</div>;
+}
+
+function IncrementCount() {
+  const { increment } = useCount();
+
+  return <button onClick={increment}>Increment</button>;
+}
+
+const IntroUseContext = () => {
+  return (
+    <CounterProvider>
+      <CounterDisplay />
+      <IncrementCount />
+    </CounterProvider>
+  );
+};
+```

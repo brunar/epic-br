@@ -89,6 +89,10 @@ const SECTIONS = [
         href: '/advanced-apis/use-callback',
         label: 'use-callback',
       },
+      {
+        href: '/advanced-apis/intro-use-context',
+        label: 'intro-use-context',
+      },
     ],
   },
 ] as const satisfies readonly Section[];
