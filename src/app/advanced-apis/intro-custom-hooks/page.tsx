@@ -53,7 +53,13 @@ const IntroCustomHook = () => {
   return (
     <div>
       <h2>Intro Custom Hook</h2>
-      <i className="text-gray-400 mb-4 block">(See readme.mdx)</i>
+      <a
+        className="text-gray-400 mb-4 block hover:text-blue-600"
+        href="https://github.com/brunar/epic-br/tree/main/src/app/advanced-apis/intro-custom-hooks"
+        target="_blank"
+      >
+        (See readme.mdx)
+      </a>
       <h3>Hook: useCount()</h3>
       <p>Increment with onClick button</p>
       <CounterBtn />
