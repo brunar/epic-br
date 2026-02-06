@@ -75,6 +75,7 @@ body {
       border: 1px solid #ddd;
       width: 260px;
       transition: transform 0.2s ease-in-out;
+
       a {
         text-decoration: none;
         color: unset;
@@ -124,6 +125,22 @@ body {
         }
       }
     }
+  }
+  /* Advanced APIS/Create Portals Exercise */
+  .tooltip-container {
+    position: absolute;
+    pointer-events: none;
+    left: 0;
+    top: 20px;
+    transform: translate3d(var(--x), var(--y), 0);
+    z-index: 10;
+  }
+
+  .tooltip {
+    color: white;
+    background: #222;
+    border-radius: 4px;
+    padding: 4px;
   }
 
   /* hooks/Refs Exercise */

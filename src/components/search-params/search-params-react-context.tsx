@@ -7,6 +7,7 @@ import {
   getMatchingPosts,
 } from '@/shared/blog-posts';
 import { setGlobalSearchParamsNotNextJS } from '@/shared/utils';
+import { ButtonWithTooltip } from '@/components/tooltip/tooltip';
 
 type SearchParamsTuple = readonly [
   URLSearchParams,
@@ -162,16 +163,19 @@ function Card({ post }: { post: BlogPost }) {
   return (
     <li>
       {isFavorited ? (
-        <button
-          aria-label="Remove favorite"
+        <ButtonWithTooltip
+          tooltipContent="Remove favorite"
           onClick={() => setIsFavorited(false)}
         >
           ❤️
-        </button>
+        </ButtonWithTooltip>
       ) : (
-        <button aria-label="Add favorite" onClick={() => setIsFavorited(true)}>
+        <ButtonWithTooltip
+          tooltipContent="Add favorite"
+          onClick={() => setIsFavorited(true)}
+        >
           🤍
-        </button>
+        </ButtonWithTooltip>
       )}
       <div
         className="post-image"
