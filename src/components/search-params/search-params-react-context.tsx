@@ -8,24 +8,12 @@ import {
 } from '@/shared/blog-posts';
 import { setGlobalSearchParamsNotNextJS } from '@/shared/utils';
 
-// const getQueryParam = (params: URLSearchParams | null) =>
-//   params?.get('query') ?? '';
-
 type SearchParamsTuple = readonly [
   URLSearchParams,
   typeof setGlobalSearchParamsNotNextJS,
 ];
 
-// next js doesn't have access to window on the server, we need to provide a safe default value for the context that doesn't rely on window. This way, we avoid potential errors during server-side rendering and ensure that our application can run smoothly in both environments.
-const searchParams =
-  typeof window !== 'undefined'
-    ? new URLSearchParams(window.location.search)
-    : new URLSearchParams();
-
-const SearchParamsContext = createContext<SearchParamsTuple>([
-  searchParams,
-  setGlobalSearchParamsNotNextJS,
-]);
+const SearchParamsContext = createContext<SearchParamsTuple | null>(null);
 
 function SearchParamsProvider({ children }: { children: React.ReactNode }) {
   const [searchParams, setSearchParamsState] = useState(
@@ -69,7 +57,13 @@ function SearchParamsProvider({ children }: { children: React.ReactNode }) {
 }
 
 export function useSearchParams() {
-  return use(SearchParamsContext);
+  const context = use(SearchParamsContext);
+  if (!context) {
+    throw new Error(
+      'useSearchParams must be used within a SearchParamsProvider',
+    );
+  }
+  return context;
 }
 
 const getQueryParam = (params: URLSearchParams) => params.get('query') ?? '';
