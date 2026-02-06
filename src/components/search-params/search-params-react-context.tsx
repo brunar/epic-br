@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, createContext, use } from 'react';
 import {
   type BlogPost,
   generateGradient,
@@ -8,19 +8,29 @@ import {
 } from '@/shared/blog-posts';
 import { setGlobalSearchParamsNotNextJS } from '@/shared/utils';
 
-// 🦺 create a SearchParamsTuple type here that's a readonly array of two elements:
-// - the first element is a URLSearchParams instance
-// - the second element is typeof setGlobalSearchParamsNotNextJS
-// 🐨 create a SearchParamsContext that is of this type
-// 💰 let's start with this as the default value (we'll improve it next):
-// [new URLSearchParams(window.location.search), setGlobalSearchParamsNotNextJS]
+// const getQueryParam = (params: URLSearchParams | null) =>
+//   params?.get('query') ?? '';
 
-// 🐨 change this to SearchParamsProvider and accept children
-export function useSearchParams() {
-  const [searchParams, setSearchParamsState] = useState(() =>
-    typeof window !== 'undefined'
-      ? new URLSearchParams(window.location.search)
-      : null,
+type SearchParamsTuple = readonly [
+  URLSearchParams,
+  typeof setGlobalSearchParamsNotNextJS,
+];
+
+// next js doesn't have access to window on the server, we need to provide a safe default value for the context that doesn't rely on window. This way, we avoid potential errors during server-side rendering and ensure that our application can run smoothly in both environments.
+const searchParams =
+  typeof window !== 'undefined'
+    ? new URLSearchParams(window.location.search)
+    : new URLSearchParams();
+
+const SearchParamsContext = createContext<SearchParamsTuple>([
+  searchParams,
+  setGlobalSearchParamsNotNextJS,
+]);
+
+function SearchParamsProvider({ children }: { children: React.ReactNode }) {
+  const [searchParams, setSearchParamsState] = useState(
+    //() => new URLSearchParams(window.location.search),
+    () => new URLSearchParams(), // 👈 safe default (no window) *** because next js
   );
 
   useEffect(() => {
@@ -49,30 +59,36 @@ export function useSearchParams() {
     [],
   );
 
-  // 🐨 instead of returning this, render the SearchParamsContext and
-  // provide this tuple as the value
-  // 💰 make sure to render the children as well!
-  return [searchParams, setSearchParams] as const;
+  const searchParamsTuple = [searchParams, setSearchParams] as const;
+
+  return (
+    <SearchParamsContext value={searchParamsTuple}>
+      {children}
+    </SearchParamsContext>
+  );
 }
 
-// 🐨 create a useSearchParams hook here that returns use(SearchParamsContext)
+export function useSearchParams() {
+  return use(SearchParamsContext);
+}
 
-const getQueryParam = (params: URLSearchParams | null) =>
-  params?.get('query') ?? '';
+const getQueryParam = (params: URLSearchParams) => params.get('query') ?? '';
 
 export function SearchParamsNotNextJSContext() {
   return (
-    // 🐨 wrap this in the SearchParamsProvider
-    <div className="app">
-      <Form />
-      <MatchingPosts />
-    </div>
+    <SearchParamsProvider>
+      <div className="app">
+        <Form />
+        <MatchingPosts />
+      </div>
+    </SearchParamsProvider>
   );
 }
 
 function Form() {
   const [searchParams, setSearchParams] = useSearchParams();
   const query = getQueryParam(searchParams);
+
   const words = query.split(' ').map((w) => w.trim());
 
   const dogChecked = words.includes('dog');
