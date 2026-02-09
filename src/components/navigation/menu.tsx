@@ -101,6 +101,10 @@ const SECTIONS = [
         href: '/advanced-apis/intro-portals',
         label: 'intro-portals',
       },
+      {
+        href: '/advanced-apis/use-layout-effect',
+        label: 'use-layout-effect',
+      },
     ],
   },
 ] as const satisfies readonly Section[];
