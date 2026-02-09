@@ -109,6 +109,10 @@ const SECTIONS = [
         href: '/advanced-apis/intro-imperative-handle',
         label: 'intro-imperative-handle',
       },
+      {
+        href: '/advanced-apis/use-imperative-handle',
+        label: 'use-imperative-handle',
+      },
     ],
   },
 ] as const satisfies readonly Section[];

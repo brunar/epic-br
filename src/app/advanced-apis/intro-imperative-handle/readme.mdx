@@ -1,6 +1,10 @@
 #Intro useImperativeHandle
 
 ```tsx
+useImperativeHandle(ref, () => ({ your: api() }), []);
+```
+
+```tsx
 // This does NOT work in a proper way
 
 function MyInput({
