@@ -117,6 +117,10 @@ const SECTIONS = [
         href: '/advanced-apis/intro-focus-management',
         label: 'intro-focus-management',
       },
+      {
+        href: '/advanced-apis/flush-sync',
+        label: 'flush-sync',
+      },
     ],
   },
 ] as const satisfies readonly Section[];

@@ -20,6 +20,10 @@ function IntroFocusManagement() {
         With flushSync, we can ensure that the DOM is updated before we try to
         focus the input.
       </p>
+      <p>
+        This is kind of a de-optimization. You should NOT be using this a lot of
+        places. It is useful for focus management.
+      </p>
       <button
         className="mr-3"
         onClick={() => {
