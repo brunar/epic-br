@@ -1,0 +1,87 @@
+#Intro Focus Management
+
+```tsx
+function MyComponent() {
+  const [show, setShow] = useState(false);
+
+  return (
+    <div>
+      <button onClick={() => setShow(true)}>Show</button>
+      {show ? <input /> : null}
+    </div>
+  );
+}
+```
+
+```tsx
+function MyComponent() {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [show, setShow] = useState(false);
+
+  return (
+    <div>
+      <h2>Intro Focus Management</h2>
+      <button
+        onClick={() => {
+          setShow(true);
+          inputRef.current?.focus(); // this probably won't work because the input isn't in the DOM yet when this runs.
+        }}
+      >
+        Show
+      </button>
+      // Another example requestAnimationFrame()
+      <button
+        onClick={() => {
+          setShow(true);
+          requestAnimationFrame(() => {
+            inputRef.current?.focus(); // this will work because the input will be in the DOM by the time this runs.
+          });
+        }}
+      >
+        Show
+      </button>
+      // or trying to guess with setTimeout()
+      <button
+        onClick={() => {
+          setShow(true);
+          setTimeout(() => {
+            inputRef.current?.focus(); // them you keep guessing a timeout duration that will work across all devices (and depending the performance of each device), which is not ideal.
+          }, 300);
+        }}
+      >
+        Show
+      </button>
+      {show ? <input ref={inputRef} /> : null}
+    </div>
+  );
+}
+```
+
+```tsx
+// Ideal way would be with flushSync from react-dom
+
+import { flushSync } from 'react-dom';
+
+function MyComponent() {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [show, setShow] = useState(false);
+
+  return (
+    <div>
+      <h2>Intro Focus Management</h2>
+      <button
+        onClick={() => {
+          flushSync(() => {
+            setShow(true);
+          });
+          inputRef.current?.focus();
+        }}
+      >
+        Show
+      </button>
+
+      {show ? <input ref={inputRef} /> : null}
+    </div>
+  );
+}
+```
