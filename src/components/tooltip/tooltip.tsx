@@ -38,6 +38,12 @@ export default function Tooltip({
     tooltipY += window.scrollY;
   }
 
+  //this artificially slows down the tooltip rendering - to see the issue without useLayoutEffect
+  let now = performance.now();
+  while (performance.now() - now < 100) {
+    // do nothing for 100ms
+  }
+
   // 🐨 put this inside a createPortal call and append it to the document.body
   return createPortal(
     <TooltipContainer x={tooltipX} y={tooltipY} contentRef={ref}>

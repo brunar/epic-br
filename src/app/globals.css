@@ -131,7 +131,7 @@ body {
     position: absolute;
     pointer-events: none;
     left: 0;
-    top: 20px;
+    top: 0px;
     transform: translate3d(var(--x), var(--y), 0);
     z-index: 10;
   }
@@ -141,6 +141,7 @@ body {
     background: #222;
     border-radius: 4px;
     padding: 4px;
+    font-size: 11px;
   }
 
   /* hooks/Refs Exercise */

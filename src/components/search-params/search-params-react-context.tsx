@@ -100,6 +100,12 @@ function Form() {
 
   return (
     <form onSubmit={(e) => e.preventDefault()}>
+      <h2>Context Provider</h2>
+      <p className="mb-4">
+        And Tooltips with <b>Create Portals</b> and{' '}
+        <b>useLayoutEffect exercises</b>{' '}
+        <i className="text-gray-400">(See it on commits)</i>
+      </p>
       <div>
         <label htmlFor="searchInput">Search:</label>
         <input
@@ -112,7 +118,7 @@ function Form() {
           }
         />
       </div>
-      <div>
+      <div className="my-4">
         <label>
           <input
             type="checkbox"
