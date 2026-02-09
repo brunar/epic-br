@@ -105,6 +105,10 @@ const SECTIONS = [
         href: '/advanced-apis/use-layout-effect',
         label: 'use-layout-effect',
       },
+      {
+        href: '/advanced-apis/intro-imperative-handle',
+        label: 'intro-imperative-handle',
+      },
     ],
   },
 ] as const satisfies readonly Section[];

@@ -1,0 +1,72 @@
+#Intro useImperativeHandle
+
+```tsx
+// This does NOT work in a proper way
+
+function MyInput({
+  ref,
+  ...props
+}: React.InputHTMLAttributes<HTMLInputElement> & {
+  ref: React.RefObject<InputAPI>;
+}) {
+  const inputRef = useRef();
+
+  ref.current = {
+    focusInput: () => inputRef.current.focus(),
+  };
+  return <input ref={inputRef} {...props} />;
+}
+```
+
+```tsx
+// Better to do with hook useImperativeHandle
+// Performing imperative actions, such as instructing the computer to execute a command to focus on this input.
+
+function MyInput({
+  ref,
+  ...props
+}: React.InputHTMLAttributes<HTMLInputElement> & {
+  ref: React.RefObject<InputAPI>;
+}) {
+  const inputRef = useRef();
+
+  useImperativeHandle(ref, () => ({
+    focusInput: () => inputRef.current?.focus(),
+  }));
+  return <input ref={inputRef} {...props} />;
+}
+
+function App() {
+  const myInputRef = useRef<InputAPI | null>(null);
+
+  return (
+    <div>
+      <MyInput ref={myInputRef} placeholder="Enter your name" />
+      <button onClick={() => myInputRef.current?.focusInput()}>
+        Focus the input
+      </button>
+    </div>
+  );
+}
+```
+
+```tsx
+// Here same example but with forwardRef
+
+const MyInput = forwardRef<
+  InputAPI,
+  React.InputHTMLAttributes<HTMLInputElement>
+>(function MyInput(props, ref) {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      focusInput: () => inputRef.current?.focus(),
+    }),
+    [],
+  );
+
+  return <input ref={inputRef} {...props} />;
+});
+```
