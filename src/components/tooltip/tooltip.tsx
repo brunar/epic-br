@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 type Position = {
@@ -18,7 +18,7 @@ export default function Tooltip({
   const ref = useRef<HTMLDivElement>(null);
   const [tooltipHeight, setTooltipHeight] = useState(0);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const rect = ref.current?.getBoundingClientRect();
     if (!rect) return;
     const { height } = rect;
