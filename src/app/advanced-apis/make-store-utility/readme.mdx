@@ -1,0 +1,16 @@
+#Make Store Utility
+
+Creating a custom hook
+
+```tsx
+export function makeMediaQueryStore(mediaQuery: string) {
+  //
+}
+
+const useNarrowMediaQuery = makeMediaQueryStore('(max-width: 600px)');
+
+function App() {
+  const isNarrow = useNarrowMediaQuery();
+  //
+}
+```
