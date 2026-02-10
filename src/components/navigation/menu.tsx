@@ -174,7 +174,7 @@ export function MenuAside() {
             <li key={section.id}>
               <button
                 type="button"
-                className="w-full text-left text-gray-400 hover:text-blue-600 text-sm flex items-center justify-start gap-2 py-1 bg-transparent"
+                className="w-full text-left text-gray-400 hover:text-blue-600 hover:bg-gray-200 text-sm flex items-center justify-start gap-2 py-1 bg-transparent"
                 aria-expanded={isOpen}
                 aria-controls={panelId}
                 onClick={() => toggleMenu(section.id)}
