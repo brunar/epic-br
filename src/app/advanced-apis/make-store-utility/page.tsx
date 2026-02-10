@@ -1,30 +1,27 @@
 'use client';
 import { useSyncExternalStore } from 'react';
 
-const mediaQuery = '(max-width: 600px)';
+function makeMediaQueryStore(mediaQuery: string) {
+  function getSnapshot() {
+    return window.matchMedia(mediaQuery).matches;
+  }
 
-// 🐨 put getSnapshot and subscribe in a new function called makeMediaQueryStore
-// which accepts a mediaQuery and returns a hook that uses useSyncExternalStore
-// with the subscribe and getSnapshot functions.
-function getSnapshot() {
-  return window.matchMedia(mediaQuery).matches;
-}
-
-function subscribe(callback: () => void) {
-  const mediaQueryList = window.matchMedia(mediaQuery);
-  mediaQueryList.addEventListener('change', callback);
-  return () => {
-    mediaQueryList.removeEventListener('change', callback);
+  function subscribe(callback: () => void) {
+    const mediaQueryList = window.matchMedia(mediaQuery);
+    mediaQueryList.addEventListener('change', callback);
+    return () => {
+      mediaQueryList.removeEventListener('change', callback);
+    };
+  }
+  return function useMediaQuery() {
+    return useSyncExternalStore(subscribe, getSnapshot);
   };
 }
-// 🐨 put everything above in the makeMediaQueryStore function
 
-// 🐨 call makeMediaQueryStore with '(max-width: 600px)' and assign the return
-// value to a variable called useNarrowMediaQuery
+const useNarrowMediaQuery = makeMediaQueryStore('(max-width: 600px)');
 
 function NarrowScreenNotifier() {
-  // 🐨 call useNarrowMediaQuery here instead of useSyncExternalStore
-  const isNarrow = useSyncExternalStore(subscribe, getSnapshot);
+  const isNarrow = useNarrowMediaQuery();
   return isNarrow ? 'You are on a narrow screen' : 'You are on a wide screen';
 }
 
