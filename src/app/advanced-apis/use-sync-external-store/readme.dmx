@@ -1,0 +1,6 @@
+#useSyncExternalStore
+
+```tsx
+const prefersDarkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+console.log('Prefers dark mode:', prefersDarkModeQuery.matches);
+```

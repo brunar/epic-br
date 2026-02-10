@@ -125,6 +125,10 @@ const SECTIONS = [
         href: '/advanced-apis/intro-sync-external-state',
         label: 'intro-sync-external-state',
       },
+      {
+        href: '/advanced-apis/use-sync-external-store',
+        label: 'use-sync-external-store',
+      },
     ],
   },
 ] as const satisfies readonly Section[];
