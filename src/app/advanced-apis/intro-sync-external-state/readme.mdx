@@ -1,0 +1,56 @@
+#Intro to Sync External State - Geolocation Position
+
+```tsx
+type LocationData =
+  | { status: 'unavailable'; geo?: never }
+  | { status: 'available'; geo: GeolocationPosition };
+
+// this variable is our external store
+let location: LocationData = { status: 'unavailable' };
+
+function subscribeToGeolocation(callback: () => void) {
+  const watchId = navigator.geolocation.watchPosition((position) => {
+    location = { status: 'available', geo: position };
+    callback();
+  });
+
+  return () => {
+    location = { status: 'unavailable' };
+    return navigator.geolocation.clearWatch(watchId);
+  };
+}
+
+function getGeolocationSnapshot() {
+  return location;
+}
+
+function MyLocation() {
+  const location = useSyncExternalStore(
+    subscribeToGeolocation,
+    getGeolocationSnapshot,
+  );
+
+  return (
+    <div>
+      <h2>Intro Sync External State</h2>
+      {location.status === 'unavailable' ? (
+        <p>Your location is unavailable.</p>
+      ) : (
+        <>
+          <p>Your location is:</p>
+          <p>Latitude: {location.geo.coords.latitude.toFixed(4)}˚</p>
+          <p>Longitude: {location.geo.coords.longitude.toFixed(4)}˚</p>
+        </>
+      )}
+    </div>
+  );
+}
+```
+
+```tsx
+const snapshot = useSyncExternalStore(
+  subscribe,
+  getSnapshot,
+  getServerSnapshot, // optional, only needed for server-side rendering
+);
+```
