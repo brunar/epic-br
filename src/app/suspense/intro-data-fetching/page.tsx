@@ -1,11 +1,6 @@
 'use client';
 import { Suspense } from 'react';
-import {
-  getImageUrlForShip,
-  getShip,
-  // 💰 you're gonna want this
-  // type Ship
-} from '@/utils/suspense/ship';
+import { getImageUrlForShip, getShip, type Ship } from '@/utils/suspense/ship';
 
 const shipName = 'Dreadnought';
 
@@ -14,22 +9,20 @@ export default function IntroDataFetching() {
     <div className="flex flex-col items-center gap-4">
       <div className="app">
         <div className="details">
-          {/* 🐨 add a Suspense component here with the fallback set to <ShipFallback /> */}
-          <ShipDetails />
+          <Suspense fallback={<ShipFallback />}>
+            <ShipDetails />
+          </Suspense>
         </div>
       </div>
     </div>
   );
 }
 
-// 🐨 create a new ship variable that's a Ship
-// 💰 let ship: Ship
-// 🐨 rename this to shipPromise and remove the `await`
-// 🐨 add a .then on the shipPromise that assigns the ship to the resolved value
-const ship = await getShip(shipName);
+let ship: Ship;
+const shipPromise = getShip(shipName, 1000).then((result) => (ship = result));
 
 function ShipDetails() {
-  // 🐨 if the ship hasn't loaded yet, throw the shipPromise
+  if (!ship) throw shipPromise;
 
   return (
     <div className="ship-info">
