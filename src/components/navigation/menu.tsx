@@ -135,6 +135,13 @@ const SECTIONS = [
       },
     ],
   },
+  {
+    id: 'suspense',
+    title: 'React Suspense',
+    items: [
+      { href: '/suspense/intro-data-fetching', label: 'intro-data-fetching' },
+    ],
+  },
 ] as const satisfies readonly Section[];
 
 type MenuId = (typeof SECTIONS)[number]['id'];

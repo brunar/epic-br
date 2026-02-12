@@ -1,0 +1,61 @@
+#Intro to Data fetching
+
+```tsx
+const response = await fetch('https://api.example.com/data');
+const data = await response.json();
+```
+
+```tsx
+function PhoneDetails() {
+  const details = use(PhoneDetailsPromise);
+  // now you have the details
+}
+```
+
+```tsx
+try {
+  if (promiseIsResolved(PhoneDetailsPromise)) {
+    return result;
+  } else if (promiseIsRejected) {
+    throw reason;
+  } else {
+    throw promise;
+  }
+} catch (error) {
+  if (error instanceof Promise) {
+    promise.then(
+      (r) => (result = r),
+      (e) => (reason = e),
+    );
+  }
+}
+```
+
+```tsx
+import { Suspense } from 'react';
+
+function App() {
+  return (
+    <Suspense fallback={<div>loading phone details</div>}>
+      <PhoneDetails />
+    </Suspense>
+  );
+}
+```
+
+```tsx
+// ErrorBoundary React requires to create a class component
+
+import { Suspense } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
+
+function App() {
+  return (
+    <ErrorBoundary fallback={<div>Oh no, something bad happened</div>}>
+      <Suspense fallback={<div>loading phone details</div>}>
+        <PhoneDetails />
+      </Suspense>
+    </ErrorBoundary>
+  );
+}
+```

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@epic-web/invariant": "^1.0.0",
     "next": "^16.0.7",
     "react": "^18",
     "react-dom": "^18",
