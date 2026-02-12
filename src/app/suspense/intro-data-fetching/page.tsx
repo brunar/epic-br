@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { getImageUrlForShip, getShip, type Ship } from '@/utils/suspense/ship';
 
-const shipName = 'Dreadnoughtiu';
+const shipName = 'Dreadnought';
 
 export default function IntroDataFetching() {
   return (
@@ -22,15 +22,23 @@ export default function IntroDataFetching() {
 }
 
 let ship: Ship;
-let reason: unknown;
+let error: unknown;
+let status: 'pending' | 'fulfilled' | 'rejected' = 'pending';
+
 const shipPromise = getShip(shipName, 1000).then(
-  (result) => (ship = result),
-  (err) => (reason = err),
+  (result) => {
+    ship = result;
+    status = 'fulfilled';
+  },
+  (err) => {
+    error = err;
+    status = 'rejected';
+  },
 );
 
 function ShipDetails() {
-  if (reason) throw reason;
-  if (!ship) throw shipPromise;
+  if (status === 'rejected') throw error;
+  if (status === 'pending') throw shipPromise;
 
   return (
     <div className="ship-info">
