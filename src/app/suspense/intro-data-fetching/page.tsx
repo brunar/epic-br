@@ -1,17 +1,20 @@
 'use client';
 import { Suspense } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 import { getImageUrlForShip, getShip, type Ship } from '@/utils/suspense/ship';
 
-const shipName = 'Dreadnought';
+const shipName = 'Dreadnoughtiu';
 
 export default function IntroDataFetching() {
   return (
     <div className="flex flex-col items-center gap-4">
       <div className="app">
         <div className="details">
-          <Suspense fallback={<ShipFallback />}>
-            <ShipDetails />
-          </Suspense>
+          <ErrorBoundary fallback={<ShipError />}>
+            <Suspense fallback={<ShipFallback />}>
+              <ShipDetails />
+            </Suspense>
+          </ErrorBoundary>
         </div>
       </div>
     </div>
@@ -19,9 +22,14 @@ export default function IntroDataFetching() {
 }
 
 let ship: Ship;
-const shipPromise = getShip(shipName, 1000).then((result) => (ship = result));
+let reason: unknown;
+const shipPromise = getShip(shipName, 1000).then(
+  (result) => (ship = result),
+  (err) => (reason = err),
+);
 
 function ShipDetails() {
+  if (reason) throw reason;
   if (!ship) throw shipPromise;
 
   return (
@@ -86,6 +94,22 @@ function ShipFallback() {
             </li>
           ))}
         </ul>
+      </section>
+    </div>
+  );
+}
+
+function ShipError() {
+  return (
+    <div className="ship-info">
+      <div className="ship-info__img-wrapper">
+        <img src="/img/broken-ship.webp" alt="broken ship" />
+      </div>
+      <section>
+        <h2>There was an error</h2>
+      </section>
+      <section>
+        There was an error loading <b>{shipName}</b>
       </section>
     </div>
   );
