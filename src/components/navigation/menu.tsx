@@ -140,6 +140,10 @@ const SECTIONS = [
     title: 'React Suspense',
     items: [
       { href: '/suspense/intro-data-fetching', label: 'intro-data-fetching' },
+      {
+        href: 'https://github.com/brunar/epic-br/tree/main/src/app/suspense/utility',
+        label: 'utility',
+      },
     ],
   },
 ] as const satisfies readonly Section[];
