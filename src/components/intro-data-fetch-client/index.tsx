@@ -1,7 +1,7 @@
 'use client';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import { getImageUrlForShip, getShip, type Ship } from '@/utils/suspense/ship';
+import { getImageUrlForShip, getShip } from '@/utils/suspense/ship';
 
 const shipName = 'Dreadnought';
 
@@ -21,24 +21,38 @@ export default function IntroDataFetchClient() {
   );
 }
 
-let ship: Ship;
-let error: unknown;
-let status: 'pending' | 'fulfilled' | 'rejected' = 'pending';
+type UsePromise<Value> = Promise<Value> & {
+  status: 'pending' | 'fulfilled' | 'rejected';
+  value: Value;
+  reason: unknown;
+};
 
-const shipPromise = getShip(shipName, 1000).then(
-  (result) => {
-    ship = result;
-    status = 'fulfilled';
-  },
-  (err) => {
-    error = err;
-    status = 'rejected';
-  },
-);
+function use<Value>(promise: Promise<Value>): Value {
+  const usePromise = promise as UsePromise<Value>;
+
+  if (usePromise.status === 'fulfilled') return usePromise.value;
+  if (usePromise.status === 'rejected') throw usePromise.reason;
+  if (usePromise.status === 'pending') throw usePromise;
+
+  usePromise.status = 'pending';
+  usePromise.then(
+    (result) => {
+      usePromise.status = 'fulfilled';
+      usePromise.value = result;
+    },
+    (err) => {
+      usePromise.status = 'rejected';
+      usePromise.reason = err;
+    },
+  );
+
+  throw usePromise;
+}
+
+const shipPromise = getShip(shipName);
 
 function ShipDetails() {
-  if (status === 'rejected') throw error;
-  if (status === 'pending') throw shipPromise;
+  const ship = use(shipPromise);
 
   return (
     <div className="ship-info">
