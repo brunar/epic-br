@@ -1,5 +1,5 @@
 'use client';
-import { Suspense } from 'react';
+import { Suspense, use } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { getImageUrlForShip, getShip } from '@/utils/suspense/ship';
 
@@ -19,34 +19,6 @@ export default function IntroDataFetchClient() {
       </div>
     </div>
   );
-}
-
-type UsePromise<Value> = Promise<Value> & {
-  status: 'pending' | 'fulfilled' | 'rejected';
-  value: Value;
-  reason: unknown;
-};
-
-function use<Value>(promise: Promise<Value>): Value {
-  const usePromise = promise as UsePromise<Value>;
-
-  if (usePromise.status === 'fulfilled') return usePromise.value;
-  if (usePromise.status === 'rejected') throw usePromise.reason;
-  if (usePromise.status === 'pending') throw usePromise;
-
-  usePromise.status = 'pending';
-  usePromise.then(
-    (result) => {
-      usePromise.status = 'fulfilled';
-      usePromise.value = result;
-    },
-    (err) => {
-      usePromise.status = 'rejected';
-      usePromise.reason = err;
-    },
-  );
-
-  throw usePromise;
 }
 
 const shipPromise = getShip(shipName);
