@@ -1,0 +1,129 @@
+#Intro Dynamic Promise
+
+```tsx
+// This works fine
+
+function shipPromise = getShip(shipName);
+
+function shipDetails({ shipName }: { shipName: string }) {
+  const ship = use(shipPromise(shipName));
+  // ...
+}
+```
+
+```tsx
+// This is the dynamic way where you can call shipName
+// But this is more complicate than you think because caching and re-renders
+// See why in the next example
+
+function shipDetails({ shipName }: { shipName: string }) {
+  const ship = use(getShip(shipName));
+  // ...
+}
+```
+
+#Promise caching
+
+```tsx
+// The issue here is every time you re-render NumberInfo you will be triggering fetch call, and that is NOT great
+// Doesn't matter if you have another state it will be triggering evrytime that the component re-render.
+
+async function fetchUser() {
+  const response = await fetch('/api/users');
+  const user = await response.json();
+}
+
+export default function NumberInfo() {
+  const [count, setCount] = useState(0);
+
+  const userInfo = use(fetchUser());
+  const increment = () => setCount((c: number) => c + 1);
+
+  return (
+    <div>
+      <p>User: {userInfo.name}</p>
+      <p>You have clicked {count} times.</p>
+      <button onClick={increment}>Increment again</button>
+    </div>
+  );
+}
+```
+
+```tsx
+// Here is the solution how to solve that by Caching
+// Easy way is declaring a variable outside
+
+let userPromise;
+
+function fetchUser() {
+  // "if userPromise is null or undefined, set it to fetchUserImpl(), otherwise keep it as is". This ensures that we only call `fetchUserImpl()` once, and all calls to `fetchUser()` will return the same promise.
+  return userPromise;
+  userPromise = userPromise ?? fetchUserImpl();
+}
+
+// "impl" is short for "implementation". This is the actual function that does the fetching. We separate it from `fetchUser` so that we can control when the fetch starts. `fetchUser` is the function that components will call, and it will ensure that the fetch starts only once and that all components share the same promise.
+async function fetchUserImpl() {
+  const response = await fetch('/api/users');
+  const user = await response.json();
+  return user;
+}
+```
+
+```tsx
+// And this case if you have an id as a parameter
+
+interface User {
+  id: string;
+  name: string;
+}
+const userPromiseCache = new Map<string, Promise<User>>();
+
+function fetchUser(id: string) {
+  const userPromise = userPromiseCache.get(id) ?? fetchUserImpl(id);
+  userPromiseCache.set(id, userPromise);
+  return userPromise;
+}
+
+async function fetchUserImpl(id: string) {
+  const response = await fetch(`/api/users/${id}`);
+  if (!response.ok) {
+    return Promise.reject(new Error(await response.text()));
+  }
+  const user = await response.json();
+  return user as User;
+}
+
+//Usage:
+fetchUser('7').then((user) => {
+  console.log(user.name);
+});
+```
+
+### For more advanced topics watch this:
+
+[Caching for Cash ➔](https://www.epicweb.dev/talks/caching-for-cash)
+
+## Transition
+
+Transition means if you wants the suspense loading on the part that need to handle the change and keep the other information fetched data in the page, does NOT reload everything, just some part of the data that is chaging.
+
+```tsx
+function SomeContent() {
+  const [someState, setSomeState] = useState(null);
+  const [isPending, startTransition] = useTransition();
+  const someResolvedValue = use(fetchSomeData(someState));
+
+  function handleChange(someValue) {
+    startTransition(() => {
+      setSomeState(someValue);
+    });
+
+    return (
+      <div>
+        {isPending ? <p>Loading...</p> : <p>Data loaded {someResolvedValue}</p>}
+        <button onClick={() => handleChange('some value')}>Change state</button>
+      </div>
+    );
+  }
+}
+```

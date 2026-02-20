@@ -144,6 +144,10 @@ const SECTIONS = [
         href: 'https://github.com/brunar/epic-br/tree/main/src/app/suspense/utility',
         label: 'utility',
       },
+      {
+        href: '/suspense/intro-dynamic-promise',
+        label: 'intro-dynamic-promise',
+      },
     ],
   },
 ] as const satisfies readonly Section[];
