@@ -1,14 +1,17 @@
 'use client';
-import { Suspense, use, useState } from 'react';
+import { Suspense, use, useState, useTransition } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { getImageUrlForShip, getShip } from '@/utils/suspense/ship2';
 
 export default function ShipPromiseCache() {
   const [count, setCount] = useState(0);
   const [shipName, setShipName] = useState('Dreadnought');
+  const [isPending, startTransition] = useTransition();
 
   function handleShipSelection(newShipName: string) {
-    setShipName(newShipName);
+    startTransition(() => {
+      setShipName(newShipName);
+    });
   }
 
   return (
@@ -18,7 +21,7 @@ export default function ShipPromiseCache() {
       </button>
       <ShipButtons shipName={shipName} onShipSelect={handleShipSelection} />
       <div className="app-ship">
-        <div className="details">
+        <div className="details" style={{ opacity: isPending ? 0.6 : 1 }}>
           <ErrorBoundary fallback={<ShipError shipName={shipName} />}>
             <Suspense fallback={<ShipFallback shipName={shipName} />}>
               <ShipDetails shipName={shipName} />

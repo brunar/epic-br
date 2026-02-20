@@ -1,0 +1,17 @@
+#useTransition
+
+For example, using opacity when handling image changes with caching, but if you refresh the page, you will see the image loading suspended.
+
+```tsx
+import { useTransition } from 'react';
+
+const [isPending, startTransition] = useTransition();
+
+function handleSomeEvent() {
+  startTransition(() => {
+    // This state change triggers a component to suspend, so we wrap it in a
+    // `startTransition` call to keep the old UI around until the new UI is ready.
+    setSomeState(newState);
+  });
+}
+```

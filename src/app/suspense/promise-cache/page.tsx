@@ -8,13 +8,20 @@ const ShipPromiseCache = dynamic(() => import('@/components/promise-cache'), {
 export default function Page() {
   return (
     <>
-      <h2>Promise Cache - Starting</h2>
+      <h2>Promise Cache AND useTransition</h2>
       <a
         className="text-gray-400 mb-4 block hover:text-blue-600"
         href="https://github.com/brunar/epic-br/tree/main/src/app/suspense/promise-cache"
         target="_blank"
       >
-        (See readme.mdx)
+        (See promise cache readme.mdx)
+      </a>
+      <a
+        className="text-gray-400 mb-4 block hover:text-blue-600"
+        href="https://github.com/brunar/epic-br/tree/main/src/app/suspense/use-transition"
+        target="_blank"
+      >
+        (See useTransition readme.mdx)
       </a>
       <p>
         Fixed: If you look at the browser network tab, fetching the same ship
