@@ -8,7 +8,7 @@ const shipName = 'Dreadnought';
 export default function IntroDataFetchClient() {
   return (
     <div className="flex flex-col items-center gap-4">
-      <div className="app">
+      <div className="app-ship">
         <div className="details">
           <ErrorBoundary fallback={<ShipError />}>
             <Suspense fallback={<ShipFallback />}>

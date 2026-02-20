@@ -298,7 +298,7 @@ body {
   }
 }
 
-.app {
+.app-ship {
   display: flex;
   max-width: 1024px;
   border: 1px solid #000;
