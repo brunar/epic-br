@@ -1,0 +1,19 @@
+#Promise Cache
+
+```tsx
+const userPromiseCache = new Map<string, Promise<User>>();
+
+function fetchUser(id: string) {
+  const userPromise = userPromiseCache.get(id) ?? fetchUserImpl(id);
+  userPromiseCache.set(id, userPromise);
+  return userPromise;
+}
+```
+
+```tsx
+async function fetchUserImpl(id) {
+  const response = await fetch(`/api/user/${id}`);
+  const user = await response.json();
+  return user;
+}
+```

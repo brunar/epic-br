@@ -148,6 +148,7 @@ const SECTIONS = [
         href: '/suspense/intro-dynamic-promise',
         label: 'intro-dynamic-promise',
       },
+      { href: '/suspense/promise-cache', label: 'promise-cache' },
     ],
   },
 ] as const satisfies readonly Section[];

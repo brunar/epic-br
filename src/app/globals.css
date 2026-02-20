@@ -309,6 +309,27 @@ body {
   overflow: hidden;
 }
 
+.ship-buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 300px;
+  padding-bottom: 10px;
+}
+
+.ship-buttons button {
+  border-radius: 2px;
+  padding: 2px 4px;
+  font-size: 0.75rem;
+  background-color: white;
+  color: black;
+  &:not(.active) {
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.5);
+  }
+  &.active {
+    box-shadow: inset 0 0 4px 0 rgba(0, 0, 0, 0.5);
+  }
+}
+
 .search {
   width: 150px;
   max-height: 400px;
