@@ -17,8 +17,12 @@ export default function Page() {
         (See readme.mdx)
       </a>
       <p>
-        Problem: If you look at the browser network tab, fetching the same ship
+        Fixed: If you look at the browser network tab, fetching the same ship
         multiple times should only happen once.
+      </p>
+      <p>
+        TO DO: But keep in mind in the real application, if you change the
+        states need to handle the cache invalidation properly.
       </p>
       <ShipPromiseCache />
     </>

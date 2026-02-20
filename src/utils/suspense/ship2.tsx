@@ -3,6 +3,7 @@ import { type Ship } from '@/shared/api.server';
 export type { Ship };
 
 // 🐨 create a shipCache Map that's got string keys and values are Promise<Ship>
+const shipCache = new Map<string, Promise<Ship>>();
 
 // 🐨 export a new function called getShip (you'll rename the one below).
 //   - it should take a name and optional delay number
@@ -10,8 +11,14 @@ export type { Ship };
 //   - if it can't find one, it should call getShipImpl and store the promise in the cache
 //   - then it should return the shipPromise
 
+export function getShip(name: string, delay?: number) {
+  const shipPromise = shipCache.get(name) ?? getShipImpl(name, delay);
+  shipCache.set(name, shipPromise);
+  return shipPromise;
+}
+
 // 🐨 rename this function to getShipImpl and remove the export
-export async function getShip(name: string, delay?: number) {
+async function getShipImpl(name: string, delay?: number) {
   const searchParams = new URLSearchParams({ name });
   if (delay) searchParams.set('delay', String(delay));
   const response = await fetch(`/api/get-ship?${searchParams.toString()}`);
@@ -28,4 +35,3 @@ export function getImageUrlForShip(
 ) {
   return `/img/ships/${shipName.toLowerCase().replaceAll(' ', '-')}.webp?size=${size}`;
 }
-
