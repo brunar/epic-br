@@ -152,6 +152,10 @@ const SECTIONS = [
         href: '/suspense/promise-cache',
         label: 'promise-cache / useTransition',
       },
+      {
+        href: 'https://github.com/brunar/epic-br/tree/main/src/app/suspense/pending-flash',
+        label: 'pending-flash',
+      },
     ],
   },
 ] as const satisfies readonly Section[];

@@ -1,0 +1,22 @@
+#Pending Flash
+
+- If the loading takes less than 300ms, don't show a loading spinner at all.
+- If the loading takes longer than 300ms, show a loading spinner for at least 350ms. Even if the loading is shorter than 300ms + 350ms.
+
+```tsx
+import {useSpinDelay} from 'spin-delay;
+
+function MyComponent() {
+  const data = use(somePromise);
+  const [isPending, startTransition] = useTransition();
+
+  // options are optional and default to these values
+  const showSpinner = useSpinDelay(isPending, {delay: 500, minDuration: 200});
+
+  if(showSpinner) {
+    return <Spinner />
+  }
+
+  // ...
+}
+```

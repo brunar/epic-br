@@ -2,11 +2,16 @@
 import { Suspense, use, useState, useTransition } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { getImageUrlForShip, getShip } from '@/utils/suspense/ship2';
+import { useSpinDelay } from 'spin-delay';
 
 export default function ShipPromiseCache() {
   const [count, setCount] = useState(0);
   const [shipName, setShipName] = useState('Dreadnought');
-  const [isPending, startTransition] = useTransition();
+  const [isTransitionPending, startTransition] = useTransition();
+  const isPending = useSpinDelay(isTransitionPending, {
+    delay: 300,
+    minDuration: 350,
+  });
 
   function handleShipSelection(newShipName: string) {
     startTransition(() => {
@@ -58,7 +63,9 @@ function ShipButtons({
 }
 
 function ShipDetails({ shipName }: { shipName: string }) {
-  const ship = use(getShip(shipName));
+  const delay = 500; // for testing, add an artificial delay to the fetch
+  const ship = use(getShip(shipName, delay)); // add delay here to simulate a slow network and show the fallback UI
+
   return (
     <div className="ship-info">
       <div className="ship-info__img-wrapper">
