@@ -64,6 +64,8 @@ function ShipButtons({
 
 function ShipDetails({ shipName }: { shipName: string }) {
   const delay = 500; // for testing, add an artificial delay to the fetch
+  //// 💯 Set different delays for different ships. Feel free to play around with the values.
+  //const delay = shipName === 'Interceptor' ? 200 : shipName === 'Galaxy Cruiser' ? 400 : 10
   const ship = use(getShip(shipName, delay)); // add delay here to simulate a slow network and show the fallback UI
 
   return (
