@@ -1,0 +1,44 @@
+#Optimistic UI - useOptimistic()
+
+```tsx
+function Todo({ todo }: { todo: TodoItem }) {
+  const [isComplete, setIsComplete] = useOptimistic(todo.isComplete);
+
+  return (
+    <form
+      action={async () => {
+        setIsComplete(!isComplete);
+        await updateTodo(todo.id, !isComplete);
+      }}
+    >
+      <label>
+        <input
+          type="checkbox"
+          checked={isComplete}
+          className="todos-checkbox"
+        />
+        {todo.text}
+      </label>
+      <SubmitButton />
+    </form>
+  );
+}
+```
+
+##useFormStatus()
+
+This need to be used as a form child
+Like a context consumer
+Can be used in any form to get its form status automatically
+
+```tsx
+function SubmitButton() {
+  const formStatus = useFormStatus();
+
+  return (
+    <button type="submit">
+      {formStatus.pending ? 'Creating...' : 'Create'}
+    </button>
+  );
+}
+```

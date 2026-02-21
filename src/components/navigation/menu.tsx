@@ -156,6 +156,10 @@ const SECTIONS = [
         href: 'https://github.com/brunar/epic-br/tree/main/src/app/suspense/pending-flash',
         label: 'pending-flash',
       },
+      {
+        href: 'https://github.com/brunar/epic-br/tree/main/src/app/suspense/use-optimistic',
+        label: 'use-optimistic',
+      },
     ],
   },
 ] as const satisfies readonly Section[];
@@ -189,6 +193,9 @@ export function MenuAside() {
   const toggleMenu = (id: MenuId) => {
     setOpenMenu((prev) => (prev === id ? null : id));
   };
+
+  const isBlank = (href: string) =>
+    href.startsWith('http') || href.startsWith('https');
 
   return (
     <nav className="col-span-1 border rounded-2xl p-4" aria-label="Sidebar">
@@ -227,6 +234,7 @@ export function MenuAside() {
                     <li key={item.href}>
                       <Link
                         href={item.href}
+                        target={isBlank(item.href) ? '_blank' : undefined}
                         className={[
                           'text-sm block px-2 py-1 font-semibold rounded-md',
                           active
