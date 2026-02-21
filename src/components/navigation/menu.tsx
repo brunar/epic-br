@@ -150,7 +150,7 @@ const SECTIONS = [
       },
       {
         href: '/suspense/promise-cache',
-        label: 'promise-cache / useTransition',
+        label: 'promise-cache / useTransition / useOptimistic',
       },
       {
         href: 'https://github.com/brunar/epic-br/tree/main/src/app/suspense/pending-flash',

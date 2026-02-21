@@ -2,14 +2,24 @@ import { type Ship } from '@/shared/api.server';
 
 export type { Ship };
 
-// 🐨 create a shipCache Map that's got string keys and values are Promise<Ship>
-const shipCache = new Map<string, Promise<Ship>>();
+export async function createShip(formData: FormData, delay?: number) {
+  const searchParams = new URLSearchParams();
+  if (delay) searchParams.set('delay', String(delay));
 
-// 🐨 export a new function called getShip (you'll rename the one below).
-//   - it should take a name and optional delay number
-//   - it should check the shipCache for the shipPromise by the name
-//   - if it can't find one, it should call getShipImpl and store the promise in the cache
-//   - then it should return the shipPromise
+  const r = await fetch(`/api/create-ship?${searchParams.toString()}`, {
+    method: 'POST',
+    body: formData,
+  });
+
+  if (!r.ok) {
+    const text = await r.text();
+    throw new Error(`Create ship failed (${r.status}): ${text}`);
+  }
+
+  return r.json(); // ✅ return created ship
+}
+
+const shipCache = new Map<string, Promise<Ship>>();
 
 export function getShip(name: string, delay?: number) {
   const shipPromise = shipCache.get(name) ?? getShipImpl(name, delay);
@@ -17,7 +27,6 @@ export function getShip(name: string, delay?: number) {
   return shipPromise;
 }
 
-// 🐨 rename this function to getShipImpl and remove the export
 async function getShipImpl(name: string, delay?: number) {
   const searchParams = new URLSearchParams({ name });
   if (delay) searchParams.set('delay', String(delay));
