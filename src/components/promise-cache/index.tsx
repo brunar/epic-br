@@ -1,5 +1,6 @@
 'use client';
 import { Suspense, use, useOptimistic, useState, useTransition } from 'react';
+import { useFormStatus } from 'react-dom';
 import { ErrorBoundary } from 'react-error-boundary';
 import { type Ship, getShip, createShip } from '@/utils/suspense/ship2';
 import { useSpinDelay } from 'spin-delay';
@@ -92,10 +93,23 @@ function CreateForm({
               required
             />
           </div>
-          <button type="submit">Create</button>
+          <CreateButton />
         </form>
       </ErrorBoundary>
     </div>
+  );
+}
+
+function CreateButton() {
+  const formStatus = useFormStatus();
+  console.log('formStatus', formStatus);
+  //const pending = formStatus.pending; // Means same bellow, but with destructuring
+  const { pending } = formStatus;
+
+  return (
+    <button type="submit" disabled={pending}>
+      {pending ? `Creating ${formStatus.data?.get('name')}...` : 'Create'}
+    </button>
   );
 }
 

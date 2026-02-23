@@ -1,0 +1,44 @@
+#Form Status
+
+Attention useFormStatus() comes from react-dom
+
+```tsx
+import { useFormStatus } from 'react-dom';
+
+function SubmitButton() {
+  const formStatus = useFormStatus();
+  return (
+    <button type="Submit" disabled={formStatus.pending}>
+      {formStatus.pending ? 'Creating...' : 'Create'}
+    </button>
+  );
+}
+```
+
+```tsx
+function CreateButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <button type="submit" disabled={pending}>
+      {pending ? 'Creating...' : 'Create'}
+    </button>
+  );
+}
+```
+
+```tsx
+function CreateButton() {
+  const formStatus = useFormStatus();
+  console.log('formStatus', formStatus);
+  //const pending = formStatus.pending; // Means same bellow, but with destructuring
+  const { pending } = formStatus;
+
+  return (
+    <button type="submit" disabled={pending}>
+      {pending ? `Creating ${formStatus.data?.get('name')}...` : 'Create'}
+    </button>
+  );
+```
+
+![Image from Console Example](/images/form-status.png)

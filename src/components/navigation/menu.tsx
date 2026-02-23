@@ -160,6 +160,10 @@ const SECTIONS = [
         href: 'https://github.com/brunar/epic-br/tree/main/src/app/suspense/use-optimistic',
         label: 'use-optimistic',
       },
+      {
+        href: 'https://github.com/brunar/epic-br/tree/main/src/app/suspense/form-status',
+        label: 'form-status',
+      },
     ],
   },
 ] as const satisfies readonly Section[];
