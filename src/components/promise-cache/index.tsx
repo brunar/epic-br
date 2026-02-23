@@ -1,12 +1,7 @@
 'use client';
-import { Suspense, use, useState, useTransition } from 'react';
+import { Suspense, use, useOptimistic, useState, useTransition } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import {
-  // 💰 you're going to want this
-  // type Ship,
-  getShip,
-  createShip,
-} from '@/utils/suspense/ship2';
+import { type Ship, getShip, createShip } from '@/utils/suspense/ship2';
 import { useSpinDelay } from 'spin-delay';
 
 export default function ShipPromiseCache() {
@@ -20,6 +15,7 @@ export default function ShipPromiseCache() {
 
   // 🐨 add a useOptimistic call here
   // 🦺 The type should be a Ship | null, (initialized to null)
+  const [optimisticShip, setOptimisticShip] = useOptimistic<Ship | null>(null);
 
   function handleShipSelection(newShipName: string) {
     startTransition(() => {
@@ -37,13 +33,19 @@ export default function ShipPromiseCache() {
         <div className="details" style={{ opacity: isPending ? 0.6 : 1 }}>
           <ErrorBoundary fallback={<ShipError shipName={shipName} />}>
             <Suspense fallback={<ShipFallback shipName={shipName} />}>
-              <ShipDetails shipName={shipName} />
+              <ShipDetails
+                shipName={shipName}
+                optimisticShip={optimisticShip}
+              />
             </Suspense>
           </ErrorBoundary>
         </div>
       </div>
       {/* 🐨 pass the setOptimisticShip function to CreateForm here */}
-      <CreateForm setShipName={setShipName} />
+      <CreateForm
+        setShipName={setShipName}
+        setOptimisticShip={setOptimisticShip}
+      />
     </div>
   );
 }
@@ -51,10 +53,12 @@ export default function ShipPromiseCache() {
 // 🐨 accept setOptimisticShip here
 function CreateForm({
   setShipName,
+  setOptimisticShip,
 }: {
   // 🦺 I'll give this one to you
   // setOptimisticShip: (ship: Ship | null) => void
   setShipName: (name: string) => void;
+  setOptimisticShip: (ship: Ship | null) => void;
 }) {
   return (
     <div>
@@ -62,12 +66,9 @@ function CreateForm({
       <ErrorBoundary FallbackComponent={FormErrorFallback}>
         <form
           action={async (formData) => {
-            // 🐨 create an optimistic ship based on the formData
-            // using the createOptimisticShip utility below
+            setOptimisticShip(await createOptimisticShip(formData));
 
-            // 🐨 set the optimistic ship
-
-            await createShip(formData, 2000);
+            await createShip(formData, 6000);
 
             setShipName(formData.get('name') as string);
           }}
@@ -151,11 +152,17 @@ function ShipButtons({
   );
 }
 
-function ShipDetails({ shipName }: { shipName: string }) {
+function ShipDetails({
+  shipName,
+  optimisticShip,
+}: {
+  shipName: string;
+  optimisticShip: Ship | null;
+}) {
   const delay = 500; // for testing, add an artificial delay to the fetch
   //// 💯 Set different delays for different ships. Feel free to play around with the values.
   //const delay = shipName === 'Interceptor' ? 200 : shipName === 'Galaxy Cruiser' ? 400 : 10
-  const ship = use(getShip(shipName, delay)); // add delay here to simulate a slow network and show the fallback UI
+  const ship = optimisticShip ?? use(getShip(shipName, delay)); // add delay here to simulate a slow network and show the fallback UI
 
   return (
     <div className="ship-info">
