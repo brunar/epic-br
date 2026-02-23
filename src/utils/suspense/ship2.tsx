@@ -38,6 +38,28 @@ async function getShipImpl(name: string, delay?: number) {
   return ship as Ship;
 }
 
+const imgCache = new Map<string, Promise<string>>();
+
+export function imgSrc(src: string) {
+  const imgPromise = imgCache.get(src) ?? preloadImage(src);
+  imgCache.set(src, imgPromise);
+  return imgPromise;
+}
+
+function preloadImage(src: string) {
+  return new Promise<string>(async (resolve, reject) => {
+    const img = new Image();
+    img.src = src;
+    img.onload = () => resolve(src);
+    img.onerror = reject;
+  });
+}
+
+export function preloadShipImage(shipName: string, size: number) {
+  const src = getImageUrlForShip(shipName, { size });
+  return imgSrc(src);
+}
+
 export function getImageUrlForShip(
   shipName: string,
   { size }: { size: number },

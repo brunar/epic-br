@@ -1,8 +1,14 @@
 'use client';
-import { Suspense, use, useOptimistic, useState, useTransition } from 'react';
+import React, {
+  Suspense,
+  use,
+  useOptimistic,
+  useState,
+  useTransition,
+} from 'react';
 import { useFormStatus } from 'react-dom';
 import { ErrorBoundary } from 'react-error-boundary';
-import { type Ship, getShip, createShip } from '@/utils/suspense/ship2';
+import { type Ship, getShip, createShip, imgSrc } from '@/utils/suspense/ship2';
 import { useSpinDelay } from 'spin-delay';
 
 export default function ShipPromiseCache() {
@@ -200,7 +206,7 @@ function ShipDetails({
   return (
     <div className="ship-info">
       <div className="ship-info__img-wrapper">
-        <img src={ship.image} alt={ship.name} />
+        <Img src={ship.image} alt={ship.name} />
       </div>
       <section>
         <h2>
@@ -275,4 +281,10 @@ function ShipError({ shipName }: { shipName: string }) {
       </section>
     </div>
   );
+}
+
+// function Img({ src, ...props }: React.ImgHTMLAttributes<HTMLImageElement>) {
+function Img({ src = '', ...props }: React.ComponentProps<'img'>) {
+  src = use(imgSrc(src));
+  return <img src={src} {...props} />;
 }
