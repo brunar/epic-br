@@ -61,15 +61,20 @@ function CreateForm({
   setShipName: (name: string) => void;
   setOptimisticShip: (ship: Ship | null) => void;
 }) {
+  const [message, setMessage] = useOptimistic('Create');
+  // Means the message button will be, Create, Creating..., Created! Loading... and then back to Create.
+
   return (
     <div>
       <p>Create a new ship</p>
       <ErrorBoundary FallbackComponent={FormErrorFallback}>
         <form
           action={async (formData) => {
+            setMessage('Creating...');
             setOptimisticShip(await createOptimisticShip(formData));
 
             await createShip(formData, 6000);
+            setMessage('Created! Loading...');
 
             setShipName(formData.get('name') as string);
           }}
@@ -94,9 +99,23 @@ function CreateForm({
             />
           </div>
           <CreateButton />
+          <p className="text-sm text-gray-500">
+            Example Button with messages from useOptimistic()
+          </p>
+          <CreateButton2>{message}</CreateButton2>
         </form>
       </ErrorBoundary>
     </div>
+  );
+}
+
+function CreateButton2({ children }: { children?: React.ReactNode }) {
+  const { pending } = useFormStatus();
+
+  return (
+    <button type="submit" disabled={pending}>
+      {children}
+    </button>
   );
 }
 

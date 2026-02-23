@@ -1,5 +1,8 @@
 #Optimistic UI - useOptimistic()
 
+It is used for setting messages during actions, see also on example multi-step-actions
+Example is using on form action
+
 ```tsx
 function Todo({ todo }: { todo: TodoItem }) {
   const [isComplete, setIsComplete] = useOptimistic(todo.isComplete);

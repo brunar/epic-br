@@ -1,0 +1,14 @@
+#Multi-step Actions
+
+```tsx
+<form action={
+  setMessage('Create order...')
+  const order = await createOrder(formData)
+  setMessage('Creating payment...')
+  const payment = await createPayment(formData, order)
+  setMessage('Almost done!')
+  await sendThankYou(order, payment)
+}>
+{/* ... */}
+</form>
+```
