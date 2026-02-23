@@ -127,7 +127,7 @@ function CreateButton2({ children }: { children?: React.ReactNode }) {
 
 function CreateButton() {
   const formStatus = useFormStatus();
-  console.log('formStatus', formStatus);
+  //console.log('formStatus', formStatus);
   //const pending = formStatus.pending; // Means same bellow, but with destructuring
   const { pending } = formStatus;
 
@@ -206,7 +206,7 @@ function ShipDetails({
   return (
     <div className="ship-info">
       <div className="ship-info__img-wrapper">
-        <Img src={ship.image} alt={ship.name} />
+        <ShipImg src={ship.image} alt={ship.name} />
       </div>
       <section>
         <h2>
@@ -280,6 +280,21 @@ function ShipError({ shipName }: { shipName: string }) {
         There was an error loading <b>{shipName}</b>
       </section>
     </div>
+  );
+}
+
+// To see the error break the url of the image on json file.
+// It does not blow up all the data only the image, because the error is caught in the ShipImg component, and the rest of the data can still be rendered.
+function ShipImg(props: React.ComponentProps<'img'>) {
+  return (
+    <ErrorBoundary
+      fallback={<Img {...props} src="/img/broken-ship.webp" />} // His example does not include scr on fallback, all comes from props (nextjs issue made me include it)
+      onError={(error) => {
+        console.error('ShipImg render error:', error);
+      }}
+    >
+      <Img {...props} />
+    </ErrorBoundary>
   );
 }
 

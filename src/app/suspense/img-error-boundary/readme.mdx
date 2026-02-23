@@ -1,0 +1,19 @@
+#Img Error Boundary
+
+It does not blow up all the data only the image, because the error is caught in the ShipImg component, and the rest of the data can still be rendered.
+Creating a generic Image Error Boundary and leave the hook use(imgSrc(src)) outside from the generic component
+
+```tsx
+function ShipImg(props: React.ComponentProps<'img'>) {
+  return (
+    <ErrorBoundary
+      fallback={<Img {...props} src="/img/broken-ship.webp" />} // His example does not include scr on fallback, all comes from props
+      onError={(error) => {
+        console.error('ShipImg render error:', error);
+      }}
+    >
+      <Img {...props} />
+    </ErrorBoundary>
+  );
+}
+```

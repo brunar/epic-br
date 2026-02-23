@@ -172,6 +172,10 @@ const SECTIONS = [
         href: 'https://github.com/brunar/epic-br/tree/main/src/app/suspense/intro-suspense-img',
         label: 'intro-suspense-img',
       },
+      {
+        href: 'https://github.com/brunar/epic-br/tree/main/src/app/suspense/img-error-boundary',
+        label: 'img-error-boundary',
+      },
     ],
   },
 ] as const satisfies readonly Section[];
@@ -255,6 +259,9 @@ export function MenuAside() {
                         ].join(' ')}
                       >
                         {item.label}
+                        {isBlank(item.href) && (
+                          <span className="mx-2 text-sm text-gray-400">𓄲</span>
+                        )}
                       </Link>
                     </li>
                   );
