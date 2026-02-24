@@ -1,9 +1,10 @@
 #Key prop
 
 If you add a key prop in the parent of the Suspense component
-You can get a suspense fallback working in the middle of a transition - useTransition()
+It is how to trigger a suspense fallback in the middle of a transition - useTransition()
 Like in the trasition opacity
 Otherwise the fallback suspense will NOT work when you have a transition - useTransition()
+Adding a key prop means telling react to throw it away and put a new one in
 
 ```tsx
 const [isPending, startTransition] = useTransition();
