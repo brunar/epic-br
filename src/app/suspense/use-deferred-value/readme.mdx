@@ -1,0 +1,12 @@
+#Intro Responsive and useDeferredValue()
+
+```tsx
+startTransition(() => {
+  setValue(event.currentTarget.value);
+});
+```
+
+```tsx
+const deferredValue = useDeferredValue(value);
+const isPending = deferredValue !== value;
+```

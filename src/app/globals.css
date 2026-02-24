@@ -336,6 +336,7 @@ body {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  border-right: 1px solid #000;
 
   input {
     width: 100%;
@@ -343,7 +344,10 @@ body {
     border-bottom: 1px solid #000;
     padding: 8px;
     line-height: 1.5;
-    border-top-left-radius: 0.5rem;
+    border-radius: 0;
+  }
+  input[type='search'] {
+    outline-offset: -3px;
   }
 
   ul {
@@ -363,6 +367,9 @@ body {
         gap: 4px;
         border: none;
         background-color: transparent;
+        color: #000;
+        font-size: 12px;
+
         &:hover {
           text-decoration: underline;
         }

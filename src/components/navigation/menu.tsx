@@ -180,6 +180,10 @@ const SECTIONS = [
         href: 'https://github.com/brunar/epic-br/tree/main/src/app/suspense/key-prop',
         label: 'key-prop',
       },
+      {
+        href: '/suspense/use-deferred-value',
+        label: 'use-deferred-value',
+      },
     ],
   },
 ] as const satisfies readonly Section[];
