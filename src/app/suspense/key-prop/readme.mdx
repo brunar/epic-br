@@ -1,0 +1,42 @@
+#Key prop
+
+If you add a key prop in the parent of the Suspense component
+You can get a suspense fallback working in the middle of a transition - useTransition()
+Like in the trasition opacity
+Otherwise the fallback suspense will NOT work when you have a transition - useTransition()
+
+```tsx
+const [isPending, startTransition] = useTransition();
+
+function handleShipSelection(newShipName: string) {
+  startTransition(() => {
+    setShipName(newShipName);
+  });
+}
+
+<div className="details" style={{ opacity: isPending ? 0.6 : 1 }}>
+  <ErrorBoundary fallback={<ShipError shipName={shipName} />}>
+    <Suspense fallback={<ShipFallback shipName={shipName} />}>
+      <ShipDetails shipName={shipName} />
+    </Suspense>
+  </ErrorBoundary>
+</div>;
+```
+
+```tsx
+function ShipImg(props: React.ComponentProps<'img'>) {
+  return (
+    <ErrorBoundary
+      fallback={<Img {...props} />}
+      onError={(error) => {
+        console.error('ShipImg render error:', error);
+      }}
+      key={props.src} // ***** Example key prop in the parent of the suspense ******
+    >
+      <Suspense fallback={<Img {...props} src="/img/fallback-ship.png" />}>
+        <Img {...props} />
+      </Suspense>
+    </ErrorBoundary>
+  );
+}
+```

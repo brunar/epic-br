@@ -176,6 +176,10 @@ const SECTIONS = [
         href: 'https://github.com/brunar/epic-br/tree/main/src/app/suspense/img-error-boundary',
         label: 'img-error-boundary',
       },
+      {
+        href: 'https://github.com/brunar/epic-br/tree/main/src/app/suspense/key-prop',
+        label: 'key-prop',
+      },
     ],
   },
 ] as const satisfies readonly Section[];

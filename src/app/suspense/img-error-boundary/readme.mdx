@@ -7,7 +7,7 @@ Creating a generic Image Error Boundary and leave the hook use(imgSrc(src)) outs
 function ShipImg(props: React.ComponentProps<'img'>) {
   return (
     <ErrorBoundary
-      fallback={<Img {...props} src="/img/broken-ship.webp" />} // His example does not include scr on fallback, all comes from props
+      fallback={<Img {...props} />}
       onError={(error) => {
         console.error('ShipImg render error:', error);
       }}

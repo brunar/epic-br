@@ -288,12 +288,15 @@ function ShipError({ shipName }: { shipName: string }) {
 function ShipImg(props: React.ComponentProps<'img'>) {
   return (
     <ErrorBoundary
-      fallback={<Img {...props} src="/img/broken-ship.webp" />} // His example does not include scr on fallback, all comes from props (nextjs issue made me include it)
+      fallback={<Img {...props} />}
       onError={(error) => {
         console.error('ShipImg render error:', error);
       }}
+      key={props.src}
     >
-      <Img {...props} />
+      <Suspense fallback={<Img {...props} src="/img/fallback-ship.png" />}>
+        <Img {...props} />
+      </Suspense>
     </ErrorBoundary>
   );
 }
