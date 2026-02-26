@@ -1,0 +1,91 @@
+#Server Cache
+
+A lot of performance problems can actually be solved by fixing the back end. The back end is the source of many performance issues.
+
+This is why full-stack development is so important. It gives you the freedom and flexibility to move between the front end and the back end and apply whatever optimizations are needed.
+
+We do have a small back end supporting all of this, and we're going to do a bit of back-end work here.
+
+If I type "star" into the search input for the first time, it will trigger a request. The second time, all of those promises are already in our cache. However, if you refresh the page, the browser will make all of those requests again, because this is only a front-end browser cache.
+
+To improve this, you can instruct the browser to cache the response for a certain period of time, such as 10 seconds or even 300 seconds.
+
+These changes need to be made in the API server file.
+
+#Example Images (tab network waterfalls triggering)
+
+Images are cached between the first and second trigger without refreshing the page.
+Refreshing the page clears the cache and causes all requests to run again.
+
+![Image first time trigger request](https://github.com/brunar/epic-br/blob/main/public/images/first-time-trigger-request.png)
+
+![Image second time client cached](https://github.com/brunar/epic-br/blob/main/public/images/second-time-client-cached.png)
+
+```ts
+// Example now if you refresh it will stays cached in the browser for 5 min
+import {
+  getShip,
+  searchShips,
+  createShip,
+} from '@/shared/ship-api-utils.server';
+
+export type Ship = Awaited<ReturnType<typeof getShip>>;
+export type ShipSearch = Awaited<ReturnType<typeof searchShips>>;
+
+export async function loader({
+  request,
+  params,
+}: {
+  request: Request;
+  params: Record<string, string>;
+}) {
+  const path = params['*'];
+  switch (path) {
+    case 'search-ships': {
+      const result = await searchShips(request);
+      return new Response(JSON.stringify(result), {
+        headers: {
+          'content-type': 'application/json',
+          // To cache this response for 300 seconds (5 min)
+          'cache-control': 'max-age=300',
+        },
+      });
+    }
+    case 'get-ship': {
+      const result = await getShip(request);
+      return new Response(JSON.stringify(result), {
+        headers: {
+          'content-type': 'application/json',
+          // To cache this response for 300 seconds (5 min)
+          'cache-control': 'max-age=300',
+        },
+      });
+    }
+    default: {
+      return new Response('Not found', { status: 404 });
+    }
+  }
+}
+
+export async function action({
+  request,
+  params,
+}: {
+  request: Request;
+  params: Record<string, string>;
+}) {
+  const path = params['*'];
+  switch (path) {
+    case 'create-ship': {
+      return createShip(request);
+    }
+  }
+}
+```
+
+This is pretty basic.
+There isn’t really a great way to invalidate the cache using only the Cache-Control header.
+There are other mechanisms available, but that’s a whole separate topic.
+
+Many of the performance optimizations we can make are actually back-end optimizations.
+Not everything needs to be cached on the client side.

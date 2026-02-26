@@ -188,6 +188,10 @@ const SECTIONS = [
         href: 'https://github.com/brunar/epic-br/tree/main/src/app/suspense/parallel-loading',
         label: 'parallel-loading',
       },
+      {
+        href: 'https://github.com/brunar/epic-br/tree/main/src/app/suspense/server-cache',
+        label: 'server-cache',
+      },
     ],
   },
 ] as const satisfies readonly Section[];

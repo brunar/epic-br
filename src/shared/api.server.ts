@@ -21,6 +21,8 @@ export async function loader({
       return new Response(JSON.stringify(result), {
         headers: {
           'content-type': 'application/json',
+          // To cache this response for 300 seconds (5 min)
+          'cache-control': 'max-age=300',
         },
       });
     }
@@ -29,6 +31,8 @@ export async function loader({
       return new Response(JSON.stringify(result), {
         headers: {
           'content-type': 'application/json',
+          // To cache this response for 300 seconds (5 min)
+          'cache-control': 'max-age=300',
         },
       });
     }
