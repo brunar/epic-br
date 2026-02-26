@@ -184,6 +184,10 @@ const SECTIONS = [
         href: '/suspense/use-deferred-value',
         label: 'use-deferred-value',
       },
+      {
+        href: 'https://github.com/brunar/epic-br/tree/main/src/app/suspense/parallel-loading',
+        label: 'parallel-loading',
+      },
     ],
   },
 ] as const satisfies readonly Section[];

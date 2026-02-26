@@ -137,14 +137,17 @@ function SearchResults({
 }
 
 function ShipDetails({ shipName }: { shipName: string }) {
+  const shipImgSrc = getImageUrlForShip(shipName, { size: 200 });
+  // preload the image by the time of the rendering
+  imgSrc(shipImgSrc);
+  // once this is done suspending it will have already started
   const ship = use(getShip(shipName));
+  //This is a manually optimization not the best way
+
   return (
     <div className="ship-info">
       <div className="ship-info__img-wrapper">
-        <ShipImg
-          src={getImageUrlForShip(ship.name, { size: 200 })}
-          alt={ship.name}
-        />
+        <ShipImg src={shipImgSrc} alt={ship.name} />
       </div>
       <section>
         <h2>

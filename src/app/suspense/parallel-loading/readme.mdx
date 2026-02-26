@@ -1,0 +1,245 @@
+#Intro to Optimizations
+
+## Waterfalls (at console network tab)
+
+```
+Response A ----------> Response A
+                       Response B ----------> Response B
+                                              Response C ----------> Response C
+```
+
+```
+Response A ----------> Response A
+Response B ----------> Response B
+Response C ----------> Response C
+```
+
+Waterfalls happening
+
+```tsx
+function ProfileDetails({ username }: { username: string }) {
+  const favoritesCount = use(getFavoritesCount(username));
+  const friends = use(getFriends(username));
+
+  return <div>{/* some profile details */}</div>;
+}
+```
+
+#######################
+
+Here Avoiding Waterfalls is better.
+Means while here they both now they both get triggered (getFavoritesCount and getFriends)
+And then we don't actually suspend until we call use, and so we will suspend one, But while we are waiting for that happening, we already called get friends, and so that one's also happening.
+
+```tsx
+function ProfileDetails({ username }: { username: string }) {
+  const favoritesCountPromise = getFavoritesCount(username);
+  const friendsPromise = getFriends(username);
+  const favoritesCount = use(favoritesCountPromise);
+  const friends = use(friendsPromise);
+
+  return <div>{/* some profile details */}</div>;
+}
+```
+
+#######################
+The point is when you have two components separated like this, so have a look at the others example after that one.
+
+```tsx
+function ProfilePage({ username }: { username: string }) {
+  const useAvatar = use(getUserAvatar(username));
+
+  return (
+    <div>
+      <Avatar url={useAvatar} />
+      <ProfileDetails username={username} />
+      <hr />
+      <ProfilePosts username={username} />
+    </div>
+  );
+}
+
+function ProfileDetails({ username }: { username: string }) {
+  const favoritesCountPromise = getFavoritesCount(username);
+  const friendsPromise = getFriends(username);
+  const favoritesCount = use(favoritesCountPromise);
+  const friends = use(friendsPromise);
+
+  return <div>{/* some profile details */}</div>;
+}
+```
+
+#######################
+
+You could bring all promises to the parent component and pass it all down to the child comp
+Not the best way
+
+```tsx
+function ProfilePage({ username }: { username: string }) {
+  const userAvatarPromise = getUserAvatar(username);
+  const postPromise = getPosts(username);
+  const favoritesCountPromise = getFavoritesCount(username);
+  const friendsPromise = getFriends(username);
+
+  const useAvatar = use(userAvatarPromise);
+
+  return (
+    <div>
+      <Avatar url={useAvatar} />
+      <ProfileDetails
+        favoritesCountPromise={favoritesCountPromise}
+        friendsPromise={friendsPromise}
+      />
+      <hr />
+      <ProfilePosts postPromise={postPromise} />
+    </div>
+  );
+}
+
+function ProfileDetails({
+  favoritesCountPromise,
+  friendsPromise,
+}: {
+  favoritesCountPromise: ReturnType<typeof favoritesCount>;
+  friendsPromise: ReturnType<typeof getFriends>;
+}) {
+  const favoritesCount = use(favoritesCountPromise);
+  const friends = use(friendsPromise);
+
+  return <div>{/* some profile details */}</div>;
+}
+```
+
+#######################
+
+You could also only preload in the parent, it also works but you have to remember which is these to be preload
+Than when you delete it from the component child than you have to remember to delete in the preload as well
+And keeping track of that could be anoying
+
+```tsx
+function ProfilePage({ username }: { username: string }) {
+  // preload some necessary data
+  getFavoritesCount(username);
+  getFriends(username);
+  getPosts(username);
+
+  const useAvatar = use(getUserAvatar(username));
+
+  return (
+    <div>
+      <Avatar url={useAvatar} />
+      <ProfileDetails username={username} />
+      <hr />
+      <ProfilePosts username={username} />
+    </div>
+  );
+}
+
+function ProfileDetails({ username }: { username: string }) {
+  // these will get the cached promise that was created by the parent above
+  const favoritesCountPromise = getFavoritesCount(username);
+  const friendsPromise = getFriends(username);
+  const favoritesCount = use(favoritesCountPromise);
+  const friends = use(friendsPromise);
+
+  return <div>{/* some profile details */}</div>;
+}
+```
+
+#######################
+Or you could make the component have a property that is a function on it that is called load data.
+So that way you do NOT have to keep things up to date.
+Yeah do NOT like that very much
+
+```tsx
+function ProfilePage({ username }: { username: string }) {
+  // preload some necessary data
+  ProfileDetails.loadData(username);
+  ProfilePosts.loadData(username);
+
+  const useAvatar = use(getUserAvatar(username));
+
+  return (
+    <div>
+      <Avatar url={useAvatar} />
+      <ProfileDetails username={username} />
+      <hr />
+      <ProfilePosts username={username} />
+    </div>
+  );
+}
+
+function ProfileDetails({ username }: { username: string }) {
+  // these will get the cached promise that was created by the parent above
+  const { favoritesCountPromise, friendsPromise } =
+    ProfileDetails.loadData(username);
+
+  const favoritesCount = use(favoritesCountPromise);
+  const friends = use(friendsPromise);
+
+  return <div>{/* some profile details */}</div>;
+}
+ProfileDetails.loadData = (username: string) => {
+  return {
+    favoritesCountPromise: getFavoritesCount(username),
+    friendsPromise: getFriends(username),
+  };
+};
+```
+
+#######################
+Could also do all of our uses up in the profile page and then use composition.
+Have all the data in one place and then compose all the way down, and that would technically work.
+
+```tsx
+function ProfilePage({ username }: { username: string }) {
+  const userAvatarPromise = getUserAvatar(username);
+  const postPromise = getPosts(username);
+  const favoritesCountPromise = getFavoritesCount(username);
+  const friendsPromise = getFriends(username);
+
+  const useAvatar = use(userAvatarPromise);
+  const posts = use(postPromise);
+  const favoritesCount = use(favoritesCountPromise);
+  const friends = use(friendsPromise);
+
+  return (
+    <div>
+      <Avatar url={userAvatar} />
+      <ProfileDetails
+        favoritesCount={<FavoritesDisplay>{favoritesCount}</FavoritesDisplay>}
+        friendsList={friends.map((frined) => (
+          <Friend key={friend.id} friend={friend} />
+        ))}
+      />
+      <hr />
+      <ProfilePosts
+        postList={post.map((post) => (
+          <Post key={post.id} post={post} />
+        ))}
+      />
+    </div>
+  );
+}
+```
+
+BEST BEST WAY is with frameworks React Router or Remix. Or server components.
+They have really great data loading mechanisms that hook into suspense really nicely and avoid a lot of these problems.
+But this examples above is just to show the mechanisms of the way things happening.
+
+## Cache headers
+
+The other optimization is a cache control so that even if you refresh the page and come back to one of these, the data and everything is already cached, so it's really fast still.
+The cache that we have right now is just in memory for the promises.
+
+```
+Cache-Control: max-age=3600
+```
+
+#Parallel Loading
+
+Example exercise of optimized waterfalls
+
+![Image waterfalls](https://github.com/brunar/epic-br/blob/main/public/images/waterfalls.png)
+
+![Image optimized waterfalls](https://github.com/brunar/epic-br/blob/main/public/images/waterfalls-optimized.png)
