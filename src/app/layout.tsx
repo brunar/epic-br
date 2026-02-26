@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
+import './patterns.css';
 import { MenuAside } from '@/components/navigation/menu';
 import { Header } from '@/components/navigation/header';
 

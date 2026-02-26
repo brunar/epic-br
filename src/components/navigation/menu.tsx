@@ -194,6 +194,13 @@ const SECTIONS = [
       },
     ],
   },
+  {
+    id: 'advanced-patterns',
+    title: 'Advanced React Patterns',
+    items: [
+      { href: '/advanced-patterns/composition', label: 'composition' },
+    ],
+  },
 ] as const satisfies readonly Section[];
 
 type MenuId = (typeof SECTIONS)[number]['id'];
