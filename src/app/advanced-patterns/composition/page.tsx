@@ -19,7 +19,7 @@ export default function CompositionPage() {
 				🐨 make Nav accept a ReactNode prop called "avatar"
 				instead of a User prop called "user"
 			*/}
-      <Nav user={user} />
+      <Nav avatar={<img src={user.image} alt={`${user.name} profile`} />} />
       <div className="spacer" data-size="lg" />
       {/*
 				🐨 make Main accept ReactNode props called "sidebar" and "content"
@@ -35,13 +35,17 @@ export default function CompositionPage() {
 				🐨 make Footer accept a String prop called "footerMessage"
 				instead of the User prop called "user"
 			*/}
-      <Footer user={user} />
+      <Footer
+        footerMessage={
+          <span>Do not have a good day - have a great day, ${user.name}`</span>
+        }
+      />
     </div>
   );
 }
 
 // 🐨 this should accept an avatar prop that's a ReactNode
-function Nav({ user }: { user: User }) {
+function Nav({ avatar }: { avatar: React.ReactNode }) {
   return (
     <nav>
       <ul>
@@ -57,7 +61,7 @@ function Nav({ user }: { user: User }) {
       </ul>
       <a href="#/me" title="User Settings">
         {/* 🐨 render the avatar prop here instead of the img */}
-        <img src={user.image} alt={`${user.name} profile`} />
+        {avatar}
       </a>
     </nav>
   );
@@ -76,7 +80,16 @@ function Main({
   return (
     <main>
       {/* 🐨 put the sidebar and content props here */}
-      <List sportList={sportList} setSelectedSport={setSelectedSport} />
+      <List
+        listItems={sportList.map((p) => (
+          <li key={p.id}>
+            <SportListItemButton
+              sport={p}
+              onClick={() => setSelectedSport(p)}
+            />
+          </li>
+        ))}
+      />
       <Details selectedSport={selectedSport} />
     </main>
   );
@@ -85,24 +98,15 @@ function Main({
 function List({
   // 🐨 make this accept an array of ReactNodes called "listItems"
   // and remove the existing props
-  sportList,
-  setSelectedSport,
+  listItems,
 }: {
-  sportList: Array<SportData>;
-  setSelectedSport: (sport: SportData) => void;
+  listItems: React.ReactNode;
 }) {
   return (
     <div className="sport-list">
       <ul>
         {/* 🐨 render the listItems here */}
-        {sportList.map((p) => (
-          <li key={p.id}>
-            <SportListItemButton
-              sport={p}
-              onClick={() => setSelectedSport(p)}
-            />
-          </li>
-        ))}
+        {listItems}
       </ul>
     </div>
   );
@@ -143,10 +147,10 @@ function Details({ selectedSport }: { selectedSport: SportData | null }) {
 }
 
 // 🐨 make this accept a footerMessage string instead of the user
-function Footer({ user }: { user: User }) {
+function Footer({ footerMessage }: { footerMessage: React.ReactNode }) {
   return (
     <footer>
-      <p>{`Don't have a good day–have a great day, ${user.name}`}</p>
+      <p>{footerMessage}</p>
     </footer>
   );
 }

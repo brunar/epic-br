@@ -1,0 +1,101 @@
+# Composition
+
+> **One Liner:** The Composition and Layout Components Patterns helps to avoid
+> the prop drilling problem and enhances the reusability od yours components
+
+Example some components could be client and others server components.
+
+```tsx
+function App() {
+  const [count, setCount] = useState(0);
+  const increment = () => setCount((c) => c + 1);
+
+  return <Child count={count} increment={increment} />;
+}
+
+function Child({ count, increment }: { count: number; increment: () => void }) {
+  return (
+    <div>
+      <strong>
+        I am a child and I do not actually use count or increment. My child does
+        though so I have to accept those as props and forward them along.
+      </strong>
+      <GrandChild count={count} onCountChangeClick={increment} />
+    </div>
+  );
+}
+
+function GrandChild({
+  count,
+  onCountChangeClick,
+}: {
+  count: number;
+  onCountChangeClick: () => void;
+}) {
+  return (
+    <div>
+      <small>I am grand child and I just pass things off to a button</small>
+      <button onClick={onCountChangeClick}>{count}</button>
+    </div>
+  );
+}
+```
+
+```tsx
+function App() {
+  const [count, setCount] = useState(0);
+  const increment = () => setCount((c) => c + 1);
+
+  return (
+    <Child
+      grandChild={
+        <GrandChild button={<button onClick={increment}>{count}</button>} />
+      }
+    />
+  );
+}
+
+function Child({ grandChild }: { grandChild: React.ReactNode }) {
+  return (
+    <div>
+      <strong>
+        I am a child and I do NOT actually use count or increment. My child does
+        though so I have to accept those as props and forward them along.
+      </strong>
+      {grandChild}
+    </div>
+  );
+}
+
+function GrandChild({ button }: { button: React.ReactNode }) {
+  return (
+    <div>
+      <small>I am a grand child and I just pass things off to a button</small>
+      {button}
+    </div>
+  );
+}
+```
+
+To dive more deep see blog post:
+
+[Prop Drilling ➔](https://kentcdodds.com/blog/prop-drilling)
+
+### Example to pick on one property from a type
+
+```tsx
+type User = {
+  name: string;
+  image: string;
+};
+
+// Example Pick<User, "name">
+
+function Footer({ user }: { user: Pick<User, 'name'> }) {
+  return (
+    <footer>
+      <p>{`Don't have a good day–have a great day, ${user.name}`}</p>
+    </footer>
+  );
+}
+```
