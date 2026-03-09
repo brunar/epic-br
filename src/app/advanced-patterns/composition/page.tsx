@@ -26,9 +26,19 @@ export default function CompositionPage() {
 				instead of the props it accepts right now.
 			*/}
       <Main
-        sportList={sportList}
-        selectedSport={selectedSport}
-        setSelectedSport={setSelectedSport}
+        sideBar={
+          <List
+            listItems={sportList.map((p) => (
+              <li key={p.id}>
+                <SportListItemButton
+                  sport={p}
+                  onClick={() => setSelectedSport(p)}
+                />
+              </li>
+            ))}
+          />
+        }
+        content={<Details selectedSport={selectedSport} />}
       />
       <div className="spacer" data-size="lg" />
       {/*
@@ -69,28 +79,17 @@ function Nav({ avatar }: { avatar: React.ReactNode }) {
 
 function Main({
   // 🐨 all these props should be removed in favor of the sidebar and content props
-  sportList,
-  selectedSport,
-  setSelectedSport,
+  sideBar,
+  content,
 }: {
-  sportList: Array<SportData>;
-  selectedSport: SportData | null;
-  setSelectedSport: (sport: SportData) => void;
+  sideBar: React.ReactNode;
+  content: React.ReactNode;
 }) {
   return (
     <main>
       {/* 🐨 put the sidebar and content props here */}
-      <List
-        listItems={sportList.map((p) => (
-          <li key={p.id}>
-            <SportListItemButton
-              sport={p}
-              onClick={() => setSelectedSport(p)}
-            />
-          </li>
-        ))}
-      />
-      <Details selectedSport={selectedSport} />
+      {sideBar}
+      {content}
     </main>
   );
 }
