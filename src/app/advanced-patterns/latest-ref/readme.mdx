@@ -1,0 +1,129 @@
+#Latest Ref
+
+> One liner: The Latest Ref Pattern allows you to have a reference to the latestCallbackRef
+> value of a prop, state, or callback without needing to list it in a dependency
+> array when accessing it in a useEffect.
+
+[How React Uses Closures to Avoid Bugs ➔](https://www.epicreact.dev/how-react-uses-closures-to-avoid-bugs)
+[The Latest Ref Pattern in React ➔](https://www.epicreact.dev/the-latest-ref-pattern-in-react)
+
+```tsx
+// Here is a big issue by the nature of the mutability of a class and instance properties.
+class PetFeeder extends React.Component {
+  state = { selectedPetFood: null };
+
+  feedPet = async () => {
+    const canEat = await this.props.pet.canEat(this.state.selectedPetFood);
+
+    if (canEat) {
+      this.props.pet.eat(this.state.selectedPetFood);
+    }
+  };
+
+  render() {
+    return (
+      <div>
+        <PetFoodChooser
+          onSelection={(selectedPetFood) => this.setState({ selectedPetFood })}
+        />
+        <button onClick={this.feedPet}>Feed {this.props.pet.name}</button>
+      </div>
+    );
+  }
+}
+```
+
+```tsx
+// you could solve this mutability issue about state and props multability by declaring it on the top of the class component
+class PetFeeder extends React.Component {
+  //...
+  feedPet = async () => {
+    const { pet } = this.props;
+    const { selectedPetFood } = this.state;
+    const canEat = await pet.canEat(selectedPetFood);
+
+    if (canEat) {
+      pet.eat(selectedPetFood);
+    }
+  };
+
+  //...
+}
+```
+
+```tsx
+// But with a hook component things changes to be better
+// The props it wouldn't be mutated it wouldn't change.
+// No longer have an instance that we're mutating or changing properties on this object will be the same forever and into eternity.
+
+function PetFeeder({ pet }) {
+  const [selectedPetFood, setSelectedPetFood] = useState(null);
+  const latestPetRef = useRef(pet);
+  const latestSelectedPetFoodRef = useRef(selectedPetFood);
+
+  // Why is this useEffct necessary? Because side-effects run in the function
+  // body of your component can leade to some pretty confusing bugs. Just keep
+  // your function body free of side-effects and you'll be better off.
+  useEffect(() => {
+    latestPetRef.current = pet;
+    latestSelectedPetFoodRef.current = selectedPetFood;
+    // Wondering why we have no dependecy list? Do we really need it?
+    // Not really... So we don't bother.
+  });
+
+  const feedPet = async () => {
+    const canEat = await latestPetRef.current.canEat(
+      latestSelectedPetFoodRef.current,
+    );
+
+    if (canEat) {
+      latestPetRef.current.eat(latestSelectedPetFoodRef.current);
+    }
+  };
+
+  return (
+    <div>
+      <PetFoodChooser onSelection={(food) => setSelectedPetFood(food)} />
+      <button onClick={feedPet}>Feed {pet.name}</button>
+    </div>
+  );
+}
+```
+
+```tsx
+function useExampleOne(callback) {
+  useEffect(() => {
+    callback();
+  }, [callback]); // have to include the callback in the dep array
+}
+
+function useExampleTwo(callback) {
+  const latestCallbackRef = useRef(callback);
+
+  useEffect(() => {
+    latestCallbackRef.current = callback;
+  });
+
+  useEffect(() => {
+    latestCallbackRef.current();
+  }, []); // don't have to include the callback in the dep array
+}
+```
+
+## This case is to have the latest versions of everything at the time the function is called, not at the time that it was initially invoked.
+
+```tsx
+// Option 1:
+// ...
+const increment = () => setCount((c) => c + step);
+const debouncedIncrement = useDebounce(increment, 3000);
+// ...
+```
+
+```tsx
+// Option 2:
+// ...
+const increment = useMemo(() => setCount((c) => c + step), [step]);
+const debouncedIncrement = useDebounce(increment, 3000);
+// ...
+```

@@ -199,6 +199,7 @@ const SECTIONS = [
     title: 'Advanced React Patterns',
     items: [
       { href: '/advanced-patterns/composition', label: 'composition' },
+      { href: '/advanced-patterns/latest-ref', label: 'latest-ref' },
     ],
   },
 ] as const satisfies readonly Section[];
