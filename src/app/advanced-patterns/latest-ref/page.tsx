@@ -1,5 +1,5 @@
 'use client';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useRef, useEffect } from 'react';
 
 function debounce<Callback extends (...args: Array<unknown>) => void>(
   fn: Callback,
@@ -19,12 +19,19 @@ function useDebounce<Callback extends (...args: Array<unknown>) => unknown>(
   delay: number,
 ) {
   // 🐨 create a latest ref (via useRef and useEffect) here
+  const latestCallbackRef = useRef(callback);
+  useEffect(() => {
+    latestCallbackRef.current = callback;
+  });
 
   // use the latest version of the callback here:
   // 💰 you'll need to pass an anonymous function to debounce. Do *not*
   // simply change this to `debounce(latestCallbackRef.current, delay)`
   // as that won't work. Can you think of why?
-  return useMemo(() => debounce(callback, delay), [callback, delay]);
+  return useMemo(
+    () => debounce((...args) => latestCallbackRef.current(...args), delay),
+    [delay],
+  );
 }
 
 function LatestRefApp() {
@@ -38,7 +45,20 @@ function LatestRefApp() {
   const debouncedIncrement = useDebounce(increment, 3000);
   return (
     <div>
-      <div>
+      <h2>Latest Ref</h2>
+      <a
+        className="text-gray-400 mb-4 block hover:text-blue-600"
+        href="https://github.com/brunar/epic-br/blob/main/src/app/advanced-patterns/latest-ref/"
+        target="_blank"
+      >
+        (See readme.mdx)
+      </a>
+      <p>
+        To test this example, click the increment button, then change the step
+        value; it will update based on the new step value, independent of
+        whether you have already clicked.
+      </p>
+      <div className="mb-4">
         <label>
           Step:{' '}
           <input
@@ -51,7 +71,7 @@ function LatestRefApp() {
           />
         </label>
       </div>
-      <button onClick={debouncedIncrement}>{count}</button>
+      <button onClick={debouncedIncrement}>Increment {count}</button>
     </div>
   );
 }
