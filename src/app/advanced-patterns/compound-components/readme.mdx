@@ -1,0 +1,37 @@
+# Compound Components
+
+The Compound Components Pattern enables you to provide a set of
+components that implicitly share state for a simple powerful declarative
+API for reusable components.
+
+```html
+<select>
+  <option disabled value="1">Option 1</option>
+  <option value="2">Option 2</option>
+</select>
+```
+
+## This would be more complicated to customized UI
+
+```tsx
+<CustomSelect
+  Optios={[
+    { value: '1', display: 'Option 1' },
+    { value: '2', display: 'Option 2' },
+  ]}
+/>
+```
+
+## Example you could have tags like div, hr or one of them being disabled. Much more flexibility on Html for UI
+
+```tsx
+<Select>
+  <div>
+    <Option disabled value="1">
+      Option 1
+    </Option>
+    <hr />
+    <Option value="2">Option 2</Option>
+  </div>
+</Select>
+```

@@ -200,6 +200,10 @@ const SECTIONS = [
     items: [
       { href: '/advanced-patterns/composition', label: 'composition' },
       { href: '/advanced-patterns/latest-ref', label: 'latest-ref' },
+      {
+        href: '/advanced-patterns/compound-components',
+        label: 'compound-components',
+      },
     ],
   },
 ] as const satisfies readonly Section[];
