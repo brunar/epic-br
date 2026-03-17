@@ -1,0 +1,61 @@
+# Slots
+
+Slots allow you to especify an element which takes on a
+particular role in the overall collection of components
+
+```tsx
+<CheckboxGroup>
+  <Label>Pets</Label> // Label has a implicit slot
+  <MyCheckbox value="dogs">Dogs</MyCheckbox>
+  <MyCheckbox value="cats">Cats</MyCheckbox>
+  <MyCheckbox value="dragons">Dragons</MyCheckbox>
+  <Text slot="description">Select your pets.</Text>
+</CheckboxGroup>
+```
+
+# This example comes from React Aria
+
+```tsx
+<ComboBox>
+  <Label />
+  <Input />
+  <Button />
+  <Text slot="description" />
+  <FieldError />
+  <Popover>
+    <ListBox>
+      <ListBoxItem>
+        <Text slot="label" />
+        <Text slot="description" />
+      </ListBoxItem>
+      <Section>
+        <Header />
+        <ListBoxItem />
+      </Section>
+    </ListBox>
+  </Popover>
+</ComboBox>
+```
+
+```tsx
+function NumberField({ children }: { children: React.ReactNode }) {
+  // setup state/events/etc
+
+  const Slots = {
+    label: { htmlFor: inputId },
+    decrement: { onClick: decrement },
+    increment: { onClick: increment },
+    description: { id: descriptionId },
+    input: { id: inputId, 'aria-describedby': descriptionId },
+  };
+  return <SlotContext value={slots}>{children}</SlotContext>;
+}
+```
+
+```tsx
+function Input(props){
+  props = useSlotsProps(props, 'input")
+
+  return <input {...props} />
+}
+```
