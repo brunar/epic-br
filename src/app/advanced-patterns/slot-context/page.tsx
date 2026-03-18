@@ -1,5 +1,4 @@
-'use client';
-import { useId } from 'react';
+'use client'; // For the Context Provider
 import { Input, Label } from '@/components/slots/slots';
 import { TextField } from '@/components/text-field/text-field';
 import {
@@ -10,10 +9,9 @@ import {
 } from '@/components/toggle/toggle';
 
 export default function SlotsContextApp() {
-  const partyModeId = useId();
   return (
     <div>
-      <h2>Slots Context</h2>
+      <h2>Slots Context AND Generic Slot Components</h2>
       <a
         className="text-gray-400 mb-4 block hover:text-blue-600"
         href="https://github.com/brunar/epic-br/blob/main/src/app/advanced-patterns/slot-context/"
@@ -21,10 +19,14 @@ export default function SlotsContextApp() {
       >
         (See readme.mdx)
       </a>
+      <p className="mb-8">
+        Added id on toggle through slots context, if u click on toggle label it
+        will turn ON/OFF
+      </p>
       <div>
         <Toggle>
-          <label htmlFor={partyModeId}>Party mode</label>
-          <ToggleButton id={partyModeId} />
+          <Label>Party mode</Label>
+          <ToggleButton />
           <ToggleOn>Let&apos;s party 🥳</ToggleOn>
           <ToggleOff>Sad town 😭</ToggleOff>
         </Toggle>

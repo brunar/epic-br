@@ -1,20 +1,37 @@
 'use client';
-import { createContext, useState, use } from 'react';
+import { createContext, useState, use, useId } from 'react';
 import { Switch } from '@/shared-patterns/switch';
+import { SlotContext } from '@/components/slots/slots';
 
 // https://react.dev/reference/react/createContext
-type ToggleValue = { on: boolean; toggle: () => void };
+type ToggleValue = { id: string; on: boolean; toggle: () => void };
 
 const ToggleContext = createContext<ToggleValue | null>(null);
 
-export function Toggle({ children }: { children: React.ReactNode }) {
+export function Toggle({
+  id,
+  children,
+}: {
+  id?: string;
+  children: React.ReactNode;
+}) {
   const [on, setOn] = useState(false);
+  const generatedId = useId();
+  id ??= generatedId; // If no id is provided it fallback to the generate id - useId()
+
   const toggle = () => setOn(!on);
 
+  // Create Slots object for the label
+  const slots = {
+    label: { htmlFor: id },
+  };
+
   return (
-    <ToggleContext.Provider value={{ on, toggle }}>
-      {children}
-    </ToggleContext.Provider>
+    <SlotContext.Provider value={slots}>
+      <ToggleContext.Provider value={{ id, on, toggle }}>
+        {children}
+      </ToggleContext.Provider>
+    </SlotContext.Provider>
   );
 }
 
@@ -43,6 +60,6 @@ type ToggleButtonProps = Omit<React.ComponentProps<typeof Switch>, 'on'> & {
   on?: boolean;
 };
 export function ToggleButton(props: ToggleButtonProps) {
-  const { on, toggle } = useToggle();
-  return <Switch on={on} onClick={toggle} {...props} />;
+  const { id, on, toggle } = useToggle();
+  return <Switch id={id} on={on} onClick={toggle} {...props} />;
 }
