@@ -1,0 +1,108 @@
+# Prop Getters
+
+Issue with togglerProps:
+Every time you create a new attribute, you need to add a conditional check to determine whether it’s true or false.
+This approach isn’t ideal and can lead to unnecessary complexity.
+
+togglerProps.onClick?.
+togglerProps.onPress?.
+
+```tsx
+function App() {
+  const { on, togglerProps } = useToggle();
+
+  return (
+    <div>
+      <Switch on={on} {...togglerProps} />
+      <hr />
+      <button
+        aria-label="custom-button"
+        {...togglerProps}
+        onClick={(...args) => {
+          togglerProps.onClick?.(...args);
+          console.info('onButtonClick');
+        }}
+        onPress={(...args) => {
+          togglerProps.onPress?.(...args);
+          console.info('onPress');
+        }}
+      >
+        {on ? 'on' : 'off'}
+      </button>
+    </div>
+  );
+}
+```
+
+Instead would be better this
+
+...getTogglerProps()
+
+This example bellow ensures all functions are called correctly and that styles and class names are merged properly, so you don’t have to worry about the implementation details of which props are being applied.
+
+```tsx
+function App() {
+  const { on, togglerProps } = useToggle();
+
+  return (
+    <div>
+      <Switch on={on} {...togglerProps} />
+      <hr />
+      <button
+        aria-label="custom-button"
+        {...getTogglerProps({
+          'aria-label': 'custom-button',
+          onClick: (...args) => {
+            console.info('onButtonClick');
+          },
+          onPress: () => {
+            console.info('onPress');
+          },
+        })}
+      >
+        {on ? 'on' : 'off'}
+      </button>
+    </div>
+  );
+}
+```
+
+## Or could use both separated into two Hooks:
+
+```tsx
+export function useToggleSimple() {
+  const [on, setOn] = useState(false);
+  const toggle = () => setOn(!on);
+
+  return {
+    on,
+    toggle,
+  };
+}
+
+// Having getTogglerProps separeted from the toggle hook
+function useToggleWithToggler() {
+  const { on, toggle } = useToggleSimple(); // Call the toggle hook here
+
+  function callAll(...fns: Array<Function | undefined>) {
+    return (...args: any) => fns.forEach((fn) => fn?.(...args));
+  }
+
+  function getTogglerProps<Props>({
+    onClick,
+    ...props
+  }: Props & { onClick?: React.ComponentProps<'button'>['onClick'] }) {
+    return {
+      'aria-checked': on,
+      onClick: callAll(onClick, toggle),
+      ...props,
+    };
+  }
+
+  return {
+    on,
+    toggle,
+    getTogglerProps,
+  };
+}
+```

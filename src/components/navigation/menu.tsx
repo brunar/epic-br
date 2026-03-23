@@ -216,6 +216,10 @@ const SECTIONS = [
         href: '/advanced-patterns/prop-collections',
         label: 'prop-collections',
       },
+      {
+        href: '/advanced-patterns/prop-getters',
+        label: 'prop-getters',
+      },
     ],
   },
 ] as const satisfies readonly Section[];
