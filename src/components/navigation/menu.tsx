@@ -208,6 +208,10 @@ const SECTIONS = [
         href: '/advanced-patterns/slot-context',
         label: 'slot-context',
       },
+      {
+        href: '/advanced-patterns/slot-prop',
+        label: 'slot-prop',
+      },
     ],
   },
 ] as const satisfies readonly Section[];

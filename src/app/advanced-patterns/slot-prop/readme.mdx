@@ -1,0 +1,31 @@
+# Slot Prop
+
+Having a switch slot for text ON or OFF
+
+```tsx
+export function Text(props: React.ComponentProps<'span'>) {
+  props = useSlotsProps(props, 'text');
+  return <span {...props} />;
+}
+
+type SwitchProps = Omit<React.ComponentProps<typeof BaseSwitch>, 'on'>;
+
+export function Switch(props: SwitchProps) {
+  return (
+    <BaseSwitch
+      {...(useSlotsProps(props, 'switch') as React.ComponentProps<
+        typeof BaseSwitch
+      >)}
+    />
+  );
+}
+```
+
+```tsx
+<Toggle>
+  <Label>Party mode</Label>
+  <Switch />
+  <Text slot="onText">Let's party 🥳</Text>
+  <Text slot="offText">Sad town 😭</Text>
+</Toggle>
+```
