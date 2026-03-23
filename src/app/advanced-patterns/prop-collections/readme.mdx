@@ -1,0 +1,29 @@
+# Prop Collections and Getters
+
+The prop Collections and Getters Pattern allows your hook to
+support common use cases of UI elements people build with your hook.
+
+```tsx
+function useCounter() {
+  const [count, setCount] = useState(initialCount);
+  const increment = () => setCount((c) => c + 1);
+
+  return {
+    count,
+    increment,
+    counterButtonProps: { children: count, onClick: increment },
+  }; // <-- this is the prop collection
+}
+
+function App() {
+  const counter = useCounter();
+
+  return <button {...counter.counterButtonProps} />;
+}
+```
+
+[downshift ➔](https://www.downshift-js.com/)
+
+### Conform uses same pattern of spreading the collection of props onto an element and being able to provide some data to that function that generates those props
+
+[conform ➔](https://conform.guide/)
