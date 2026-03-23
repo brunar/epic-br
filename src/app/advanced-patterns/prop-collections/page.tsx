@@ -21,7 +21,9 @@ export default function PropCollectionApp() {
       </p>
       <Switch on={on} {...togglerProps} />
       <hr className="my-8" />
-      <button aria-label="custom-button">{on ? 'on' : 'off'}</button>
+      <button aria-label="custom-button" {...togglerProps}>
+        {on ? 'on' : 'off'}
+      </button>
     </div>
   );
 }
