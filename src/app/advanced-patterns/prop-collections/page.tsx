@@ -15,6 +15,10 @@ export default function PropCollectionApp() {
       >
         (See readme.mdx)
       </a>
+      <p className="mb-8">
+        In the next example, Prop Getters offer a better approach for merging
+        functions correctly.
+      </p>
       <Switch on={on} {...togglerProps} />
       <hr className="my-8" />
       <button aria-label="custom-button">{on ? 'on' : 'off'}</button>
