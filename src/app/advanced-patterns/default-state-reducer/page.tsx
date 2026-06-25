@@ -1,6 +1,9 @@
 'use client';
 import { Switch } from '@/shared-patterns/switch';
-import { useToggle } from '@/components/toggle/toggle-hook-initializer-stability';
+import {
+  useToggle,
+  toggleReducer,
+} from '@/components/toggle/toggle-hook-initializer-stability';
 import { useState } from 'react';
 
 export default function DefaultStateReducerPage() {
@@ -9,17 +12,12 @@ export default function DefaultStateReducerPage() {
 
   const { on, getTogglerProps, getResetterProps } = useToggle({
     reducer(state, action) {
-      switch (action.type) {
-        case 'toggle': {
-          if (clickedTooMuch) {
-            return state;
-          }
-          return { on: !state.on };
-        }
-        case 'reset': {
-          return { on: false };
-        }
+      const newState = toggleReducer(state, action);
+
+      if (action.type === 'toggle' && clickedTooMuch) {
+        return { ...newState, on: state.on };
       }
+      return newState;
     },
   });
 
