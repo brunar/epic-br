@@ -44,10 +44,21 @@ export function useToggle({ initialOn = false } = {}) {
     };
   }
 
+  function getResetterProps<Props>({
+    onClick,
+    ...props
+  }: { onClick?: React.ComponentProps<'button'>['onClick'] } & Props) {
+    return {
+      onClick: callAll(onClick, reset),
+      ...props,
+    };
+  }
+
   return {
     on,
     reset,
     toggle,
     getTogglerProps,
+    getResetterProps,
   };
 }
