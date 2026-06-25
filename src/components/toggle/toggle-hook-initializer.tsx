@@ -8,31 +8,28 @@ function callAll<Args extends Array<unknown>>(
 }
 
 type ToggleState = { on: boolean };
-type ToggleAction = { type: 'toggle' };
-// 🦺 add an action type for reset:
-// 💰 | { type: 'reset'; initialState: ToggleState }
+type ToggleAction =
+  | { type: 'toggle' }
+  | { type: 'reset'; initialState: ToggleState };
 
 function toggleReducer(state: ToggleState, action: ToggleAction) {
   switch (action.type) {
     case 'toggle': {
       return { on: !state.on };
     }
-    // 🐨 add a case for 'reset' that simply returns the "initialState"
-    // which you can get from the action.
+    case 'reset': {
+      return action.initialState;
+    }
   }
 }
 
-// 🐨 We'll need to add an option for `initialOn` here (default to false)
-export function useToggle() {
-  // 🐨 update the initialState object to use the initialOn option
-  const initialState = { on: false };
+export function useToggle({ initialOn = false }: { initialOn?: boolean } = {}) {
+  const initialState = { on: initialOn };
   const [state, dispatch] = useReducer(toggleReducer, initialState);
   const { on } = state;
 
   const toggle = () => dispatch({ type: 'toggle' });
-
-  // 🐨 add a reset function here which dispatches a 'reset' type with your
-  // initialState object and calls `onReset` with the initialState.on value
+  const reset = () => dispatch({ type: 'reset', initialState });
 
   function getTogglerProps<Props>({
     onClick,
@@ -49,7 +46,7 @@ export function useToggle() {
 
   return {
     on,
-    // 🐨 add your reset function here.
+    reset,
     toggle,
     getTogglerProps,
   };
