@@ -224,6 +224,10 @@ const SECTIONS = [
         href: '/advanced-patterns/state-initializer',
         label: 'state-initializer',
       },
+      {
+        href: '/advanced-patterns/state-initializer-stability',
+        label: 'state-initializer-stability',
+      },
     ],
   },
 ] as const satisfies readonly Section[];
