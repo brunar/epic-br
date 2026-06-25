@@ -1,0 +1,33 @@
+# Default State Reducer
+
+```tsx
+// toggle.tsx
+function toggleReducer(state: ToggleState, action: ToggleAction) {
+  switch (action.type) {
+    case 'toggle': {
+      return { on: !state.on };
+    }
+    case 'reset': {
+      return action.initialState;
+    }
+  }
+}
+
+// app.tsx
+const { on, getToggleProps, getResetterProps } = useToggle({
+  reducer(state, action) {
+    switch (action.type) {
+      case 'toggle': {
+        if (clickedTooMuch) {
+          return state;
+        }
+        return { on: !state.on };
+      }
+
+      case 'reset': {
+        return { on: false };
+      }
+    }
+  },
+});
+```

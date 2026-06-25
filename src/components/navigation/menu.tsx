@@ -232,6 +232,10 @@ const SECTIONS = [
         href: '/advanced-patterns/state-reducer',
         label: 'state-reducer',
       },
+      {
+        href: '/advanced-patterns/default-state-reducer',
+        label: 'default-state-reducer',
+      },
     ],
   },
 ] as const satisfies readonly Section[];
