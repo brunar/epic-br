@@ -1,5 +1,5 @@
 'use client';
-import { useReducer } from 'react';
+import { useReducer, useRef } from 'react';
 
 function callAll<Args extends Array<unknown>>(
   ...fns: Array<((...args: Args) => unknown) | undefined>
@@ -23,8 +23,8 @@ function toggleReducer(state: ToggleState, action: ToggleAction) {
   }
 }
 
-export function useToggle({ initialOn = false }: { initialOn?: boolean } = {}) {
-  const initialState = { on: initialOn };
+export function useToggle({ initialOn = false } = {}) {
+  const { current: initialState } = useRef<ToggleState>({ on: initialOn });
   const [state, dispatch] = useReducer(toggleReducer, initialState);
   const { on } = state;
 
