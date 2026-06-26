@@ -236,6 +236,10 @@ const SECTIONS = [
         href: '/advanced-patterns/default-state-reducer',
         label: 'default-state-reducer',
       },
+      {
+        href: '/advanced-patterns/control-props',
+        label: 'control-props',
+      },
     ],
   },
 ] as const satisfies readonly Section[];

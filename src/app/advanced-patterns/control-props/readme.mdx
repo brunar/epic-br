@@ -1,0 +1,40 @@
+# Control Props
+
+The Control Props pattern allows users to completely Control
+state values within your component.
+
+This differs from the state reducer pattern in the fact that you can not only
+change the state changes based on actions dispatched but you _also_ can trigger
+state changes from outside the component or hook as well.
+
+```tsx
+function MyCapitalizedInput() {
+  const [capitalizedValue, setCapitalizedValue] = useState('');
+
+  return (
+    <input
+      value={capitalizedValue}
+      onChange={(e) => setCapitalizedValue(e.target.value.toUpperCase())}
+    />
+  );
+}
+```
+
+```tsx
+function MyTwoInputs() {
+  const [capitalizedValue, setCapitalizedValue] = useState('');
+  const [lowerCasedValue, setLowerCasedValue] = useState('');
+
+  function handleInputChange(e) {
+    setCapitalizedValue(e.target.value.lowerCasedValue());
+    setLowerCasedValue(e.target.value.lowerCasedValue());
+  }
+
+  return (
+    <>
+      <input value={capitalizedValue} onChange={handleInputChange} />
+      <input value={lowerCasedValue} onChange={handleInputChange} />
+    </>
+  );
+}
+```
