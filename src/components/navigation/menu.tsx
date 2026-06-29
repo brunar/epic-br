@@ -250,6 +250,10 @@ const SECTIONS = [
         href: '/performance/element-optimization',
         label: 'element-optimization',
       },
+      {
+        href: '/performance/element-props',
+        label: 'element-props',
+      },
     ],
   },
 ] as const satisfies readonly Section[];
