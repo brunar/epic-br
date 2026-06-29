@@ -5,13 +5,13 @@ function Footer({ color }: { color: string }) {
   return <footer style={{ color }}>I am the ({color}) footer</footer>;
 }
 
-function Main({ color }: { color: string }) {
+function Main({ footer }: { footer: React.ReactNode }) {
   const [count, setCount] = useState(0);
   const increment = () => setCount((c) => c + 1);
   return (
     <div className="space-y-4 mt-4">
       <button onClick={increment}>The count is {count}</button>
-      <Footer color={color} />
+      {footer}
     </div>
   );
 }
@@ -33,7 +33,7 @@ export default function ElementPropsPage() {
           <button onClick={() => setColor('green')}>Green</button>
         </div>
       </div>
-      <Main color={color} />
+      <Main footer={<Footer color={color} />} />
     </div>
   );
 }
