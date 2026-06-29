@@ -242,6 +242,16 @@ const SECTIONS = [
       },
     ],
   },
+  {
+    id: 'performance',
+    title: 'React Performance',
+    items: [
+      {
+        href: '/performance/element-optimization',
+        label: 'element-optimization',
+      },
+    ],
+  },
 ] as const satisfies readonly Section[];
 
 type MenuId = (typeof SECTIONS)[number]['id'];

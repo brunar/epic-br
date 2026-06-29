@@ -1,0 +1,50 @@
+# Element Optimization
+
+```tsx
+function Message({ greeting }) {
+  console.log('rendering greeting', greeting);
+
+  return <div>{greeting}</div>;
+}
+
+function Counter() {
+  const [count, setCount] = useState(0);
+  const increment = () => setCount((c) => c + 1);
+
+  return (
+    <div>
+      <button onClick={increment}>The count is {count}</button>
+      <Message greeting="Hello" />
+    </div>
+  );
+}
+```
+
+```tsx
+function Message({ greeting }) {
+  console.log('rendering greeting', greeting);
+
+  return <div>{greeting}</div>;
+}
+
+const message = <Message greeting="Hello" />;
+// Doing that means jsx1 === jsx2 and it does not re-render because the old element is equal the new element "Hello"
+
+function Counter() {
+  const [count, setCount] = useState(0);
+  const increment = () => setCount((c) => c + 1);
+
+  return (
+    <div>
+      <button onClick={increment}>The count is {count}</button>
+      {message}
+    </div>
+  );
+}
+```
+
+### Blog post
+
+[what is jsx?](https://kentcdodds.com/blog/what-is-jsx)
+
+[One simple trick to optimize React re-renders](https://kentcdodds.com/blog/optimize-react-re-renders)
