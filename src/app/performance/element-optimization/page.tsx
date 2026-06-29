@@ -5,12 +5,14 @@ function Footer() {
   return <footer>I am the footer</footer>;
 }
 
+const footer = <Footer />;
+
 export default function ElementOptimizationPage() {
   const [count, setCount] = useState(0);
   const increment = () => setCount((c) => c + 1);
   return (
     <div>
-      <h2>Element Optimization</h2>
+      <h2>Element Optimization - Reusing Elements</h2>
       <a
         className="text-gray-400 mb-4 block hover:text-blue-600"
         href="https://github.com/brunar/epic-br/tree/main/src/app/performance/element-optimization"
@@ -20,7 +22,7 @@ export default function ElementOptimizationPage() {
       </a>
       <p className="mb-8">Limit unnecessary renders.</p>
       <button onClick={increment}>The count is {count}</button>
-      <Footer />
+      {footer}
 
       <hr className="mt-10 mb-4" />
       <p className="text-sm">
