@@ -1,5 +1,5 @@
 'use client';
-import { createContext, use, useState } from 'react';
+import { createContext, use, useState, useMemo } from 'react';
 
 const ColorContext = createContext<string | null>(null);
 
@@ -34,7 +34,7 @@ export default function MemoizeElementsPage() {
   const [color, setColor] = useState('black');
   const [name, setName] = useState('Kody');
 
-  const footer = <Footer name={name} />;
+  const footer = useMemo(() => <Footer name={name} />, [name]);
 
   return (
     <div>
