@@ -258,6 +258,10 @@ const SECTIONS = [
         href: '/performance/context',
         label: 'context',
       },
+      {
+        href: '/performance/memoize-elements',
+        label: 'memoize-elements',
+      },
     ],
   },
 ] as const satisfies readonly Section[];

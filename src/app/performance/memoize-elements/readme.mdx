@@ -1,0 +1,23 @@
+# Memoize Elements
+
+```tsx
+function App() {
+  const [appCount, setAppCount] = useState(0);
+  const [color, setColor] = useState('black');
+  const [name, setName] = useState('Kody');
+  const footer = <Footer name={name} />;
+
+  return (
+    <ColorContext value={color}>
+      <div>
+        {/* ... */}
+        <Main footer={footer} />
+      </div>
+    </ColorContext>
+  );
+}
+```
+
+```tsx
+const someElement = useMemo(() => <MyComponent myProp={myProp} />, [myProp]);
+```
