@@ -1,0 +1,30 @@
+# Memoize Components
+
+Memoizing elements is such a common idea that React has a built-in optimizer called memo which allows you to memoize an entire component based on its props.
+
+```tsx
+function App() {
+  const [appCount, setAppCount] = useState(0);
+  const [color, setColor] = useState('black');
+  const [name, setName] = useState('Kody');
+
+  return (
+    <ColorContext value={color}>
+      <div>
+        {/* ... */}
+        <Main footer={<Footer name={name} />} />
+      </div>
+    </ColorContext>
+  );
+}
+```
+
+```tsx
+import { memo } from 'react';
+
+const MyComponent = memo(function MyComponent(props) {
+  /* Only re-renders if props change */
+});
+```
+
+[React memo doc](https://react.dev/reference/react/memo)
