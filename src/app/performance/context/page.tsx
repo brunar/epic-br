@@ -1,7 +1,20 @@
 'use client';
-import { useState } from 'react';
+import { createContext, useState, use } from 'react';
 
-function Footer({ color }: { color: string }) {
+const ColorContext = createContext<string | null>(null);
+
+function useColor() {
+  const context = use(ColorContext);
+
+  if (!context) {
+    throw new Error('useColor must be used within a ColorContext Provider');
+  }
+  return context;
+}
+
+function Footer() {
+  const color = useColor();
+
   return <footer style={{ color }}>I am the ({color}) footer</footer>;
 }
 
@@ -15,6 +28,8 @@ function Main({ footer }: { footer: React.ReactNode }) {
     </div>
   );
 }
+
+const footer = <Footer />;
 
 export default function ContextPage() {
   const [color, setColor] = useState('black');
@@ -34,18 +49,23 @@ export default function ContextPage() {
         Preventing the footer from being re-rendered when the app count is
         incremented using context.
       </p>
-      <div>
-        <p>Set the footer color:</p>
-        <div style={{ display: 'flex', gap: 4 }}>
-          <button onClick={() => setColor('black')}>Black</button>
-          <button onClick={() => setColor('blue')}>Blue</button>
-          <button onClick={() => setColor('green')}>Green</button>
+      <ColorContext.Provider value={color}>
+        <div>
+          <div>
+            <p>Set the footer color:</p>
+            <div style={{ display: 'flex', gap: 4 }}>
+              <button onClick={() => setColor('black')}>Black</button>
+              <button onClick={() => setColor('blue')}>Blue</button>
+              <button onClick={() => setColor('green')}>Green</button>
+            </div>
+          </div>
+          <button className="my-4" onClick={() => setAppCount((c) => c + 1)}>
+            The app count is {appCount}
+          </button>
+
+          <Main footer={footer} />
         </div>
-      </div>
-      <button className="my-4" onClick={() => setAppCount((c) => c + 1)}>
-        The app count is {appCount}
-      </button>
-      <Main footer={<Footer color={color} />} />
+      </ColorContext.Provider>
 
       <p className="mt-10 text-xs">Console view - Profiler</p>
       <img src="/images/performance-context.png" alt="" width={500} />
