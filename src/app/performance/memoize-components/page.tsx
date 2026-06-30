@@ -1,5 +1,5 @@
 'use client';
-import { createContext, use, useState } from 'react';
+import { createContext, use, useState, memo } from 'react';
 
 const ColorContext = createContext<string | null>(null);
 
@@ -9,22 +9,24 @@ function useColor() {
   return color;
 }
 
-function Footer({ name }: { name: string }) {
+const Footer = memo(function FooterImpl({ name }: { name: string }) {
   const color = useColor();
   return (
     <footer style={{ color }}>
       I am the ({color}) footer, {name || 'Unnamed'}
     </footer>
   );
-}
+});
 
-function Main({ footer }: { footer: React.ReactNode }) {
+// Does not matter if you leave it as a composition. React would compare component footer1 === footer2  - anyway boths works well
+// Here in the case it will compare the props
+function Main({ name }: { name: string }) {
   const [count, setCount] = useState(0);
   const increment = () => setCount((c) => c + 1);
   return (
     <div>
       <button onClick={increment}>The count is {count}</button>
-      {footer}
+      <Footer name={name} />
     </div>
   );
 }
@@ -76,7 +78,7 @@ export default function MemoizeElementsPage() {
           <button className="my-4" onClick={() => setAppCount((c) => c + 1)}>
             The app count is {appCount}
           </button>
-          <Main footer={<Footer name={name} />} />
+          <Main name={name} />
         </div>
       </ColorContext.Provider>
     </div>
