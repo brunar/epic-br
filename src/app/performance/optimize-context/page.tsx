@@ -1,5 +1,5 @@
 'use client';
-import { createContext, memo, use, useState } from 'react';
+import { createContext, memo, use, useMemo, useState } from 'react';
 
 const FooterContext = createContext<{
   color: string;
@@ -65,7 +65,7 @@ export default function OptimizeContextPage() {
   const [color, setColor] = useState('black');
   const [name, setName] = useState('');
 
-  const value = { color, name };
+  const value = useMemo(() => ({ color, name }), [color, name]);
 
   return (
     <div>
