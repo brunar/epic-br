@@ -270,6 +270,10 @@ const SECTIONS = [
         href: '/performance/optimize-context',
         label: 'optimize-context',
       },
+      {
+        href: '/performance/provider-component',
+        label: 'provider-component',
+      },
     ],
   },
 ] as const satisfies readonly Section[];
@@ -326,9 +330,8 @@ export function MenuAside() {
                 <span>{section.title}</span>
                 <span
                   aria-hidden
-                  className={`transition-transform duration-200 text-[11px] ${
-                    isOpen ? 'rotate-90' : 'rotate-0'
-                  }`}
+                  className={`transition-transform duration-200 text-[11px] ${isOpen ? 'rotate-90' : 'rotate-0'
+                    }`}
                 >
                   ➔
                 </span>
