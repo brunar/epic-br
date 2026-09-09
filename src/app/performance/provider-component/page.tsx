@@ -3,15 +3,24 @@ import { createContext, memo, use, useMemo, useState } from 'react';
 
 const FooterContext = createContext<{
   color: string;
-  // add setColor to this type
+  setColor: (color: string) => void;
   name: string;
-  // add setName to this type
+  setName: (name: string) => void;
 } | null>(null);
 
 
-// create a FooterProvider component here and move the color and name state
-// and context value to this component.
-// Make sure to accept a children prop and render the FooterContext with it
+function FooterProvider({ children }: { children: React.ReactNode }) {
+  const [color, setColor] = useState('black');
+  const [name, setName] = useState('');
+
+  const value = useMemo(() => ({ color, name, setColor, setName }), [color, name]);
+
+  return (
+    <FooterContext.Provider value={value}>
+      {children}
+    </FooterContext.Provider>
+  );
+}
 
 function useFooter() {
   const context = use(FooterContext);
@@ -39,16 +48,9 @@ function Main({ footer }: { footer: React.ReactNode }) {
   );
 }
 
-// remove these props
-function FooterSetters({
-  setColor,
-  setName,
-}: {
-  setColor: (color: string) => void;
-  setName: (name: string) => void;
-}) {
+function FooterSetters() {
+  const { setColor, setName } = useFooter();
 
-  // get setColor and setName from useFooter()
   return (
     <>
       <div>
@@ -72,11 +74,6 @@ function FooterSetters({
 
 export default function OptimizeContextPage() {
   const [appCount, setAppCount] = useState(0);
-  // move the color, name, and value stuff to the new FooterProvider
-  const [color, setColor] = useState('black');
-  const [name, setName] = useState('');
-
-  const value = useMemo(() => ({ color, name }), [color, name]);
 
   return (
     <div>
@@ -95,17 +92,15 @@ export default function OptimizeContextPage() {
         To test it start recording and click on the buttons to change the footer color and name. You should see that the footer re-renders but the main count does not.
       </p>
 
-      {/* // render the FooterProvider here instead of the FooterContext */}
-      <FooterContext.Provider value={value}>
+      <FooterProvider>
         <div>
-          {/* remove these props */}
-          <FooterSetters setName={setName} setColor={setColor} />
+          <FooterSetters />
           <button className="my-4" onClick={() => setAppCount((c) => c + 1)}>
             The app count is {appCount}
           </button>
           <Main footer={<Footer />} />
         </div>
-      </FooterContext.Provider>
+      </FooterProvider>
     </div>
   );
 }
