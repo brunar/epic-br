@@ -274,6 +274,10 @@ const SECTIONS = [
         href: '/performance/provider-component',
         label: 'provider-component',
       },
+      {
+        href: '/performance/split-context',
+        label: 'split-context',
+      },
     ],
   },
 ] as const satisfies readonly Section[];
