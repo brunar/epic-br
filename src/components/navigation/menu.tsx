@@ -282,6 +282,10 @@ const SECTIONS = [
         href: 'https://github.com/brunar/epic-br/tree/main/src/app/performance/concurrent-rendering-intro',
         label: 'concurrent-rendering-intro',
       },
+      {
+        href: '/performance/use-deferred-value-memo',
+        label: 'useDeferredValue + memo',
+      },
     ],
   },
 ] as const satisfies readonly Section[];

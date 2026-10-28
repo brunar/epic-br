@@ -1,0 +1,17 @@
+# useDeferredValue + memo
+
+We've got a performance problem with our Card component in this UI. (actually, I just added an arbitrary slowdown to simulate a problem to keep this exercise simple while still teaching the lesson). As a result, every time we type in the search the characters are not responsive.
+
+You might think that you can get away with just adding memo around the Card and we absolutely want you to do that, but once you try, you'll notice that typing a bunch in the search and then clearing the search is still a really slow experience. We need concurrent rendering!
+
+So please memo-ize the Card component, and add useDeferredValue to the query you use to filter the cards and check the performance difference.
+
+### At Performance DevTool record it with Screenshots Checkedbox to see the frameworks.
+
+![Image optimized waterfalls](https://github.com/brunar/epic-br/blob/main/public/images/performance-slowdown-cpu.png)
+
+The point is to remove the red
+
+OBS: To scroll down the console view need to hold down the [shift key]
+
+![Image optimized waterfalls](https://github.com/brunar/epic-br/blob/main/public/images/performance-frames.png)
