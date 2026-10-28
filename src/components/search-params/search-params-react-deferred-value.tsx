@@ -1,6 +1,14 @@
 'use client';
 
-import { useCallback, useEffect, useState, createContext, use } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useState,
+  createContext,
+  use,
+  memo,
+  useDeferredValue,
+} from 'react';
 import {
   type BlogPost,
   generateGradient,
@@ -147,10 +155,8 @@ function Form() {
 function MatchingPosts() {
   const [searchParams] = useSearchParams();
   const query = getQueryParam(searchParams);
-  // make a deferredQuery with useDeferredValue
-  // pass the deferredQuery to getMatchingPosts here
-  // so React can defer the Cards we render with the matching posts.
-  const matchingPosts = getMatchingPosts(query);
+  const deferredQuery = useDeferredValue(query);
+  const matchingPosts = getMatchingPosts(deferredQuery);
 
   return (
     <ul className="post-list">
@@ -162,7 +168,7 @@ function MatchingPosts() {
 }
 
 // wrap this in memo
-function Card({ post }: { post: BlogPost }) {
+const Card = memo(function Card({ post }: { post: BlogPost }) {
   const [isFavorited, setIsFavorited] = useState(false);
   return (
     <li>
@@ -198,7 +204,7 @@ function Card({ post }: { post: BlogPost }) {
       </a>
     </li>
   );
-}
+});
 
 function SlowThing() {
   // This artificially slows down rendering
