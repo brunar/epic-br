@@ -1,0 +1,45 @@
+# Code Splitting
+
+```tsx
+import('/some-module.js').then(
+  (module) => {
+    // do stuff with the module's exports
+  },
+  (error) => {
+    // there was some error loading the module...
+  },
+);
+```
+
+```tsx
+// smiley-face.tsx
+
+export default function SmileyFace() {
+  return <div>😀</div>;
+}
+
+// app.tsx
+import { lazy, Suspense } from 'react';
+
+const SmileyFace = lazy(() => import('./smiley-face.tsx')); // Provide a function that returns a promise which resolves to the module
+
+function App() {
+  return (
+    <div>
+      <Suspense fallback={<div>loading...</div>}>
+        <SmileyFace />
+      </Suspense>
+    </div>
+  );
+}
+```
+
+Notice we're importing .tsx.
+That's not a thing that you can do in a real browser.
+Browsers can't handle TSX files unless, well, they can't handle TypeScript syntax.
+But in our bundler scenario, which we're using Vite in here, then that will get transpiled or compiled into a JavaScript module.
+
+The import doesn’t happen immediately.
+React waits until the component is rendered, then triggers the dynamic import and makes a network request.
+While the code loads, Suspense displays a fallback.
+Once the code is retrieved, React renders the actual smiley face component.

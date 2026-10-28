@@ -286,6 +286,10 @@ const SECTIONS = [
         href: '/performance/use-deferred-value-memo',
         label: 'useDeferredValue + memo',
       },
+      {
+        href: 'https://github.com/brunar/epic-br/tree/main/src/app/performance/code-splitting-intro',
+        label: 'code-splitting-intro',
+      },
     ],
   },
 ] as const satisfies readonly Section[];
