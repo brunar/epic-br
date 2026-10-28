@@ -1,0 +1,22 @@
+# Concurrent Rendering
+
+useDeferredValue() is a suspense feature and allows us to do this concurrent rerent or rendering and It has a lot of application outside of just the performance aspects of this because it hooks into suspense and all that stuff.
+
+```tsx
+function App() {
+  const [text, setText] = useState('');
+  const deferredText = useDeferredValue(text);
+
+  return (
+    <>
+        <input value={text} onChange{e => setText(e.target.value)} />
+        <SlowList text={deferredText} />
+    </>
+  )
+}
+
+const SlowList = memo(function SlowList({text}) {
+    // something really slow happens here...
+    return <div>{text}</div>
+})
+```

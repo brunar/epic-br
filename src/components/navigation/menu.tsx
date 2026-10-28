@@ -278,6 +278,10 @@ const SECTIONS = [
         href: '/performance/split-context',
         label: 'split-context',
       },
+      {
+        href: 'https://github.com/brunar/epic-br/tree/main/src/app/performance/concurrent-rendering-intro',
+        label: 'concurrent-rendering-intro',
+      },
     ],
   },
 ] as const satisfies readonly Section[];
@@ -334,8 +338,9 @@ export function MenuAside() {
                 <span>{section.title}</span>
                 <span
                   aria-hidden
-                  className={`transition-transform duration-200 text-[11px] ${isOpen ? 'rotate-90' : 'rotate-0'
-                    }`}
+                  className={`transition-transform duration-200 text-[11px] ${
+                    isOpen ? 'rotate-90' : 'rotate-0'
+                  }`}
                 >
                   ➔
                 </span>
