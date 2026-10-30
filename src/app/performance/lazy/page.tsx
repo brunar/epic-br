@@ -1,15 +1,11 @@
 'use client';
-import { useState } from 'react';
-// remove this import
-import Globe from '@/components/globe/globe';
+import { useState, lazy, Suspense } from 'react';
+
+const Globe = lazy(() => import('@/components/globe/globe'));
 
 const LazyPage = () => {
   const [showGlobe, setShowGlobe] = useState(false);
 
-  // wrap the code below in a <Suspense /> component
-  // with a fallback.
-  // try putting it in a few different places and observe how that
-  // impacts the user experience.
   return (
     <>
       <h2>lazy</h2>
@@ -38,8 +34,9 @@ const LazyPage = () => {
           {' show globe'}
         </label>
         <div style={{ width: 400, height: 400 }}>
-          {/* stick a Suspense boundary around this with a fallback of "loading..." */}
-          {showGlobe ? <Globe /> : null}
+          <Suspense fallback={<div>Loading...</div>}>
+            {showGlobe ? <Globe /> : null}
+          </Suspense>
         </div>
       </div>
 
