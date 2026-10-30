@@ -290,6 +290,10 @@ const SECTIONS = [
         href: 'https://github.com/brunar/epic-br/tree/main/src/app/performance/code-splitting-intro',
         label: 'code-splitting-intro',
       },
+      {
+        href: '/performance/lazy',
+        label: 'lazy',
+      },
     ],
   },
 ] as const satisfies readonly Section[];
