@@ -1,14 +1,14 @@
 'use client';
-import { useState, lazy, Suspense } from 'react';
+import { useState, lazy, Suspense, useTransition } from 'react';
+import { useSpinDelay } from 'spin-delay';
 
 const loadGlobe = () => import('@/components/globe/globe');
 const Globe = lazy(loadGlobe);
 
 const TransitionPage = () => {
   const [showGlobe, setShowGlobe] = useState(false);
-  // get the startTransition function from useTransition
-
-  // use useSpinDelay to avoid a flash of pending state here
+  const [isTransitionPending, startTransition] = useTransition();
+  const isPending = useSpinDelay(isTransitionPending);
 
   return (
     <>
@@ -62,7 +62,7 @@ const TransitionPage = () => {
           flexDirection: 'column',
           height: '100%',
           padding: '0 2rem 2rem',
-          // set the opacity to 0.6 if we're currently pending as a simple pending state
+          opacity: isPending ? 0.6 : 1, // show a pending state when the transition is in progress
         }}
       >
         <label
@@ -73,8 +73,11 @@ const TransitionPage = () => {
           <input
             type="checkbox"
             checked={showGlobe}
-            // wrap setShowGlobe in startTransition
-            onChange={(e) => setShowGlobe(e.currentTarget.checked)}
+            onChange={(e) => {
+              startTransition(() => {
+                setShowGlobe(e.currentTarget.checked);
+              });
+            }}
           />
           {' show globe'}
         </label>
