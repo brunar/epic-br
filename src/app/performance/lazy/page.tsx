@@ -1,7 +1,8 @@
 'use client';
 import { useState, lazy, Suspense } from 'react';
 
-const Globe = lazy(() => import('@/components/globe/globe'));
+const loadGlobe = () => import('@/components/globe/globe');
+const Globe = lazy(loadGlobe);
 
 const LazyPage = () => {
   const [showGlobe, setShowGlobe] = useState(false);
@@ -25,7 +26,11 @@ const LazyPage = () => {
           padding: '0 2rem 2rem',
         }}
       >
-        <label style={{ marginBottom: '1rem' }}>
+        <label
+          style={{ marginBottom: '1rem', backgroundColor: 'red' }}
+          onFocus={loadGlobe}
+          onPointerEnter={loadGlobe}
+        >
           <input
             type="checkbox"
             checked={showGlobe}

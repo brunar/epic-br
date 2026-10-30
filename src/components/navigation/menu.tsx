@@ -294,6 +294,10 @@ const SECTIONS = [
         href: '/performance/lazy',
         label: 'lazy',
       },
+      {
+        href: '/performance/eager-loading',
+        label: 'Eager Loading',
+      },
     ],
   },
 ] as const satisfies readonly Section[];
